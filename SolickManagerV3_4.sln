@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33122.133
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolickManagerV3_4", "SolickManagerV3_4\SolickManagerV3_4.csproj", "{D16D50E9-D774-4D5D-999D-FEAEC3BA94AD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D16D50E9-D774-4D5D-999D-FEAEC3BA94AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D16D50E9-D774-4D5D-999D-FEAEC3BA94AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D16D50E9-D774-4D5D-999D-FEAEC3BA94AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D16D50E9-D774-4D5D-999D-FEAEC3BA94AD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {686782A2-1F61-44C3-A2EE-3C176F687998}
+	EndGlobalSection
+EndGlobal
