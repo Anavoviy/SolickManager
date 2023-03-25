@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Pages\Add.png" />
+    <None Remove="Pages\AddButton.png" />
+    <None Remove="Pages\Delete.png" />
+    <None Remove="Pages\Edit.png" />
     <None Remove="Windows\Images\LoadingBackGround.png" />
     <None Remove="Windows\Images\LoadingKrutVert.png" />
   </ItemGroup>
@@ -21,6 +25,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Pages\Add.png" />
+    <Resource Include="Pages\AddButton.png" />
+    <Resource Include="Pages\Delete.png" />
+    <Resource Include="Pages\Edit.png" />
+    <Resource Include="Pages\Images\AddButton.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Windows\Images\LoadingBackGround.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>

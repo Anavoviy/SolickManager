@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace SolickManagerV3_4.DTO;
 
@@ -30,4 +33,20 @@ public partial class Application
     public virtual Clientsdevice? IddeviceNavigation { get; set; }
 
     public virtual Worker IdmanagerNavigation { get; set; } = null!;
+
+
+    [NotMapped]
+    public string PriceOfAllService { get 
+        {
+            double sum = 0;
+
+            var ApplicationServices = DB.Instance.Applicationservices.Include(s => s.IdserviceNavigation).Where(s => s.Idapplication == this.Id);
+            
+            foreach( var applicationService in ApplicationServices)
+            {
+                sum += (double)applicationService.IdserviceNavigation.Cost;
+            }
+
+            return sum.ToString() + " руб.";
+        } }
 }

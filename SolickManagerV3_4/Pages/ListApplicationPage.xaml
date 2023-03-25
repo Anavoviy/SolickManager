@@ -12,7 +12,7 @@
             <Setter Property="Control.Template">
                 <Setter.Value>
                     <ControlTemplate>
-                        <Rectangle Margin="2" StrokeDashArray="1 2" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" SnapsToDevicePixels="true" StrokeThickness="1"/>
+                        <Rectangle Margin="0" StrokeDashArray="1 2" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" SnapsToDevicePixels="true" StrokeThickness="1"/>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -328,6 +328,110 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        
+        <Style x:Key="ListViewSolickStyle" TargetType="{x:Type ListView}">
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListView}">
+                        <Border x:Name="Border" BorderThickness="1" CornerRadius="0 0 10 10">
+                            <ScrollViewer Style="{DynamicResource {x:Static GridView.GridViewScrollViewerStyleKey}}">
+                                <ItemsPresenter/>
+                            </ScrollViewer>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsGrouping" Value="true">
+                                <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false"/>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <Style x:Key="{ComponentResourceKey ResourceId=DataGridSelectAllButtonStyle, TypeInTargetAssembly={x:Type DataGrid}}" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid>
+                            <Rectangle x:Name="Border" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" SnapsToDevicePixels="True"/>
+                            <Polygon x:Name="Arrow" Fill="Black" HorizontalAlignment="Right" Margin="8,8,3,3" Opacity="0.15" Points="0,10 10,10 10,0" Stretch="Uniform" VerticalAlignment="Bottom"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Stroke" TargetName="Border" Value="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Fill" TargetName="Border" Value="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Visibility" TargetName="Arrow" Value="Collapsed"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <Style x:Key="DataGridSolickStyle" TargetType="{x:Type DataGrid}">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="BorderBrush" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="RowDetailsVisibilityMode" Value="VisibleWhenSelected"/>
+            <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
+            <Setter Property="ScrollViewer.PanningMode" Value="Both"/>
+            <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGrid}">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True">
+                            <ScrollViewer x:Name="DG_ScrollViewer" Focusable="false">
+                                <ScrollViewer.Template>
+                                    <ControlTemplate TargetType="{x:Type ScrollViewer}">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Button Command="{x:Static DataGrid.SelectAllCommand}" Focusable="false" Style="{DynamicResource {ComponentResourceKey ResourceId=DataGridSelectAllButtonStyle, TypeInTargetAssembly={x:Type DataGrid}}}" Visibility="{Binding HeadersVisibility, ConverterParameter={x:Static DataGridHeadersVisibility.All}, Converter={x:Static DataGrid.HeadersVisibilityConverter}, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" Width="{Binding CellsPanelHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                            <DataGridColumnHeadersPresenter x:Name="PART_ColumnHeadersPresenter" Grid.Column="1" Visibility="{Binding HeadersVisibility, ConverterParameter={x:Static DataGridHeadersVisibility.Column}, Converter={x:Static DataGrid.HeadersVisibilityConverter}, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                            <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" CanContentScroll="{TemplateBinding CanContentScroll}" Grid.ColumnSpan="2" Grid.Row="1"/>
+                                            <ScrollBar x:Name="PART_VerticalScrollBar" Grid.Column="2" Maximum="{TemplateBinding ScrollableHeight}" Orientation="Vertical" Grid.Row="1" Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportHeight}" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"/>
+                                            <Grid Grid.Column="1" Grid.Row="2">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="{Binding NonFrozenColumnsViewportHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <ScrollBar x:Name="PART_HorizontalScrollBar" Grid.Column="1" Maximum="{TemplateBinding ScrollableWidth}" Orientation="Horizontal" Value="{Binding HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportWidth}" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"/>
+                                            </Grid>
+                                        </Grid>
+                                    </ControlTemplate>
+                                </ScrollViewer.Template>
+                                <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                            </ScrollViewer>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsGrouping" Value="true"/>
+                        <Condition Property="VirtualizingPanel.IsVirtualizingWhenGrouping" Value="false"/>
+                    </MultiTrigger.Conditions>
+                    <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+                </MultiTrigger>
+            </Style.Triggers>
+        </Style>
     </Page.Resources>
     <Grid>
 
@@ -348,51 +452,91 @@
                         MinWidth="940"
                         MinHeight="580"
                         BorderThickness="0"
-                        Margin="20 40 10 0"
+                        Margin="20 40 10 00"
                         Padding="0 20 0 0">
-                    <ListView ItemsSource="{Binding Applications}"
+                    
+                    <DataGrid Style="{DynamicResource DataGridSolickStyle}" AutoGenerateColumns="False" 
+                              HeadersVisibility="Column"
+                              IsReadOnly="true"
+                              ItemsSource="{Binding Applications}"
                               SelectedItem="{Binding SelectedApplication}"
-                              Style="{DynamicResource ListViewApplicationStyle}"
-                              VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Header="Код" 
-                                                HeaderContainerStyle="{DynamicResource HeaderTableStyle}"
-                                                Width="auto"
-                                                DisplayMemberBinding="{Binding Id}"/>
-                                <GridViewColumn Header="Статус" 
-                                                HeaderContainerStyle="{DynamicResource HeaderTableStyle}"
-                                                Width="auto"
-                                                DisplayMemberBinding="{Binding Status}"/>
-                                <GridViewColumn Header="Дата принятия" 
-                                                HeaderContainerStyle="{DynamicResource HeaderTableStyle}"
-                                                Width="auto"
-                                                DisplayMemberBinding="{Binding Data}"/>
-                                <GridViewColumn Header="Клиент" 
-                                                HeaderContainerStyle="{DynamicResource HeaderTableStyle}"
-                                                Width="auto"
-                                                DisplayMemberBinding="{Binding IdclientNavigation.FIO}"/>
-                                <GridViewColumn Header="Номер телефона" 
-                                                HeaderContainerStyle="{DynamicResource HeaderTableStyle}"
-                                                Width="auto"
-                                                DisplayMemberBinding="{Binding IdclientNavigation.Phone}"/>
-                                <GridViewColumn Header="Устройство" 
-                                                HeaderContainerStyle="{DynamicResource HeaderTableStyle}"
-                                                Width="auto"
-                                                DisplayMemberBinding="{Binding IddeviceNavigation.Model}"/>
-                                <GridViewColumn Header="Проблема" 
-                                                HeaderContainerStyle="{DynamicResource HeaderTableStyle}"
-                                                Width="auto"
-                                                DisplayMemberBinding="{Binding Problem}"/>
-                                <GridViewColumn Header="Стоимость" 
-                                                HeaderContainerStyle="{DynamicResource HeaderTableStyle}"
-                                                Width="auto"
-                                                DisplayMemberBinding="{Binding PriceOfAllService}"/>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
+                              HorizontalAlignment="Left"
+                              MinWidth="940"
+                              Width="auto"
+                              HorizontalGridLinesBrush="White"
+                              VerticalGridLinesBrush="White">
+                        <DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="Background" Value="#3993DD"/>
+                                <Setter Property="Foreground" Value="White"/>
+                                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                <Setter Property="Padding" Value="10 1"/>
+                            </Style>
+                        </DataGrid.ColumnHeaderStyle>
+                        <DataGrid.RowStyle>
+                            <Style TargetType="{x:Type DataGridRow}">
+                                <Setter Property="BorderThickness" Value="0"/>
+                            </Style>
+                        </DataGrid.RowStyle>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Width="60*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Код" Binding="{Binding Id}"/>
+                            <DataGridTextColumn Width="80*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Статус" Binding="{Binding Status}"/>
+                            <DataGridTextColumn Width="120*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Дата принятия" Binding="{Binding Data}"/>
+                            <DataGridTextColumn Width="100*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Клиент" Binding="{Binding IdclientNavigation.FIO}"/>
+                            <DataGridTextColumn Width="120*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Номер телефона" Binding="{Binding IdclientNavigation.Phone}"/>
+                            <DataGridTextColumn Width="140*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Устройство" Binding="{Binding IddeviceNavigation.Model}"/>
+                            <DataGridTextColumn Width="220*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Проблема" Binding="{Binding Problem}"/>
+                            <DataGridTextColumn Width="100*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Стоимость" Binding="{Binding PriceOfAllService}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
                 </Border>
-
+                <Grid Height="34" VerticalAlignment="Top" Margin="20 20 10 0">
+                    <Label Content="Заявки" 
+                           FontFamily="Assets/Inter/#Inter-V.ttf"
+                           FontSize="22"
+                           Margin="10 0 0 0"
+                           HorizontalAlignment="Left"/>
+                    <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                        <Button Style="{DynamicResource ButtonRoundStyle}" Margin="0 0 10 0">
+                            <Border CornerRadius="5"
+                                    BorderThickness="0"
+                                    Background="#F0F0F0"
+                                    Height="32"
+                                    Width="32"
+                                    Padding="2">
+                                <Image Source="/Pages/Edit.png"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Center"/>
+                            </Border>
+                        </Button>
+                        <Button Style="{DynamicResource ButtonRoundStyle}" Margin="0 0 10 0">
+                            <Border CornerRadius="5"
+                                    BorderThickness="0"
+                                    Background="#F0F0F0"
+                                    Height="32"
+                                    Width="32"
+                                    Padding="2">
+                                <Image Source="/Pages/Edit.png"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Center"/>
+                            </Border>
+                        </Button>
+                        <Button Style="{DynamicResource ButtonRoundStyle}">
+                            <Border CornerRadius="5"
+                                    BorderThickness="0"
+                                    Background="#F0F0F0"
+                                    Height="32"
+                                    Width="32"
+                                    Padding="2">
+                                <Image Source="/Pages/Delete.png"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Center"/>
+                            </Border>
+                        </Button>
+                    </StackPanel>
+                </Grid>
             </Grid>
 
 
@@ -404,12 +548,14 @@
                     CornerRadius="10" 
                     Width="280"
                     Height="auto"
+                    MinHeight="600"
                     Margin="10 20 20 20"
                     Padding="20"
-                    Background="#3993DD">
+                    Background="#3993DD"
+                    VerticalAlignment="Top">
             <StackPanel>
                 <Border Width="240"
-                        Height="180"
+                        Height="125"
                         CornerRadius="10"
                         BorderThickness="1"
                         BorderBrush="White"
@@ -425,10 +571,11 @@
                                  BorderThickness="0"
                                  Background="White"
                                  Style="{DynamicResource RoundTextBox}"
-                                 Text="{Binding SearchText}"/>
+                                 Text="{Binding SearchText}"
+                                 TextChanged="SearchChanged"/>
 
                         <StackPanel Orientation="Horizontal"
-                                    Margin="0 20"
+                                    Margin="0 15"
                                     Width="218">
                             <Label Content="с"
                                    Margin="0 0 2 0"
@@ -468,23 +615,14 @@
                                       HorizontalAlignment="Right"/>
                         </StackPanel>
 
-                        <Button Style="{DynamicResource ButtonRoundStyle}" 
-                                Content="Применить"
-                                Width="180"
-                                Height="30"
-                                FontFamily="Inter/#Inter-V.ttf"
-                                FontSize="18"
-                                Foreground="Black"
-                                Background="White"
-                                BorderThickness="0"
-                                Margin="0 14 0 0"/>
                     </StackPanel>
                 </Border>
                 <Border Width="240"
                         CornerRadius="10"
                         BorderThickness="1"
                         BorderBrush="White"
-                        Padding="10">
+                        Padding="10"
+                        Height="auto">
                     <StackPanel DataContext="{Binding SelectedApplication}">
                         <Label Content="Операция"
                                FontSize="16"
@@ -514,7 +652,7 @@
                                 Width="218"
                                 MinHeight="120"
                                 Padding="5"
-                                Margin="0 20 0 0">
+                                Margin="0 18 0 0">
                             <StackPanel 
                                     Width="208"
                                     MinHeight="110"
@@ -531,6 +669,7 @@
                                          FontFamily="Inter/#Inter-V.ttf"
                                          Width="208"
                                          MinHeight="90"
+                                         MaxHeight="300"
                                          Height="auto"
                                          HorizontalAlignment="Center">
                                 </TextBox>
@@ -564,6 +703,17 @@
                             </StackPanel>
                         </Border>
 
+                        <Button Style="{DynamicResource ButtonRoundStyle}" 
+                                Content="Применить"
+                                Width="180"
+                                Height="30"
+                                FontFamily="Inter/#Inter-V.ttf"
+                                FontSize="18"
+                                Foreground="Black"
+                                Background="White"
+                                BorderThickness="0"
+                                Margin="0 14 0 0"
+                                Click="SaveEditSelectedApplication"/>
                     </StackPanel>
                 </Border>
             </StackPanel>
