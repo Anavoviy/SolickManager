@@ -49,4 +49,11 @@ public partial class Application
 
             return sum.ToString() + " руб.";
         } }
+
+    [NotMapped]
+    public string DateView { get 
+        {
+            return Data.ToString("d");
+        } }
+    
 }

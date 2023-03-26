@@ -40,19 +40,9 @@ namespace SolickManagerV3_4.Pages
         public Worker Worker { get; set; }
 
         //Фильтры
-        public string SearchText { get => searchText; set { searchText = value; Search(); Signal(); } }
+        public string SearchText { get => searchText; set { searchText = value; Search(); } }
 
-        private void Search()
-        {
-           List<DTO.Application> applications = new List<DTO.Application>();
-            applications = Applications.Where(s => s.Data.ToString().Contains(SearchText) ||
-                                                   s.IdclientNavigation.FIO.Contains(SearchText) ||
-                                                   s.IddeviceNavigation.Model.Contains(SearchText) ||
-                                                   s.Status.Contains(SearchText) ||
-                                                   s.Problem.Contains(SearchText)).ToList();
-
-            Applications = applications;
-        }
+        
 
         public List<string> StatusesList { get; set; }
         public int SelectedStatusIndex { get; set; } = 0;
@@ -79,9 +69,25 @@ namespace SolickManagerV3_4.Pages
 
         }
 
-        private void SearchChanged(object sender, TextChangedEventArgs e)
+
+        private void Search()
         {
-            Search();
+            var result = DB.Instance.Applications
+                .Include(s => s.IdclientNavigation)
+                .Include(s => s.IddeviceNavigation)
+                .Where(s =>
+                    s.Status.Contains(searchText) ||
+                    s.Problem.Contains(searchText) ||
+                    s.IdclientNavigation.Firstname.Contains(searchText) ||
+                    s.IdclientNavigation.Secondname.Contains(searchText) ||
+                    s.IdclientNavigation.Patronymic.Contains(searchText) ||
+                    s.IddeviceNavigation.Model.Contains(searchText) 
+                    );
+
+
+            Applications = result.ToList();
+
+            Signal(nameof(Applications));
         }
     }
 }

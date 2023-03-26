@@ -18,6 +18,8 @@
             </Setter>
         </Style>
         <SolidColorBrush x:Key="TextBox.Static.Background" Color="#FFFFFFFF"/>
+        
+        <!-- Start ComboBox Style -->
         <Style x:Key="ComboBoxEditableTextBox" TargetType="{x:Type TextBox}">
             <Setter Property="OverridesDefaultStyle" Value="true"/>
             <Setter Property="AllowDrop" Value="true"/>
@@ -267,6 +269,7 @@
                 </Trigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>
+        
         <Style x:Key="RoundComboBox" TargetType="{x:Type ComboBox}">
             <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
             <Setter Property="Background" Value="{StaticResource ComboBox.Static.Background}"/>
@@ -288,6 +291,8 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        <!-- End ComboBox Style -->
+        
         <SolidColorBrush x:Key="ListBox.Static.Background" Color="#FFFFFFFF"/>
         <SolidColorBrush x:Key="ListBox.Static.Border" Color="#FFABADB3"/>
         <SolidColorBrush x:Key="ListBox.Disabled.Background" Color="#FFFFFFFF"/>
@@ -430,6 +435,7 @@
                     </MultiTrigger.Conditions>
                     <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
                 </MultiTrigger>
+                
             </Style.Triggers>
         </Style>
     </Page.Resources>
@@ -454,8 +460,8 @@
                         BorderThickness="0"
                         Margin="20 40 10 00"
                         Padding="0 20 0 0">
-                    
-                    <DataGrid Style="{DynamicResource DataGridSolickStyle}" AutoGenerateColumns="False" 
+
+                    <DataGrid x:Name="dg" Style="{DynamicResource DataGridSolickStyle}" AutoGenerateColumns="False" 
                               HeadersVisibility="Column"
                               IsReadOnly="true"
                               ItemsSource="{Binding Applications}"
@@ -463,8 +469,9 @@
                               HorizontalAlignment="Left"
                               MinWidth="940"
                               Width="auto"
-                              HorizontalGridLinesBrush="White"
-                              VerticalGridLinesBrush="White">
+                              Height="auto"
+                              HorizontalGridLinesBrush="Transparent"
+                              VerticalGridLinesBrush="Transparent">
                         <DataGrid.ColumnHeaderStyle>
                             <Style TargetType="{x:Type DataGridColumnHeader}">
                                 <Setter Property="Background" Value="#3993DD"/>
@@ -472,18 +479,59 @@
                                 <Setter Property="HorizontalAlignment" Value="Stretch"/>
                                 <Setter Property="HorizontalContentAlignment" Value="Center"/>
                                 <Setter Property="VerticalContentAlignment" Value="Center"/>
-                                <Setter Property="Padding" Value="10 1"/>
+                                <Setter Property="Padding" Value="5 1"/>
                             </Style>
                         </DataGrid.ColumnHeaderStyle>
+                        <DataGrid.CellStyle>
+                            <Style TargetType="{x:Type DataGridCell}">
+                                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                <Setter Property="FontFamily" Value="Inter"/>
+                                <Setter Property="FontSize" Value="11"/> 
+                                
+                                <Style.Triggers>
+                                     <Trigger Property="IsSelected" Value="True" >
+                                        <Setter Property="Background" Value="#24FFE9" />
+                                            <Setter Property="Foreground" Value="Black" />
+
+                                            <Setter Property="BorderThickness" Value="0"/>
+                                    </Trigger>
+
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#B5FFF8" />
+                                        <Setter Property="Foreground" Value="Black" />
+
+                                        <Setter Property="BorderThickness" Value="0"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGrid.CellStyle>
                         <DataGrid.RowStyle>
                             <Style TargetType="{x:Type DataGridRow}">
                                 <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="Background" Value="White"/>
+                                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                <Setter Property="FontFamily" Value="Inter"/>
+                                <Setter Property="FontSize" Value="11"/>
+
+                                <Style.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter Property="Background" Value="#24FFE9"/>
+                                        <Setter Property="Foreground" Value="Black"/>
+                                    </Trigger>
+                                    
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#B5FFF8" />
+                                        <Setter Property="Foreground" Value="Black" />
+
+                                        <Setter Property="BorderThickness" Value="0"/>
+                                    </Trigger>
+                                </Style.Triggers>
                             </Style>
                         </DataGrid.RowStyle>
                         <DataGrid.Columns>
                             <DataGridTextColumn Width="60*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Код" Binding="{Binding Id}"/>
                             <DataGridTextColumn Width="80*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Статус" Binding="{Binding Status}"/>
-                            <DataGridTextColumn Width="120*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Дата принятия" Binding="{Binding Data}"/>
+                            <DataGridTextColumn Width="120*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Дата принятия" Binding="{Binding DateView}"/>
                             <DataGridTextColumn Width="100*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Клиент" Binding="{Binding IdclientNavigation.FIO}"/>
                             <DataGridTextColumn Width="120*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Номер телефона" Binding="{Binding IdclientNavigation.Phone}"/>
                             <DataGridTextColumn Width="140*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Устройство" Binding="{Binding IddeviceNavigation.Model}"/>
@@ -492,6 +540,7 @@
                         </DataGrid.Columns>
                     </DataGrid>
                 </Border>
+                
                 <Grid Height="34" VerticalAlignment="Top" Margin="20 20 10 0">
                     <Label Content="Заявки" 
                            FontFamily="Assets/Inter/#Inter-V.ttf"
@@ -506,7 +555,7 @@
                                     Height="32"
                                     Width="32"
                                     Padding="2">
-                                <Image Source="/Pages/Edit.png"
+                                <Image Source="/Pages/Add.png"
                                        VerticalAlignment="Center"
                                        HorizontalAlignment="Center"/>
                             </Border>
@@ -570,9 +619,9 @@
                                  Foreground="Black"
                                  BorderThickness="0"
                                  Background="White"
+                                 Tag="Поиск..."
                                  Style="{DynamicResource RoundTextBox}"
-                                 Text="{Binding SearchText}"
-                                 TextChanged="SearchChanged"/>
+                                 Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"/>
 
                         <StackPanel Orientation="Horizontal"
                                     Margin="0 15"
