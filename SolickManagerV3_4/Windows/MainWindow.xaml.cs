@@ -22,7 +22,10 @@ namespace SolickManagerV3_4
     /// </summary>
     public partial class MainWindow : Window
     {
-        public Worker Worker { get; set; }
+        public Worker Worker { get; set; } //Вошедший сотрудник
+
+
+        // MenuStackPanel - имя StackPanel в котором находится меню
 
         public MainWindow()
         {

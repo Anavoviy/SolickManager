@@ -55,5 +55,19 @@ public partial class Application
         {
             return Data.ToString("d");
         } }
-    
+
+    [NotMapped]
+    public List<Service> ListService { get
+        {
+            var ApplicationServices = DB.Instance.Applicationservices.Include(s => s.IdserviceNavigation).Where(s => s.Idapplication == this.Id).ToList();
+
+            List<Service> services = new List<Service>();
+
+            foreach(var applicarionSerice in ApplicationServices)
+            {
+                services.Add(applicarionSerice.IdserviceNavigation);
+            }
+
+            return services;
+        } }
 }

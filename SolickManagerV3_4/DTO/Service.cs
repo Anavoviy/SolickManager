@@ -14,4 +14,9 @@ public partial class Service
     public decimal Cost { get; set; }
 
     public bool Deleted { get; set; }
+
+    public override string ToString()
+    {
+        return Title + " " + Cost + "руб.";
+    }
 }

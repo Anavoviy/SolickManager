@@ -27,7 +27,7 @@ namespace SolickManagerV3_4.Windows
             private Visibility authorization { get; set; } = Visibility.Visible;
 
             public string CaptchaVerify { get; set; }
-            public string Login { get; set; }
+            public string Login { get; set; } = "Anavoviy";
             public int ProgressLoading { get; set; } = 0;
 
             public Visibility Loading { get => loading; set { loading = value; Signal(); } }

@@ -635,7 +635,8 @@
                                      FontFamily="Inter/#Inter-V.ttf"
                                      Width="80"
                                      Height="20"
-                                     Style="{DynamicResource RoundTextBox}"/>
+                                     Style="{DynamicResource RoundTextBox}"
+                                     Text="{Binding DataStart, UpdateSourceTrigger=PropertyChanged}"/>
                             <Label Content="по"
                                    FontSize="14"
                                    FontFamily="Inter/#Inter-V.ttf"
@@ -644,7 +645,8 @@
                                      FontFamily="Inter/#Inter-V.ttf"
                                      Width="80"
                                      Height="20"
-                                     Style="{DynamicResource RoundTextBox}"/>
+                                     Style="{DynamicResource RoundTextBox}"
+                                     Text="{Binding DataEnd, UpdateSourceTrigger=PropertyChanged}"/>
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" 
@@ -656,7 +658,7 @@
                                    Margin="0 0 20 0"/>
                             <ComboBox Style="{DynamicResource RoundComboBox}" 
                                       ItemsSource="{Binding StatusesList}"
-                                      SelectedIndex="{Binding SelectedStatusIndex}"
+                                      SelectedIndex="{Binding StatusIndex}"
                                       Background="White"
                                       BorderThickness="0"
                                       Width="120"
@@ -672,7 +674,7 @@
                         BorderBrush="White"
                         Padding="10"
                         Height="auto">
-                    <StackPanel DataContext="{Binding SelectedApplication}">
+                    <StackPanel >
                         <Label Content="Операция"
                                FontSize="16"
                                FontFamily="Inter/#Inter-V.ttf"
@@ -710,7 +712,7 @@
                                         FontSize="14"
                                         Foreground="Black"
                                         FontFamily="Inter/#Inter-V.ttf"/>
-                                <TextBox Text="{Binding Diagnostics}"
+                                <TextBox Text="{Binding SelectedApplication.Diagnostics}"
                                          Style="{DynamicResource RoundTextBox}"
                                          TextWrapping="Wrap"
                                          FontSize="12"
@@ -739,8 +741,8 @@
                                         FontSize="14"
                                         Foreground="Black"
                                         FontFamily="Inter/#Inter-V.ttf"/>
-                                <ListBox Style="{DynamicResource RoundWhiteListBox}" 
-                                         ItemsSource="{Binding SelectedApplication}"
+                                <ListView Style="{DynamicResource RoundWhiteListBox}" 
+                                         ItemsSource="{Binding SelectedApplication.ListService}"
                                          FontSize="12"
                                          Foreground="Black"
                                          FontFamily="Inter/#Inter-V.ttf"
@@ -748,7 +750,7 @@
                                          MinHeight="90"
                                          Height="auto"
                                          HorizontalAlignment="Center">
-                                </ListBox>
+                                </ListView>
                             </StackPanel>
                         </Border>
 
