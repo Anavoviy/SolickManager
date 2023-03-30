@@ -458,10 +458,10 @@
                         MinWidth="940"
                         MinHeight="580"
                         BorderThickness="0"
-                        Margin="20 40 10 00"
+                        Margin="20 25 10 00"
                         Padding="0 20 0 0">
 
-                    <DataGrid x:Name="dg" Style="{DynamicResource DataGridSolickStyle}" AutoGenerateColumns="False" 
+                    <DataGrid Style="{DynamicResource DataGridSolickStyle}" AutoGenerateColumns="False" 
                               HeadersVisibility="Column"
                               IsReadOnly="true"
                               ItemsSource="{Binding Applications}"
@@ -541,7 +541,7 @@
                     </DataGrid>
                 </Border>
                 
-                <Grid Height="34" VerticalAlignment="Top" Margin="20 20 10 0">
+                <Grid Height="34" VerticalAlignment="Top" Margin="20 5 10 0">
                     <Label Content="Заявки" 
                            FontFamily="Assets/Inter/#Inter-V.ttf"
                            FontSize="22"

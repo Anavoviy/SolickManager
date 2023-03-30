@@ -11,9 +11,19 @@
     <None Remove="Pages\Add.png" />
     <None Remove="Pages\Delete.png" />
     <None Remove="Pages\Edit.png" />
+    <None Remove="Windows\Application.png" />
+    <None Remove="Windows\Assemblies.png" />
+    <None Remove="Windows\Clients.png" />
     <None Remove="Windows\Exit2.png" />
     <None Remove="Windows\Images\LoadingBackGround.png" />
     <None Remove="Windows\Images\LoadingKrutVert.png" />
+    <None Remove="Windows\managment.png" />
+    <None Remove="Windows\money.png" />
+    <None Remove="Windows\otchet.png" />
+    <None Remove="Windows\Produxts.png" />
+    <None Remove="Windows\Service.png" />
+    <None Remove="Windows\settings.png" />
+    <None Remove="Windows\sklad.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -30,6 +40,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Pages\Edit.png" />
+    <Resource Include="Windows\Application.png" />
+    <Resource Include="Windows\Assemblies.png" />
+    <Resource Include="Windows\Clients.png" />
     <Resource Include="Windows\Exit2.png" />
     <Resource Include="Windows\Images\LoadingBackGround.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -37,6 +50,13 @@
     <Resource Include="Windows\Images\LoadingKrutVert.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Windows\managment.png" />
+    <Resource Include="Windows\money.png" />
+    <Resource Include="Windows\otchet.png" />
+    <Resource Include="Windows\Produxts.png" />
+    <Resource Include="Windows\Service.png" />
+    <Resource Include="Windows\settings.png" />
+    <Resource Include="Windows\sklad.png" />
   </ItemGroup>
 
 </Project>
