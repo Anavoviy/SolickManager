@@ -74,7 +74,7 @@ namespace SolickManagerV3_4.Windows
                 DoubleAnimation animation = new DoubleAnimation();
                 animation.From = 0;
                 animation.To = 100;
-                animation.Duration = new Duration(TimeSpan.FromSeconds(2.5));
+                animation.Duration = new Duration(TimeSpan.FromSeconds(1));
                 animation.Completed += LoadingCompleted;
                 progressbar.BeginAnimation(System.Windows.Controls.Primitives.RangeBase.ValueProperty, animation);
             }

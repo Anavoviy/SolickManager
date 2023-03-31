@@ -12,7 +12,7 @@
             <RowDefinition/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <TextBlock Width="auto"  HorizontalAlignment="Center" Height="auto" TextWrapping="Wrap" FontSize="16" Text="{Binding MessageText}"/>
+        <TextBlock Width="auto" VerticalAlignment="Center"  HorizontalAlignment="Center" Height="auto" TextWrapping="Wrap" FontSize="16" Text="{Binding MessageText}"/>
 
         <StackPanel Orientation="Vertical" Grid.Row="1">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
