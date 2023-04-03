@@ -11,5 +11,7 @@ public partial class Category
 
     public bool Deleted { get; set; }
 
+    public virtual ICollection<Categorycharacteristic> Categorycharacteristics { get; } = new List<Categorycharacteristic>();
+
     public virtual ICollection<Product> Products { get; } = new List<Product>();
 }

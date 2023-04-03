@@ -1,8 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
 
 namespace SolickManagerV3_4.DTO;
 
@@ -28,46 +25,15 @@ public partial class Application
 
     public int? Iddevice { get; set; }
 
+    public virtual ICollection<Applicationassembly> Applicationassemblies { get; } = new List<Applicationassembly>();
+
+    public virtual ICollection<Applicationproduct> Applicationproducts { get; } = new List<Applicationproduct>();
+
+    public virtual ICollection<Applicationservice> Applicationservices { get; } = new List<Applicationservice>();
+
     public virtual Client IdclientNavigation { get; set; } = null!;
 
     public virtual Clientsdevice? IddeviceNavigation { get; set; }
 
     public virtual Worker IdmanagerNavigation { get; set; } = null!;
-
-
-    [NotMapped]
-    public string PriceOfAllService { get 
-        {
-            double sum = 0;
-
-            var ApplicationServices = DB.Instance.Applicationservices.Include(s => s.IdserviceNavigation).Where(s => s.Idapplication == this.Id);
-            
-            foreach( var applicationService in ApplicationServices)
-            {
-                sum += (double)applicationService.IdserviceNavigation.Cost;
-            }
-
-            return sum.ToString() + " руб.";
-        } }
-
-    [NotMapped]
-    public string DateView { get 
-        {
-            return Data.ToString("d");
-        } }
-
-    [NotMapped]
-    public List<Service> ListService { get
-        {
-            var ApplicationServices = DB.Instance.Applicationservices.Include(s => s.IdserviceNavigation).Where(s => s.Idapplication == this.Id).ToList();
-
-            List<Service> services = new List<Service>();
-
-            foreach(var applicarionSerice in ApplicationServices)
-            {
-                services.Add(applicarionSerice.IdserviceNavigation);
-            }
-
-            return services;
-        } }
 }

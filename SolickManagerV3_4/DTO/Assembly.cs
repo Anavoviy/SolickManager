@@ -23,6 +23,10 @@ public partial class Assembly
 
     public bool Deleted { get; set; }
 
+    public virtual ICollection<Applicationassembly> Applicationassemblies { get; } = new List<Applicationassembly>();
+
+    public virtual ICollection<Assemblyproduct> Assemblyproducts { get; } = new List<Assemblyproduct>();
+
     public virtual Worker IdmasterassemblerNavigation { get; set; } = null!;
 
     public virtual Worker IdmasterconfigurationNavigation { get; set; } = null!;

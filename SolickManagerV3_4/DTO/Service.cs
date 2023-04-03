@@ -15,8 +15,5 @@ public partial class Service
 
     public bool Deleted { get; set; }
 
-    public override string ToString()
-    {
-        return Title + " " + Cost + "руб.";
-    }
+    public virtual ICollection<Applicationservice> Applicationservices { get; } = new List<Applicationservice>();
 }

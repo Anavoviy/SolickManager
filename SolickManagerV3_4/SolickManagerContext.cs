@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using SolickManagerV3_4.DTO;
 
-namespace SolickManagerV3_4;
+namespace SolickManagerV3_4.DTO;
 
 public partial class SolickManagerContext : DbContext
 {
@@ -102,20 +101,20 @@ public partial class SolickManagerContext : DbContext
 
         modelBuilder.Entity<Applicationassembly>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("applicationassembly");
+            entity.HasKey(e => new { e.Idapplication, e.Idassemby }).HasName("applicationassembly_pk");
 
-            entity.Property(e => e.Deleted).HasColumnName("deleted");
+            entity.ToTable("applicationassembly");
+
             entity.Property(e => e.Idapplication).HasColumnName("idapplication");
             entity.Property(e => e.Idassemby).HasColumnName("idassemby");
+            entity.Property(e => e.Deleted).HasColumnName("deleted");
 
-            entity.HasOne(d => d.IdapplicationNavigation).WithMany()
+            entity.HasOne(d => d.IdapplicationNavigation).WithMany(p => p.Applicationassemblies)
                 .HasForeignKey(d => d.Idapplication)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("newtable_fk");
 
-            entity.HasOne(d => d.IdassembyNavigation).WithMany()
+            entity.HasOne(d => d.IdassembyNavigation).WithMany(p => p.Applicationassemblies)
                 .HasForeignKey(d => d.Idassemby)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("newtable_fk_1");
@@ -123,20 +122,20 @@ public partial class SolickManagerContext : DbContext
 
         modelBuilder.Entity<Applicationproduct>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("applicationproduct");
+            entity.HasKey(e => new { e.Idapplication, e.Idproduct }).HasName("applicationproduct_pk");
 
-            entity.Property(e => e.Deleted).HasColumnName("deleted");
+            entity.ToTable("applicationproduct");
+
             entity.Property(e => e.Idapplication).HasColumnName("idapplication");
             entity.Property(e => e.Idproduct).HasColumnName("idproduct");
+            entity.Property(e => e.Deleted).HasColumnName("deleted");
 
-            entity.HasOne(d => d.IdapplicationNavigation).WithMany()
+            entity.HasOne(d => d.IdapplicationNavigation).WithMany(p => p.Applicationproducts)
                 .HasForeignKey(d => d.Idapplication)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("applicationproduct_fk");
 
-            entity.HasOne(d => d.IdproductNavigation).WithMany()
+            entity.HasOne(d => d.IdproductNavigation).WithMany(p => p.Applicationproducts)
                 .HasForeignKey(d => d.Idproduct)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("applicationproduct_fk_1");
@@ -144,27 +143,27 @@ public partial class SolickManagerContext : DbContext
 
         modelBuilder.Entity<Applicationservice>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("applicationservice");
+            entity.HasKey(e => new { e.Idapplication, e.Idservice, e.Idworker }).HasName("applicationservice_pk");
 
-            entity.Property(e => e.Deleted).HasColumnName("deleted");
+            entity.ToTable("applicationservice");
+
             entity.Property(e => e.Idapplication).HasColumnName("idapplication");
             entity.Property(e => e.Idservice).HasColumnName("idservice");
             entity.Property(e => e.Idworker).HasColumnName("idworker");
+            entity.Property(e => e.Deleted).HasColumnName("deleted");
             entity.Property(e => e.Notes).HasColumnName("notes");
 
-            entity.HasOne(d => d.IdapplicationNavigation).WithMany()
+            entity.HasOne(d => d.IdapplicationNavigation).WithMany(p => p.Applicationservices)
                 .HasForeignKey(d => d.Idapplication)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("applicationservice_fk");
 
-            entity.HasOne(d => d.IdserviceNavigation).WithMany()
+            entity.HasOne(d => d.IdserviceNavigation).WithMany(p => p.Applicationservices)
                 .HasForeignKey(d => d.Idservice)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("applicationservice_fk_1");
 
-            entity.HasOne(d => d.IdworkerNavigation).WithMany()
+            entity.HasOne(d => d.IdworkerNavigation).WithMany(p => p.Applicationservices)
                 .HasForeignKey(d => d.Idworker)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("applicationservice_fk_2");
@@ -200,23 +199,23 @@ public partial class SolickManagerContext : DbContext
 
         modelBuilder.Entity<Assemblyproduct>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("assemblyproduct");
+            entity.HasKey(e => new { e.Idassembly, e.Idproduct }).HasName("assemblyproduct_pk");
 
+            entity.ToTable("assemblyproduct");
+
+            entity.Property(e => e.Idassembly).HasColumnName("idassembly");
+            entity.Property(e => e.Idproduct).HasColumnName("idproduct");
             entity.Property(e => e.Count)
                 .HasDefaultValueSql("1")
                 .HasColumnName("count");
             entity.Property(e => e.Deleted).HasColumnName("deleted");
-            entity.Property(e => e.Idassembly).HasColumnName("idassembly");
-            entity.Property(e => e.Idproduct).HasColumnName("idproduct");
 
-            entity.HasOne(d => d.IdassemblyNavigation).WithMany()
+            entity.HasOne(d => d.IdassemblyNavigation).WithMany(p => p.Assemblyproducts)
                 .HasForeignKey(d => d.Idassembly)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("assemblyproduct_fk");
 
-            entity.HasOne(d => d.IdproductNavigation).WithMany()
+            entity.HasOne(d => d.IdproductNavigation).WithMany(p => p.Assemblyproducts)
                 .HasForeignKey(d => d.Idproduct)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("assemblyproduct_fk_1");
@@ -255,20 +254,20 @@ public partial class SolickManagerContext : DbContext
 
         modelBuilder.Entity<Categorycharacteristic>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("categorycharacteristic");
+            entity.HasKey(e => new { e.Idcategory, e.Idcharacteristic }).HasName("categorycharacteristic_pk");
 
-            entity.Property(e => e.Deleted).HasColumnName("deleted");
+            entity.ToTable("categorycharacteristic");
+
             entity.Property(e => e.Idcategory).HasColumnName("idcategory");
             entity.Property(e => e.Idcharacteristic).HasColumnName("idcharacteristic");
+            entity.Property(e => e.Deleted).HasColumnName("deleted");
 
-            entity.HasOne(d => d.IdcategoryNavigation).WithMany()
+            entity.HasOne(d => d.IdcategoryNavigation).WithMany(p => p.Categorycharacteristics)
                 .HasForeignKey(d => d.Idcategory)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("categorycharacteristic_fk");
 
-            entity.HasOne(d => d.IdcharacteristicNavigation).WithMany()
+            entity.HasOne(d => d.IdcharacteristicNavigation).WithMany(p => p.Categorycharacteristics)
                 .HasForeignKey(d => d.Idcharacteristic)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("categorycharacteristic_fk_1");
@@ -448,23 +447,23 @@ public partial class SolickManagerContext : DbContext
 
         modelBuilder.Entity<Productcharacteristic>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("productcharacteristic");
+            entity.HasKey(e => new { e.Idproduct, e.Idcharacteristic }).HasName("productcharacteristic_pk");
 
-            entity.Property(e => e.Deleted).HasColumnName("deleted");
-            entity.Property(e => e.Idcharacteristic).HasColumnName("idcharacteristic");
+            entity.ToTable("productcharacteristic");
+
             entity.Property(e => e.Idproduct).HasColumnName("idproduct");
+            entity.Property(e => e.Idcharacteristic).HasColumnName("idcharacteristic");
+            entity.Property(e => e.Deleted).HasColumnName("deleted");
             entity.Property(e => e.Meaning)
                 .HasColumnType("character varying")
                 .HasColumnName("meaning");
 
-            entity.HasOne(d => d.IdcharacteristicNavigation).WithMany()
+            entity.HasOne(d => d.IdcharacteristicNavigation).WithMany(p => p.Productcharacteristics)
                 .HasForeignKey(d => d.Idcharacteristic)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("product_characteristic_fk");
 
-            entity.HasOne(d => d.IdproductNavigation).WithMany()
+            entity.HasOne(d => d.IdproductNavigation).WithMany(p => p.Productcharacteristics)
                 .HasForeignKey(d => d.Idproduct)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("product_characteristic_fk_1");

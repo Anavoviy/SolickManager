@@ -37,6 +37,8 @@ public partial class Worker
 
     public virtual ICollection<Application> Applications { get; } = new List<Application>();
 
+    public virtual ICollection<Applicationservice> Applicationservices { get; } = new List<Applicationservice>();
+
     public virtual ICollection<Assembly> AssemblyIdmasterassemblerNavigations { get; } = new List<Assembly>();
 
     public virtual ICollection<Assembly> AssemblyIdmasterconfigurationNavigations { get; } = new List<Assembly>();
@@ -46,9 +48,4 @@ public partial class Worker
     public virtual Post IdpostNavigation { get; set; } = null!;
 
     public virtual ICollection<Workingshift> Workingshifts { get; } = new List<Workingshift>();
-
-    public override string ToString()
-    {
-        return this.Firstname + " " + this.Surname[0] + ".";
-    }
 }

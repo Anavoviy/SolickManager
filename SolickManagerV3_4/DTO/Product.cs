@@ -17,9 +17,15 @@ public partial class Product
 
     public decimal Cost { get; set; }
 
+    public virtual ICollection<Applicationproduct> Applicationproducts { get; } = new List<Applicationproduct>();
+
+    public virtual ICollection<Assemblyproduct> Assemblyproducts { get; } = new List<Assemblyproduct>();
+
     public virtual Category IdcategoryNavigation { get; set; } = null!;
 
     public virtual Shipment IdshipmentNavigation { get; set; } = null!;
+
+    public virtual ICollection<Productcharacteristic> Productcharacteristics { get; } = new List<Productcharacteristic>();
 
     public virtual ICollection<Productpricechange> Productpricechanges { get; } = new List<Productpricechange>();
 }
