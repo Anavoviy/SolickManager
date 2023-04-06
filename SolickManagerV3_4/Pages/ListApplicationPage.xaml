@@ -551,7 +551,7 @@
                                     Height="32"
                                     Width="32"
                                     Padding="2">
-                                <Image Source="/Pages/Add.png"
+                                <Image Source="/Pages/Images/Add.png"
                                        VerticalAlignment="Center"
                                        HorizontalAlignment="Center"/>
                             </Border>
@@ -563,7 +563,7 @@
                                     Height="32"
                                     Width="32"
                                     Padding="2">
-                                <Image Source="/Pages/Edit.png"
+                                <Image Source="/Pages/Images/Edit.png"
                                        VerticalAlignment="Center"
                                        HorizontalAlignment="Center"/>
                             </Border>
@@ -575,7 +575,7 @@
                                     Height="32"
                                     Width="32"
                                     Padding="2">
-                                <Image Source="/Pages/Delete.png"
+                                <Image Source="/Pages/Images/Delete.png"
                                        VerticalAlignment="Center"
                                        HorizontalAlignment="Center"/>
                             </Border>
