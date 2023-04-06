@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SolickManagerV3_4.DTO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

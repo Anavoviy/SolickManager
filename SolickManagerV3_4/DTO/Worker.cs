@@ -48,4 +48,10 @@ public partial class Worker
     public virtual Post IdpostNavigation { get; set; } = null!;
 
     public virtual ICollection<Workingshift> Workingshifts { get; } = new List<Workingshift>();
+
+
+    public override string ToString()
+    {
+        return Firstname + " " + Surname[0] + ".";
+    }
 }

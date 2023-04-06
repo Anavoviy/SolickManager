@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SolickManagerV3_4.DTO;
 
@@ -28,4 +29,14 @@ public partial class Client
     public virtual ICollection<Application> Applications { get; } = new List<Application>();
 
     public virtual ICollection<Clientsdevice> Clientsdevices { get; } = new List<Clientsdevice>();
+
+
+    [NotMapped]
+    public string FIO
+    {
+        get
+        {
+            return Secondname + " " + Firstname + " " + Patronymic;
+        }
+    }
 }
