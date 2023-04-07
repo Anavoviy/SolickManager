@@ -544,7 +544,8 @@
                            Margin="10 0 0 0"
                            HorizontalAlignment="Left"/>
                     <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                        <Button Style="{DynamicResource ButtonRoundStyle}" Margin="0 0 10 0">
+                        <Button Style="{DynamicResource ButtonRoundStyle}" Margin="0 0 10 0"
+                                Click="AddNewApplication">
                             <Border CornerRadius="5"
                                     BorderThickness="0"
                                     Background="#F0F0F0"
