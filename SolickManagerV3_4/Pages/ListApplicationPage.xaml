@@ -557,7 +557,7 @@
                                        HorizontalAlignment="Center"/>
                             </Border>
                         </Button>
-                        <Button Style="{DynamicResource ButtonRoundStyle}" Margin="0 0 10 0">
+                        <Button Style="{DynamicResource ButtonRoundStyle}" Margin="0 0 10 0" Click="EditSelectedApplication">
                             <Border CornerRadius="5"
                                     BorderThickness="0"
                                     Background="#F0F0F0"

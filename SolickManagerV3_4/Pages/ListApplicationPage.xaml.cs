@@ -181,5 +181,12 @@ namespace SolickManagerV3_4.Pages
 
             Search();
         }
+
+        private void EditSelectedApplication(object sender, RoutedEventArgs e)
+        {
+            new EditOrAddApplication(this.Worker, this.SelectedApplication).ShowDialog();
+
+            Search();
+        }
     }
 }

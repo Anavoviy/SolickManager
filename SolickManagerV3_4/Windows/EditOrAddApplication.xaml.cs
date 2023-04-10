@@ -75,12 +75,30 @@ namespace SolickManagerV3_4.Windows
 
         public Worker Worker { get; set; }
 
+        private DTO.Application Application = new DTO.Application();
+
         public EditOrAddApplication(Worker worker)
         {
             InitializeComponent();
 
             Worker = worker;
             Clients = DB.Instance.Clients.ToList();
+
+            DataContext = this;
+        }
+        public EditOrAddApplication(Worker worker, DTO.Application application)
+        {
+            InitializeComponent();
+
+            Worker = worker;
+            Clients = DB.Instance.Clients.ToList();
+
+            this.DataApplication = application.DateView;
+            this.SelectedClient = application.IdclientNavigation;
+            this.SelectedDevice = application.IddeviceNavigation;
+            this.Problem = application.Problem;
+
+            this.Application = application;
 
             DataContext = this;
         }
@@ -189,11 +207,10 @@ namespace SolickManagerV3_4.Windows
             int ClientId = 0;
             int DeviceId = 0;
 
-
             if (SelectedClient == null)
             {
                 Client newClient = new Client();
-                    
+
                 newClient.Firstname = this.FirstName;
                 newClient.Secondname = this.SecondName;
                 newClient.Patronymic = this.Patronymic;
@@ -210,8 +227,7 @@ namespace SolickManagerV3_4.Windows
                 ClientId = SelectedClient.Id;
             }
 
-
-            if(SelectedDevice == null && ClientId != 0)
+            if (SelectedDevice == null && ClientId != 0)
             {
                 Clientsdevice newClientDevice = new Clientsdevice();
                 newClientDevice.Model = this.Model;
@@ -229,26 +245,50 @@ namespace SolickManagerV3_4.Windows
                 DeviceId = SelectedDevice.Id;
             }
 
-
-            if(ClientId != 0 && DeviceId != 0)
+            if (this.Application.Id == 0)
             {
-                DTO.Application newApplication = new DTO.Application();
-
-                DateOnly data;
-                if (DateOnly.TryParse(this.DataApplication, out data))
+                if (ClientId != 0 && DeviceId != 0)
                 {
-                    newApplication.Data = data;
-                    newApplication.Idclient = ClientId;
-                    newApplication.Iddevice = DeviceId;
-                    newApplication.Idmanager = this.Worker.Id;
-                    newApplication.Problem = this.Problem;
-                    newApplication.Status = "Принята";
+                    DTO.Application newApplication = new DTO.Application();
 
-                    DB.Instance.Applications.Add(newApplication);
-                    DB.Instance.SaveChanges();
+                    DateOnly data;
+                    if (DateOnly.TryParse(this.DataApplication, out data))
+                    {
+                        newApplication.Data = data;
+                        newApplication.Idclient = ClientId;
+                        newApplication.Iddevice = DeviceId;
+                        newApplication.Idmanager = this.Worker.Id;
+                        newApplication.Problem = this.Problem;
+                        newApplication.Status = "Принята";
 
-                    MessageBox.Show("Добавлена новая заявка!");
-                    this.Close();
+                        DB.Instance.Applications.Add(newApplication);
+                        DB.Instance.SaveChanges();
+
+                        MessageBox.Show("Добавлена новая заявка!");
+                        this.Close();
+                    }
+
+                }
+            }
+            else
+            {
+                if(ClientId != 0 && DeviceId != 0)
+                {
+                    DateOnly data;
+                    if (DateOnly.TryParse(this.DataApplication, out data))
+                    {
+                        Application.Data = data;
+                        Application.Idclient = ClientId;
+                        Application.Iddevice = DeviceId;
+                        Application.Problem = this.Problem;
+
+                        DB.Instance.Applications.Update(Application);
+                        DB.Instance.SaveChanges();
+
+                        MessageBox.Show("Заявка изменена!");
+                        this.Close();
+                    }
+
                 }
             }
 
