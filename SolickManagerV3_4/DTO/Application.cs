@@ -18,7 +18,7 @@ public partial class Application
 
     public string Problem { get; set; } = null!;
 
-    public string Diagnostics { get; set; } = null!;
+    public string? Diagnostics { get; set; } = null!;
 
     public string Status { get; set; } = null!;
 

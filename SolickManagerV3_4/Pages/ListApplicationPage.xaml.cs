@@ -31,6 +31,7 @@ namespace SolickManagerV3_4.Pages
         private string searchText = "";
         private string dataStart = "";
         private string dataEnd = "";
+        private int statusIndex = 0;
 
         public event PropertyChangedEventHandler? PropertyChanged;
         void Signal([CallerMemberName] string prop = null)
@@ -49,23 +50,33 @@ namespace SolickManagerV3_4.Pages
         public string DataEnd { get => dataEnd; set { dataEnd = value; Search(); } }
 
         public List<string> StatusesList { get; set; } = new List<string>();
-        public int StatusIndex { get; set; } = 0;
+        public int StatusIndex { get => statusIndex; set { statusIndex = value; Search(); } }
 
         //Вывод сбоку:
         public List<Service> SelectedApplicationServices { get => selectedApplicationServices; set { selectedApplicationServices = value; Signal(); } }
-        public DTO.Application SelectedApplication { get => selectedApplication; 
-            set 
-            { 
+        public DTO.Application SelectedApplication
+        {
+            get => selectedApplication;
+            set
+            {
                 selectedApplication = value;
-                SelectedStatusIndex = StatusesList.IndexOf(SelectedApplication.Status);
+                if(selectedApplication != null)
+                    SelectedStatusIndex = EditStatusesList.IndexOf(SelectedApplication.Status);
                 Signal(nameof(SelectedStatusIndex));
-                Signal(); 
-            } }
+                Signal();
+            }
+        }
 
-        public List<string> EditStatusesList { get; set; } = new List<string>();
+        public List<string> EditStatusesList { get; set; } = new List<string>() 
+        {
+            "Принята",
+            "У мастера",
+            "На выдаче",
+            "Завершена",
+        };
         public int SelectedStatusIndex { get; set; } = 0;
 
-        //Главный ListView
+        //Главный DataGrid
         public List<DTO.Application> Applications { get; set; }
 
         public ListApplicationPage(Worker worker)
@@ -107,10 +118,13 @@ namespace SolickManagerV3_4.Pages
 
         private void SaveEditSelectedApplication(object sender, RoutedEventArgs e)
         {
+            SelectedApplication.Status = EditStatusesList[SelectedStatusIndex];
+
             DB.Instance.Applications.Update(SelectedApplication);
             DB.Instance.SaveChanges();
 
-            Signal(nameof(Applications));
+            Signal(nameof(SelectedApplication));
+            Search();
         }
 
         private void Search()
@@ -140,7 +154,8 @@ namespace SolickManagerV3_4.Pages
                 DateOnly StartData;
                 if (DateOnly.TryParse(DataStart, out StartData))
                     Applications = Applications.Where(s => s.Data >= StartData).ToList();
-            } else if(DataEnd != "" && DataStart == "")
+            }
+            else if (DataEnd != "" && DataStart == "")
             {
                 DateOnly EndData;
                 if (DateOnly.TryParse(DataEnd, out EndData))
@@ -150,10 +165,11 @@ namespace SolickManagerV3_4.Pages
             {
                 DateOnly StartData;
                 DateOnly EndData;
-                if(DateOnly.TryParse(DataEnd, out EndData) && DateOnly.TryParse(DataStart, out StartData))
+                if (DateOnly.TryParse(DataEnd, out EndData) && DateOnly.TryParse(DataStart, out StartData))
                     Applications = Applications.Where(s => s.Data <= EndData && s.Data >= StartData).ToList();
             }
 
+            Applications.OrderBy(s => s.Id);
 
 
             Signal(nameof(Applications));
@@ -161,7 +177,9 @@ namespace SolickManagerV3_4.Pages
 
         private void AddNewApplication(object sender, RoutedEventArgs e)
         {
-            new EditOrAddApplication().ShowDialog();
+            new EditOrAddApplication(this.Worker).ShowDialog();
+
+            Search();
         }
     }
 }

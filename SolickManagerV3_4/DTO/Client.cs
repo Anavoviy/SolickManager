@@ -39,4 +39,9 @@ public partial class Client
             return Secondname + " " + Firstname + " " + Patronymic;
         }
     }
+
+    public override string ToString()
+    {
+        return FIO;
+    }
 }

@@ -314,13 +314,15 @@
                            Height="20"/>
                 <TextBox Style="{DynamicResource RoundTextBox}" 
                          Width="155"
-                         Margin="10 0"/>
+                         Margin="10 0"
+                         Text="{Binding DataApplication}"/>
                 <Button Content="сегодня"
                         Style="{DynamicResource ButtonRoundStyle}"
                         Background="White"
                         Width="85"
                         FontSize="14"
-                        FontWeight="Medium"/>
+                        FontWeight="Medium"
+                        Click="SetToday"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal"
@@ -332,15 +334,17 @@
                            Height="20"/>
                 <ComboBox Style="{DynamicResource ComboBoxRound}" 
                           Width="148" 
-                          Margin="10 0" />
+                          Margin="10 0" 
+                          ItemsSource="{Binding Clients}"
+                          SelectedItem="{Binding SelectedClient}"/>
                 <Button Content="новый"
                         Style="{DynamicResource ButtonRoundStyle}"
                         Background="White"
                         Width="80"
                         FontSize="14"
-                        FontWeight="Medium"/>
+                        FontWeight="Medium" Click="VisibillityClient"/>
             </StackPanel>
-            <Border CornerRadius="5" Background="White" Padding="5" Margin="0 5 0 0" Visibility="Visible">
+            <Border CornerRadius="5" Background="White" Padding="5" Margin="0 5 0 0" Visibility="Collapsed" x:Name="ClientBorder">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
@@ -355,11 +359,11 @@
                             
                     </StackPanel>
                     <StackPanel Grid.Column="1">
-                        <TextBox Width="auto" Height="24" Margin="0 0 0 5"/>
-                        <TextBox Width="auto" Height="24" Margin="0 0 0 5"/>
-                        <TextBox Width="auto" Height="24" Margin="0 0 0 5"/>
-                        <TextBox Width="auto" Height="24" Margin="0 0 0 5"/>
-                        <TextBox Width="auto" Height="24" Margin="0 0 0 5"/>
+                        <TextBox Width="auto" Height="24" Margin="0 0 0 5" Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBox Width="auto" Height="24" Margin="0 0 0 5" Text="{Binding SecondName, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBox Width="auto" Height="24" Margin="0 0 0 5" Text="{Binding Patronymic, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBox x:Name="DataTextBox" Width="auto" Height="24" Margin="0 0 0 5" Text="{Binding Data, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBox Width="auto" Height="24" Margin="0 0 0 5" Text="{Binding Phone, UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
                 </Grid>
             </Border>
@@ -373,15 +377,18 @@
                            Height="20"/>
                 <ComboBox Style="{DynamicResource ComboBoxRound}" 
                           Width="125" 
-                          Margin="10 0" />
+                          Margin="10 0" 
+                          ItemsSource="{Binding Clientsdevices}"
+                          SelectedItem="{Binding SelectedDevice}"
+                          DisplayMemberPath="Model"/>
                 <Button Content="новый"
                         Style="{DynamicResource ButtonRoundStyle}"
                         Background="White"
                         Width="70"
                         FontSize="14"
-                        FontWeight="Medium"/>
+                        FontWeight="Medium" Click="VisibillityDevice"/>
             </StackPanel>
-            <Border CornerRadius="5" Background="White" Padding="5" Margin="0 5 0 0" Visibility="Visible">
+            <Border CornerRadius="5" Background="White" Padding="5" Margin="0 5 0 0" Visibility="Collapsed" x:Name="DeviceBorder">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
@@ -393,9 +400,9 @@
                         <Label Height="24" Content="Стоимость" FontFamily="Inter" FontSize="14" FontWeight="Medium" Margin="0 0 0 5"/>
                     </StackPanel>
                     <StackPanel Grid.Column="1">
-                        <TextBox Width="auto" Height="24" Margin="0 0 0 5"/>
-                        <TextBox Width="auto" MinHeight="24" Height="auto" TextWrapping="Wrap" Margin="0 0 0 5"/>
-                        <TextBox Width="auto" Height="24" Margin="0 0 0 5"/>
+                        <TextBox Width="auto" Height="24" Margin="0 0 0 5" Text="{Binding Model, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBox Width="auto" MinHeight="24" Height="auto" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Margin="0 0 0 5"/>
+                        <TextBox x:Name="CostTextBox" Width="auto" Height="24" Text="{Binding Cost, UpdateSourceTrigger=PropertyChanged}" Margin="0 0 0 5"/>
                     </StackPanel>
                 </Grid>
             </Border>
@@ -407,18 +414,19 @@
                    Height="28" 
                    Margin="0 10 0 0"/>
             <Border CornerRadius="5" Background="White" Padding="5" >
-                <TextBox Text="{Binding SelectedApplication.Diagnostics}"
-                                         Style="{DynamicResource RoundTextBox}"
-                                         TextWrapping="Wrap"
-                                         FontSize="12"
-                                         Foreground="Black"
-                                         FontFamily="Inter"
-                                         Width="290"
-                                         Height="90"
-                                         HorizontalAlignment="Center"/>
+                <TextBox Style="{DynamicResource RoundTextBox}"
+                         Text="{Binding Problem}"
+                         TextWrapping="Wrap"
+                         FontSize="12"
+                         Foreground="Black"
+                         FontFamily="Inter"
+                         Width="290"
+                         Height="90"
+                         HorizontalAlignment="Center"/>
             </Border>
 
-            <Button Style="{DynamicResource ButtonRoundStyle}"
+            <Button x:Name="SaveButton"
+                    Style="{DynamicResource ButtonRoundStyle}"
                     Content="Сохранить"
                     Width="260"
                     Margin="0 10 0 0"
@@ -426,7 +434,8 @@
                     Background="White"
                     FontSize="20"
                     FontWeight="Medium"
-                    FontFamily="Inter"/>
+                    FontFamily="Inter"
+                    Click="SaveApplication"/>
         </StackPanel>
     </Border>
 </Window>

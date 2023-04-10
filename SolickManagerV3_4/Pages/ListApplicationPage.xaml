@@ -685,7 +685,7 @@
                                    Foreground="White"
                                    Margin="10 0 20 0"/>
                             <ComboBox Style="{DynamicResource RoundComboBox}" 
-                                      ItemsSource="{Binding StatusesList}"
+                                      ItemsSource="{Binding EditStatusesList}"
                                       SelectedIndex="{Binding SelectedStatusIndex}"
                                       Background="White"
                                       BorderThickness="0"
