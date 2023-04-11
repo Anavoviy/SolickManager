@@ -53,6 +53,7 @@ namespace SolickManagerV3_4.Pages
         public int StatusIndex { get => statusIndex; set { statusIndex = value; Search(); } }
 
         //Вывод сбоку:
+        public Applicationservice SelectedServiceInSelectedApplication { get; set; }
         public List<Service> SelectedApplicationServices { get => selectedApplicationServices; set { selectedApplicationServices = value; Signal(); } }
         public DTO.Application SelectedApplication
         {
@@ -66,7 +67,6 @@ namespace SolickManagerV3_4.Pages
                 Signal();
             }
         }
-
         public List<string> EditStatusesList { get; set; } = new List<string>() 
         {
             "Принята",
@@ -245,6 +245,28 @@ namespace SolickManagerV3_4.Pages
                 MessageBox.Show("Не выбрана ни одна заявка!");
 
             Search();
+        }
+
+
+
+        private void DeleteCrossApplicationService(object sender, RoutedEventArgs e)
+        {
+            if (SelectedServiceInSelectedApplication != null)
+            {
+                DB.Instance.Applicationservices.Remove(SelectedServiceInSelectedApplication);
+                DB.Instance.SaveChanges();
+
+                Signal(nameof(SelectedApplication));
+            }
+            else
+                MessageBox.Show("Не выбрана ни одна услуга!");
+        }
+        private void AddCrossApplicationService(object sender, RoutedEventArgs e)
+        {
+            new AddCrossApplicationServiceWindow().ShowDialog();
+
+
+            Signal(nameof(SelectedApplication));
         }
     }
 }

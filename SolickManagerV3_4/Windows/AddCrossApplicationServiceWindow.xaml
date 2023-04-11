@@ -1,0 +1,66 @@
+﻿<Window x:Class="SolickManagerV3_4.Windows.AddCrossApplicationServiceWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SolickManagerV3_4.Windows"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="AddCrossApplicationServiceWindow" Height="350" Width="400">
+    <Border
+        Width="350"
+        Height="300"
+        CornerRadius="10"
+        Background="#3993DD">
+        <StackPanel Margin="20">
+            <Label Content="Услуга в заявке" HorizontalAlignment="Center" Foreground="White" FontFamily="Inter" FontSize="20"/>
+            <StackPanel Orientation="Horizontal"
+                        Margin="0 10 0 0">
+                <TextBlock Text="Услуга"
+                           Foreground="White"
+                           FontFamily="Inter"
+                           FontSize="16"
+                           Height="20"/>
+                <ComboBox Width="148" 
+                          Margin="10 0" 
+                          ItemsSource="{Binding Services}"
+                          SelectedItem="{Binding SelectedService}"/>
+                <Button Content="новая"
+                        Style="{DynamicResource ButtonRoundStyle}"
+                        Background="White"
+                        Width="80"
+                        FontSize="14"
+                        FontWeight="Medium" Click="VisibillityService"/>
+            </StackPanel>
+            <Border CornerRadius="5" Background="White" Padding="5" Margin="0 5 0 0" Visibility="Collapsed" x:Name="ServiceBorder">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel>
+                        <Label Height="24" Content="Название" FontFamily="Inter" FontSize="14" FontWeight="Medium" Margin="0 0 0 5"/>
+                        <Label Height="24" Content="Описание" FontFamily="Inter" FontSize="14" FontWeight="Medium" Margin="0 0 0 5"/>
+                        <Label Height="24" Content="Стоимость за услугу" FontFamily="Inter" FontSize="14" FontWeight="Medium" Margin="0 0 0 5"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1">
+                        <TextBox Width="auto" Height="24" Margin="0 0 0 5" Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBox Width="auto" Height="24" Margin="0 0 0 5" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBox Width="auto" Height="24" Margin="0 0 0 5" Text="{Binding Cost, UpdateSourceTrigger=PropertyChanged}"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+            <Button x:Name="SaveButton"
+                    Style="{DynamicResource ButtonRoundStyle}"
+                    Content="Сохранить"
+                    Width="260"
+                    Margin="0 10 0 0"
+                    Height="35"
+                    Background="White"
+                    FontSize="20"
+                    FontWeight="Medium"
+                    FontFamily="Inter"
+                    Click="Save"/>
+        </StackPanel>
+    </Border>
+</Window>

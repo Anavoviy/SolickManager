@@ -740,6 +740,7 @@
                                         FontFamily="Inter/#Inter-V.ttf"/>
                                 <ListView Style="{DynamicResource RoundWhiteListBox}" 
                                          ItemsSource="{Binding SelectedApplication.ListService}"
+                                         SelectedItem="{Binding SelectedServiceInSelectedApplication}"
                                          FontSize="12"
                                          Foreground="Black"
                                          FontFamily="Inter/#Inter-V.ttf"
@@ -747,6 +748,12 @@
                                          MinHeight="90"
                                          Height="auto"
                                          HorizontalAlignment="Center">
+                                    <ListView.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Header="Добавить" Click="AddCrossApplicationService"/>
+                                            <MenuItem Header="Удалить" Click="DeleteCrossApplicationService"/>
+                                        </ContextMenu>
+                                    </ListView.ContextMenu>
                                 </ListView>
                             </StackPanel>
                         </Border>
