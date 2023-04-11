@@ -569,7 +569,7 @@
                                        HorizontalAlignment="Center"/>
                             </Border>
                         </Button>
-                        <Button Style="{DynamicResource ButtonRoundStyle}">
+                        <Button Style="{DynamicResource ButtonRoundStyle}" Click="DeleteSelectedApplication">
                             <Border CornerRadius="5"
                                     BorderThickness="0"
                                     Background="#F0F0F0"

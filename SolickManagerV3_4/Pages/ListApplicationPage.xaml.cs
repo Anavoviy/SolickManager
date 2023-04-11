@@ -123,7 +123,11 @@ namespace SolickManagerV3_4.Pages
             DB.Instance.Applications.Update(SelectedApplication);
             DB.Instance.SaveChanges();
 
+            StatusesList = FillStatusesList();
+
             Signal(nameof(SelectedApplication));
+            Signal(nameof(StatusesList));
+
             Search();
         }
 
@@ -180,11 +184,65 @@ namespace SolickManagerV3_4.Pages
             new EditOrAddApplication(this.Worker).ShowDialog();
 
             Search();
+
+            StatusesList = FillStatusesList();
+            Signal(nameof(StatusesList));
         }
 
         private void EditSelectedApplication(object sender, RoutedEventArgs e)
         {
-            new EditOrAddApplication(this.Worker, this.SelectedApplication).ShowDialog();
+            if (SelectedApplication != null)
+            {
+                new EditOrAddApplication(this.Worker, this.SelectedApplication).ShowDialog();
+                Search();
+
+                StatusesList = FillStatusesList();
+                Signal(nameof(StatusesList));
+            }
+            else
+                MessageBox.Show("Не выбрана ни одна заявка!");
+        }
+
+        private void DeleteSelectedApplication(object sender, RoutedEventArgs e)
+        {
+            if(SelectedApplication != null)
+            {
+                if(DB.Instance.Applicationservices.FirstOrDefault(s => s.Idapplication == this.SelectedApplication.Id) != null)
+                {
+                    var list = DB.Instance.Applicationservices.Where(s => s.Idapplication == this.SelectedApplication.Id).ToList();
+                    foreach (var appServ in list) 
+                    {
+                        DB.Instance.Applicationservices.Remove(appServ);
+                    }
+                }
+                if (DB.Instance.Applicationproducts.FirstOrDefault(s => s.Idapplication == this.SelectedApplication.Id) != null)
+                {
+                    var list = DB.Instance.Applicationproducts.Where(s => s.Idapplication == this.SelectedApplication.Id).ToList();
+                    foreach (var appProd in list)
+                    {
+                        DB.Instance.Applicationproducts.Remove(appProd);
+                    }
+                }
+                if (DB.Instance.Applicationassemblies.FirstOrDefault(s => s.Idapplication == this.SelectedApplication.Id) != null)
+                {
+                    var list = DB.Instance.Applicationassemblies.Where(s => s.Idapplication == this.SelectedApplication.Id).ToList();
+                    foreach (var appAssem in list)
+                    {
+                        DB.Instance.Applicationassemblies.Remove(appAssem);
+                    }
+                }
+
+                DB.Instance.Applications.Remove(SelectedApplication);
+
+                DB.Instance.SaveChanges();
+
+                MessageBox.Show("Выбранная заявка удалена!");
+
+                StatusesList = FillStatusesList();
+                Signal(nameof(StatusesList));
+            }
+            else
+                MessageBox.Show("Не выбрана ни одна заявка!");
 
             Search();
         }

@@ -351,16 +351,16 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <StackPanel>
-                        <Label Height="24" Content="Имя" FontFamily="Inter" FontSize="14" FontWeight="Medium" Margin="0 0 0 5"/>
                         <Label Height="24" Content="Фамилия" FontFamily="Inter" FontSize="14" FontWeight="Medium" Margin="0 0 0 5"/>
+                        <Label Height="24" Content="Имя" FontFamily="Inter" FontSize="14" FontWeight="Medium" Margin="0 0 0 5"/>
                         <Label Height="24" Content="Отчество" FontFamily="Inter" FontSize="14" FontWeight="Medium" Margin="0 0 0 5"/>
                         <Label Height="24" Content="Дата рождения" FontFamily="Inter" FontSize="14" FontWeight="Medium" Margin="0 0 0 5"/>
                         <Label Height="24" Content="Номер телефона" FontFamily="Inter" FontSize="14" FontWeight="Medium" Margin="0 0 0 5"/>
                             
                     </StackPanel>
                     <StackPanel Grid.Column="1">
-                        <TextBox Width="auto" Height="24" Margin="0 0 0 5" Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}"/>
                         <TextBox Width="auto" Height="24" Margin="0 0 0 5" Text="{Binding SecondName, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBox Width="auto" Height="24" Margin="0 0 0 5" Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}"/>
                         <TextBox Width="auto" Height="24" Margin="0 0 0 5" Text="{Binding Patronymic, UpdateSourceTrigger=PropertyChanged}"/>
                         <TextBox x:Name="DataTextBox" Width="auto" Height="24" Margin="0 0 0 5" Text="{Binding Data, UpdateSourceTrigger=PropertyChanged}"/>
                         <TextBox Width="auto" Height="24" Margin="0 0 0 5" Text="{Binding Phone, UpdateSourceTrigger=PropertyChanged}"/>
@@ -401,7 +401,7 @@
                     </StackPanel>
                     <StackPanel Grid.Column="1">
                         <TextBox Width="auto" Height="24" Margin="0 0 0 5" Text="{Binding Model, UpdateSourceTrigger=PropertyChanged}"/>
-                        <TextBox Width="auto" MinHeight="24" Height="auto" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Margin="0 0 0 5"/>
+                        <TextBox Width="auto" MinHeight="24" MaxHeight="36" Height="auto" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Margin="0 0 0 5"/>
                         <TextBox x:Name="CostTextBox" Width="auto" Height="24" Text="{Binding Cost, UpdateSourceTrigger=PropertyChanged}" Margin="0 0 0 5"/>
                     </StackPanel>
                 </Grid>
@@ -421,7 +421,7 @@
                          Foreground="Black"
                          FontFamily="Inter"
                          Width="290"
-                         Height="90"
+                         MaxHeight="78"
                          HorizontalAlignment="Center"/>
             </Border>
 
