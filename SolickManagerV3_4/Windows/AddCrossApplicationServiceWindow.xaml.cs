@@ -26,6 +26,9 @@ namespace SolickManagerV3_4.Windows
         private string title = "";
         private string descripton = "";
         private decimal cost = 0;
+        private string secondName = "";
+        private string firstName = "";
+        private string patronymic = "";
 
         public event PropertyChangedEventHandler? PropertyChanged;
         void Signal([CallerMemberName] string prop = null)
@@ -34,13 +37,21 @@ namespace SolickManagerV3_4.Windows
         }
 
         // Данные новой услуги
-        public string Title { get => title; set { title = value; Search(); } }
-        public string Descripton { get => descripton; set { descripton = value; Search(); } }
-        public decimal Cost { get => cost; set { cost = value; Search(); } }
+        public string Title { get => title; set { title = value; FilterService(); } }
+        public string Description { get => descripton; set { descripton = value; FilterService(); } }
+        public decimal Cost { get => cost; set { cost = value; FilterService(); ValidCost(); } }
+
+        // Данные поиска сотрудника
+        public string SecondName { get => secondName; set { secondName = value; FilterWorker(); } }
+        public string FirstName { get => firstName; set { firstName = value; FilterWorker(); } }
+        public string Patronymic { get => patronymic; set { patronymic = value; FilterWorker(); } }
 
         // Данные списка
-        List<Service> Services { get; set; } = new List<Service>();
-        Service SelectedService { get; set; }
+        public List<Service> Services { get; set; } = new List<Service>();
+        public Service SelectedService { get; set; }
+
+        public List<Worker> Workers { get; set; } = new List<Worker>();
+        public Worker SelectedWorker { get; set; }
 
         public DTO.Application Application { get; set; }
 
@@ -50,17 +61,44 @@ namespace SolickManagerV3_4.Windows
 
             Application = application;
 
-            Search();
+            FilterService();
+            FilterWorker();
+
+            DataContext = this;
         }
 
-        private void Search()
+        private void FilterService()
         {
             var result = DB.Instance.Services.Where(s => (s.Title.ToLower().Contains(Title.ToLower()) || Title == "") &&
-                                                         (Descripton == "" || s.Description.ToLower().Contains(Descripton.ToLower())));
+                                                         (Description == "" || s.Description.ToLower().Contains(Description.ToLower())));
 
             Services = result.ToList();
 
             Signal(nameof(Services));
+        }
+        private void FilterWorker()
+        {
+            var result = DB.Instance.Workers.Where(s => (this.SecondName == "" || s.Surname.ToLower().Contains(this.SecondName.ToLower())) &&
+                                                        (this.FirstName == "" || s.Firstname.ToLower().Contains(this.FirstName.ToLower())) &&
+                                                        (this.Patronymic == "" || s.Patronymic.ToLower().Contains(this.Patronymic.ToLower())));
+
+            Workers = result.ToList();
+
+            Signal(nameof(Workers));
+        }
+
+        private void ValidCost()
+        {
+            if(this.Cost < 0)
+            {
+                CostTextBox.Foreground = new SolidColorBrush(Colors.Red);
+                SaveButton.IsEnabled = false;
+            }
+            else
+            {
+                CostTextBox.Foreground = new SolidColorBrush(Colors.Black);
+                SaveButton.IsEnabled = true;
+            }
         }
 
         private void VisibillityService(object sender, RoutedEventArgs e)
@@ -75,27 +113,57 @@ namespace SolickManagerV3_4.Windows
 
         private void Save(object sender, RoutedEventArgs e)
         {
+            int ServiceId = 0;
+            int WorkerId = 0;
+
             if (this.SelectedService == null)
             {
-                if (Cost > 0)
-                {
+                
                     Service newService = new Service();
                     newService.Title = this.Title;
-                    newService.Description = this.Descripton;
+                    newService.Description = this.Description;
                     newService.Cost = this.Cost;
 
                     DB.Instance.Services.Add(newService);
 
-                    Applicationservice newApplicationService = new Applicationservice();
-                    newApplicationService.Idapplication = this.Application.Id;
-                    newApplicationService.Idservice = DB.Instance.Services.OrderBy(s => s.Id).Last().Id;
-
-                    DB.Instance.Applicationservices.Add(newApplicationService);
-                    
                     DB.Instance.SaveChanges();
-                }
-                else
-                    MessageBox.Show("Неккоректная стоимость услуги!");
+
+                    ServiceId = DB.Instance.Services.OrderBy(s => s).Last().Id;
+                    WorkerId = this.SelectedWorker.Id;
+                
+            }
+            else
+                ServiceId = this.SelectedService.Id;
+
+            if (SelectedWorker != null)
+                WorkerId = this.SelectedWorker.Id;
+            else
+                MessageBox.Show("Не выбран сотрудник!");
+
+            if (ServiceId != 0 && WorkerId != 0)
+            {
+                Applicationservice newApplicationService = new Applicationservice();
+                newApplicationService.Idapplication = this.Application.Id;
+                newApplicationService.Idservice = ServiceId;
+                newApplicationService.Idworker = WorkerId; ;
+
+                DB.Instance.Applicationservices.Add(newApplicationService);
+
+                DB.Instance.SaveChanges();
+
+                MessageBox.Show("Добавлена новая услуга!");
+
+                this.Close();
+            }
+        }
+
+        private void VisibillityWorker(object sender, RoutedEventArgs e)
+        {
+            if (WorkerBorder.Visibility == Visibility.Collapsed)
+                WorkerBorder.Visibility = Visibility.Visible;
+            else
+            {
+                WorkerBorder.Visibility = Visibility.Collapsed;
             }
         }
     }

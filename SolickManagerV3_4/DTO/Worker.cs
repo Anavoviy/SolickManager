@@ -54,4 +54,9 @@ public partial class Worker
     {
         return Firstname + " " + Surname[0] + ".";
     }
+
+    public string FIO { get
+        {
+            return this.Surname + " " + this.Firstname + " " + this.Patronymic;
+        } }
 }

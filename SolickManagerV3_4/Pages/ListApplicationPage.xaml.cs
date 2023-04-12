@@ -26,7 +26,7 @@ namespace SolickManagerV3_4.Pages
     /// </summary>
     public partial class ListApplicationPage : Page, INotifyPropertyChanged
     {
-        private List<Service> selectedApplicationServices;
+        private List<Applicationservice> selectedApplicationServices;
         private DTO.Application selectedApplication;
         private string searchText = "";
         private string dataStart = "";
@@ -54,16 +54,19 @@ namespace SolickManagerV3_4.Pages
 
         //Вывод сбоку:
         public Applicationservice SelectedServiceInSelectedApplication { get; set; }
-        public List<Service> SelectedApplicationServices { get => selectedApplicationServices; set { selectedApplicationServices = value; Signal(); } }
+        public List<Applicationservice> SelectedApplicationServices { get => selectedApplicationServices; set { selectedApplicationServices = value; Signal(); } }
         public DTO.Application SelectedApplication
         {
             get => selectedApplication;
             set
             {
                 selectedApplication = value;
-                if(selectedApplication != null)
+                if (selectedApplication != null) {
                     SelectedStatusIndex = EditStatusesList.IndexOf(SelectedApplication.Status);
+                    SelectedApplicationServices = this.SelectedApplication.ListService;
+                        }
                 Signal(nameof(SelectedStatusIndex));
+                Signal(nameof(SelectedApplicationServices));
                 Signal();
             }
         }
@@ -188,7 +191,6 @@ namespace SolickManagerV3_4.Pages
             StatusesList = FillStatusesList();
             Signal(nameof(StatusesList));
         }
-
         private void EditSelectedApplication(object sender, RoutedEventArgs e)
         {
             if (SelectedApplication != null)
@@ -202,7 +204,6 @@ namespace SolickManagerV3_4.Pages
             else
                 MessageBox.Show("Не выбрана ни одна заявка!");
         }
-
         private void DeleteSelectedApplication(object sender, RoutedEventArgs e)
         {
             if(SelectedApplication != null)
@@ -257,16 +258,19 @@ namespace SolickManagerV3_4.Pages
                 DB.Instance.SaveChanges();
 
                 Signal(nameof(SelectedApplication));
+
+                this.SelectedApplicationServices = this.SelectedApplication.ListService;
             }
             else
                 MessageBox.Show("Не выбрана ни одна услуга!");
         }
         private void AddCrossApplicationService(object sender, RoutedEventArgs e)
         {
-            new AddCrossApplicationServiceWindow().ShowDialog();
-
+            new AddCrossApplicationServiceWindow(this.SelectedApplication).ShowDialog();
 
             Signal(nameof(SelectedApplication));
+
+            this.SelectedApplicationServices = this.SelectedApplication.ListService;
         }
     }
 }
