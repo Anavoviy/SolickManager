@@ -129,5 +129,12 @@ namespace SolickManagerV3_4
             CloseIt = true;
             this.Close();
         }
+
+        private void ClientsAndDevices(object sender, MouseButtonEventArgs e)
+        {
+            Navigation.GetInstance().CurrentPage = new ListClientAndDevicePage(Worker);
+
+            DataContext = Navigation.GetInstance();
+        }
     }
 }
