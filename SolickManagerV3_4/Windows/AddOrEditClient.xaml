@@ -38,7 +38,7 @@
                                        FontFamily="Inter"
                                        FontSize="14"
                                        FontWeight="Medium"/>
-                            <TextBox Text="{Binding FirstName}" 
+                            <TextBox Text="{Binding SecondName}" 
                                      Height="20"
                                      Width="215"
                                      Margin="10 0 0 0"
@@ -50,7 +50,7 @@
                                        FontFamily="Inter"
                                        FontSize="14"
                                        FontWeight="Medium"/>
-                            <TextBox Text="{Binding SecondName}"
+                            <TextBox Text="{Binding FirstName}"
                                      HorizontalAlignment="Right"
                                      Height="20"
                                      Width="215"
@@ -75,7 +75,8 @@
                                        FontFamily="Inter"
                                        FontSize="14"
                                        FontWeight="Medium"/>
-                            <TextBox Text="{Binding DataBirthday}" 
+                            <TextBox x:Name="BirthdayTextBox"
+                                     Text="{Binding DataBirthday, UpdateSourceTrigger=PropertyChanged}" 
                                      Height="20"
                                      Width="173"
                                      Margin="10 0 0 0"
@@ -143,7 +144,7 @@
                    Margin="0 30 0 0"/>
             <Border CornerRadius="5" Background="White" Padding="5" >
                 <TextBox Style="{DynamicResource RoundTextBox}"
-                         Text="{Binding Problem}"
+                         Text="{Binding Notes}"
                          TextWrapping="Wrap"
                          FontSize="12"
                          Foreground="Black"

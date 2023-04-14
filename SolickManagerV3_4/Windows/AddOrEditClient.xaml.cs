@@ -20,15 +20,19 @@ namespace SolickManagerV3_4.Windows
     /// </summary>
     public partial class AddOrEditClient : Window
     {
+        private string dataBirthday = "";
+
         // Данные
         public string FirstName { get; set; } = "";
         public string SecondName { get; set; } = "";
         public string Patronymic { get; set; } = "";
-        public string DataBirthday { get; set; } = "";
+        public string DataBirthday { get => dataBirthday; set { dataBirthday = value; DataValid(); } }
         public string Phone { get; set; } = "";
         public string Passport { get; set; } = "";
         public string Email { get; set; } = "";
         public string Notes { get; set; } = "";
+
+        public bool Edit = false;
 
         // Изменяемый клиент
         public Client Client { get; set; }
@@ -46,9 +50,54 @@ namespace SolickManagerV3_4.Windows
             InitializeComponent();
 
             Client = client;
+            Edit = true;
 
             DataContext = this;
         }
 
+        private void DataValid()
+        {
+            DateOnly data;
+            if(DateOnly.TryParse(DataBirthday, out data) || DataBirthday == "")
+            {
+                SaveButton.IsEnabled = true;
+                BirthdayTextBox.Foreground = new SolidColorBrush(Colors.Black);
+            }
+            else
+            {
+                SaveButton.IsEnabled = false;
+                BirthdayTextBox.Foreground = new SolidColorBrush(Colors.Red);
+            }
+        }
+
+        private void SaveApplication(object sender, RoutedEventArgs e)
+        {
+            if(Client == null)
+                Client = new Client();
+            
+            Client.Firstname = this.FirstName;
+            Client.Secondname = this.SecondName;
+            Client.Patronymic = this.Patronymic;
+            Client.Birthday = DateOnly.Parse(DataBirthday);
+            Client.Phone = this.Phone;
+            Client.Email = this.Email;
+            Client.Passport = this.Passport;
+            Client.Notes = this.Notes;
+
+            if (Edit)
+            {
+                DB.Instance.Clients.Update(Client);
+                MessageBox.Show("Клиент изменён!");
+            }
+            else
+            {
+                DB.Instance.Add(Client);
+                MessageBox.Show("Клиент добавлен!");
+            }
+
+            DB.Instance.SaveChanges();
+
+            this.Close();
+        }
     }
 }

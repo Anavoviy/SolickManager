@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SolickManagerV3_4.DTO;
+using SolickManagerV3_4.Windows;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -89,7 +90,8 @@ namespace SolickManagerV3_4.Pages
 
         private void AddNewClient(object sender, RoutedEventArgs e)
         {
-
+            new AddOrEditClient().ShowDialog();
+            Search();
         }
 
         private void EditSelectedClient(object sender, RoutedEventArgs e)
