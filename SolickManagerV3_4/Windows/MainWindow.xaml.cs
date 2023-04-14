@@ -134,7 +134,14 @@ namespace SolickManagerV3_4
         {
             Navigation.GetInstance().CurrentPage = new ListClientAndDevicePage(Worker);
 
-            DataContext = Navigation.GetInstance();
+            DoubleAnimation da = new DoubleAnimation();
+            da.From = MenuPanel.ActualWidth;
+            da.To = 30;
+            da.Duration = TimeSpan.FromMilliseconds(300);
+            da.Completed += CloseEnd;
+            MenuPanel.BeginAnimation(DockPanel.WidthProperty, da);
+
+            Signal();
         }
     }
 }

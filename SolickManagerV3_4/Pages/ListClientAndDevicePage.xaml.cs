@@ -32,19 +32,19 @@ namespace SolickManagerV3_4.Pages
 
 
         private Client selectedClient;
-        private string secondName;
-        private string firstName;
-        private string patronymic;
-        private string dataBirthday;
-        private string phone;
+        private string secondName = "";
+        private string firstName = "";
+        private string patronymic = "";
+        private string dataBirthday = "";
+        private string phone = "";
 
         // Worker
         public Worker Worker { get; set; }
 
         // Данные поиска
-        public string SecondName { get => secondName; set => secondName = value; }
-        public string FirstName { get => firstName; set => firstName = value; }
-        public string Patronymic { get => patronymic; set => patronymic = value; }
+        public string SecondName { get => secondName; set { secondName = value; Search(); } }
+        public string FirstName { get => firstName; set { firstName = value; Search(); } }
+        public string Patronymic { get => patronymic; set { patronymic = value; Search(); } }
         public string DataBirthday { get => dataBirthday; set { dataBirthday = value; Search(); } }
         public string Phone { get => phone; set { phone = value; Search(); } }
 
@@ -72,6 +72,20 @@ namespace SolickManagerV3_4.Pages
 
             DataContext = this;
         }
+        private void Search()
+        {
+            DateOnly data;
+            var result = DB.Instance.Clients.Where(s => (this.FirstName == "" || s.Firstname.ToLower().Contains(this.FirstName.ToLower())) &&
+                                                        (this.SecondName == "" || s.Secondname.ToLower().Contains(this.SecondName.ToLower())) &&
+                                                        (this.Patronymic == "" || s.Patronymic.ToLower().Contains(this.Patronymic.ToLower())) &&
+                                                        (this.DataBirthday == "" || (DateOnly.TryParse(this.DataBirthday, out data) && s.Birthday == data)) &&
+                                                        (this.Phone == "" || s.Phone.Contains(this.Phone)));
+
+            Clients = result.ToList();
+
+            Signal(nameof(Clients));
+        }
+
 
         private void AddNewClient(object sender, RoutedEventArgs e)
         {
@@ -88,14 +102,15 @@ namespace SolickManagerV3_4.Pages
 
         }
 
-        private void Search(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void SaveEditSelectedClient(object sender, RoutedEventArgs e)
         {
+            if(this.SelectedClient != null)
+            {
+                DB.Instance.Clients.Update(this.SelectedClient);
+                DB.Instance.SaveChanges();
 
+                Search();
+            }
         }
 
         private void AddDevice(object sender, RoutedEventArgs e)

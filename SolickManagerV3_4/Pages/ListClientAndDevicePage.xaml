@@ -96,7 +96,7 @@
                         <DataGrid.Columns>
                             <DataGridTextColumn Width="60*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Код" Binding="{Binding Id}"/>
                             <DataGridTextColumn Width="140*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="ФИО" Binding="{Binding }"/>
-                            <DataGridTextColumn Width="120*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Дата рождения" Binding="{Binding Birthday}"/>
+                            <DataGridTextColumn Width="120*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Дата рождения" Binding="{Binding DateView}"/>
                             <DataGridTextColumn Width="120*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Номер телефона" Binding="{Binding Phone}"/>
                             <DataGridTextColumn Width="140*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Email" Binding="{Binding Email}"/>
                             <DataGridTextColumn Width="200*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Заметки" Binding="{Binding Notes}"/>
@@ -245,7 +245,7 @@
                                      BorderThickness="0"
                                      Background="White"
                                      Style="{DynamicResource RoundTextBox}"
-                                     Text="{Binding SecondName, UpdateSourceTrigger=PropertyChanged}"/>
+                                     Text="{Binding DataBirthday, UpdateSourceTrigger=PropertyChanged}"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <Label Content="Телефон"
@@ -263,7 +263,7 @@
                                      BorderThickness="0"
                                      Background="White"
                                      Style="{DynamicResource RoundTextBox}"
-                                     Text="{Binding SecondName, UpdateSourceTrigger=PropertyChanged}"/>
+                                     Text="{Binding Phone, UpdateSourceTrigger=PropertyChanged}"/>
                         </StackPanel>
                     </StackPanel>
                 </Border>

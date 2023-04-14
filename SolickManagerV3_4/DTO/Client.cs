@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Windows.Markup;
 
 namespace SolickManagerV3_4.DTO;
 
@@ -37,6 +38,14 @@ public partial class Client
         get
         {
             return Secondname + " " + Firstname + " " + Patronymic;
+        }
+    }
+    [NotMapped]
+    public string DateView
+    {
+        get
+        {
+            return Birthday.ToString();
         }
     }
 
