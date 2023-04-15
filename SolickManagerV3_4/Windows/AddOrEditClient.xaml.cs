@@ -50,6 +50,24 @@ namespace SolickManagerV3_4.Windows
             InitializeComponent();
 
             Client = client;
+
+            this.FirstName = Client.Firstname;
+            this.SecondName = Client.Secondname;
+            this.DataBirthday = Client.DateView;
+            
+            if(Client.Phone != null) 
+            this.Phone = Client.Phone;
+            if (Client.Patronymic != null)
+                this.Patronymic = Client.Patronymic;
+    
+            if (Client.Passport != null)
+                this.Passport = Client.Passport;
+            if(Client.Email != null)
+                this.Email = Client.Email;
+            
+            if(Client.Notes != null) 
+                this.Notes = Client.Notes;
+
             Edit = true;
 
             DataContext = this;

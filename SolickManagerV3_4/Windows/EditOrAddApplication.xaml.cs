@@ -82,7 +82,7 @@ namespace SolickManagerV3_4.Windows
             InitializeComponent();
 
             Worker = worker;
-            Clients = DB.Instance.Clients.ToList();
+            FilterClients();
 
             DataContext = this;
         }
@@ -91,7 +91,7 @@ namespace SolickManagerV3_4.Windows
             InitializeComponent();
 
             Worker = worker;
-            Clients = DB.Instance.Clients.ToList();
+            FilterClients();
 
             this.DataApplication = application.DateView;
             this.SelectedClient = application.IdclientNavigation;
@@ -106,9 +106,10 @@ namespace SolickManagerV3_4.Windows
         // Фильтрация 
         public void FilterClients()
         {
-            var rezultClient = DB.Instance.Clients.Where(s => (s.Firstname.ToLower().Contains(this.FirstName.ToLower()) || this.FirstName == "")
+            var rezultClient = DB.Instance.Clients.Where(s => ((s.Firstname.ToLower().Contains(this.FirstName.ToLower()) || this.FirstName == "")
                                                    && (s.Secondname.ToLower().Contains(this.SecondName.ToLower()) || this.SecondName == "")
-                                                   && (s.Patronymic.ToLower().Contains(this.Patronymic.ToLower()) || this.Patronymic == ""));
+                                                   && (s.Patronymic.ToLower().Contains(this.Patronymic.ToLower()) || this.Patronymic == ""))
+                                                   && s.Deleted == false);
 
             this.Clients = rezultClient.ToList();
 
@@ -116,10 +117,11 @@ namespace SolickManagerV3_4.Windows
         }
         public void FilterDevice()
         {
-            var rezultDevice = DB.Instance.Clientsdevices.Where(s => (this.SelectedClient == null || s.Idclient == this.SelectedClient.Id)
+            var rezultDevice = DB.Instance.Clientsdevices.Where(s => ((this.SelectedClient == null || s.Idclient == this.SelectedClient.Id)
                                                                 && (this.Model == "" || s.Model.ToLower().Contains(this.Model.ToLower()))
                                                                 && (this.Description == "" || s.Description.ToLower().Contains(this.Description.ToLower()))
-                                                                && (this.Cost == 0 || s.Cost == this.Cost));
+                                                                && (this.Cost == 0 || s.Cost == this.Cost))
+                                                                && s.Deleted == false);
 
             this.Clientsdevices = rezultDevice.ToList();
 

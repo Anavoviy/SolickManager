@@ -69,20 +69,20 @@ namespace SolickManagerV3_4.Pages
         {
             InitializeComponent();
 
-            Clients = DB.Instance.Clients.Include(s => s.Clientsdevices).ToList();
+            Search();
 
             DataContext = this;
         }
         private void Search()
         {
             DateOnly data;
-            var result = DB.Instance.Clients.Where(s => (this.FirstName == "" || s.Firstname.ToLower().Contains(this.FirstName.ToLower())) &&
+            var result = DB.Instance.Clients.Include(s => s.Clientsdevices).Include(s => s.Applications).Where(s => ((this.FirstName == "" || s.Firstname.ToLower().Contains(this.FirstName.ToLower())) &&
                                                         (this.SecondName == "" || s.Secondname.ToLower().Contains(this.SecondName.ToLower())) &&
                                                         (this.Patronymic == "" || s.Patronymic.ToLower().Contains(this.Patronymic.ToLower())) &&
                                                         (this.DataBirthday == "" || (DateOnly.TryParse(this.DataBirthday, out data) && s.Birthday == data)) &&
-                                                        (this.Phone == "" || s.Phone.Contains(this.Phone)));
+                                                        (this.Phone == "" || s.Phone.Contains(this.Phone))) && s.Deleted == false);
 
-            Clients = result.ToList();
+            Clients = result.OrderBy(s => s.Id).ToList();
 
             Signal(nameof(Clients));
         }
@@ -96,12 +96,43 @@ namespace SolickManagerV3_4.Pages
 
         private void EditSelectedClient(object sender, RoutedEventArgs e)
         {
+            if (this.SelectedClient != null)
+                new AddOrEditClient(this.SelectedClient).ShowDialog();
+            else
+                MessageBox.Show("Не выбран клиент!");
 
+            Search();
         }
 
         private void DeleteSelectedClient(object sender, RoutedEventArgs e)
         {
+            if(this.SelectedClient != null)
+            {
+                if ((bool)new ConfirmationWindow("Вы хотите удалить клиента и все связанные с ним данные (устройства, заявки)?").ShowDialog())
+                {
+                    for (int i = 0; i < SelectedClient.Clientsdevices.Count; i++)
+                    {
+                        Clientsdevice clientDevice = SelectedClient.Clientsdevices.ToList()[i];
+                        clientDevice.Deleted = true;
+                        DB.Instance.Clientsdevices.Update(clientDevice);
+                    }
+                    for (int i = 0; i < SelectedClient.Applications.Count; i++)
+                    {
+                        DTO.Application application = SelectedClient.Applications.ToList()[i];
+                        application.Deleted = true;
+                        DB.Instance.Applications.Update(application);
+                    }
 
+                    SelectedClient.Deleted = true;
+                    DB.Instance.Clients.Update(SelectedClient);
+
+                    DB.Instance.SaveChanges();
+                }
+            }
+            else
+                MessageBox.Show("Не выбран клиент!");
+
+            Search();
         }
 
         private void SaveEditSelectedClient(object sender, RoutedEventArgs e)

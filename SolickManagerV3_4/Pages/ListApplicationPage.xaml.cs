@@ -87,7 +87,7 @@ namespace SolickManagerV3_4.Pages
             InitializeComponent();
             Worker = worker;
 
-            Applications = DB.Instance.Applications.Include(s => s.IdclientNavigation).Include(s => s.IddeviceNavigation).ToList();
+            Search();
             StatusesList = FillStatusesList();
 
             DataContext = this;
@@ -139,45 +139,43 @@ namespace SolickManagerV3_4.Pages
             var result = DB.Instance.Applications
                 .Include(s => s.IdclientNavigation)
                 .Include(s => s.IddeviceNavigation)
-                .Where(s =>
+                .Where(s => (
                     s.Status.ToLower().Contains(searchText.ToLower()) ||
                     s.Problem.ToLower().Contains(searchText.ToLower()) ||
                     s.IdclientNavigation.Firstname.ToLower().Contains(searchText.ToLower()) ||
                     s.IdclientNavigation.Secondname.ToLower().Contains(searchText.ToLower()) ||
                     s.IdclientNavigation.Patronymic.ToLower().Contains(searchText.ToLower()) ||
                     s.IddeviceNavigation.Model.ToLower().Contains(searchText.ToLower())
+                    ) && s.Deleted == false
                     );
             if (StatusIndex == 0)
             {
-                Applications = result.ToList();
+                Applications = result.OrderBy(s => s.Id).ToList();
             }
             else
             {
-                Applications = result.Where(s => s.Status == StatusesList[StatusIndex]).ToList();
+                Applications = result.Where(s => s.Status == StatusesList[StatusIndex]).OrderBy(s => s.Id).ToList();
             }
 
             if (DataStart != "" && DataEnd == "")
             {
                 DateOnly StartData;
                 if (DateOnly.TryParse(DataStart, out StartData))
-                    Applications = Applications.Where(s => s.Data >= StartData).ToList();
+                    Applications = Applications.Where(s => s.Data >= StartData).OrderBy(s => s.Id).ToList();
             }
             else if (DataEnd != "" && DataStart == "")
             {
                 DateOnly EndData;
                 if (DateOnly.TryParse(DataEnd, out EndData))
-                    Applications = Applications.Where(s => s.Data <= EndData).ToList();
+                    Applications = Applications.Where(s => s.Data <= EndData).OrderBy(s => s.Id).ToList();
             }
             else
             {
                 DateOnly StartData;
                 DateOnly EndData;
                 if (DateOnly.TryParse(DataEnd, out EndData) && DateOnly.TryParse(DataStart, out StartData))
-                    Applications = Applications.Where(s => s.Data <= EndData && s.Data >= StartData).ToList();
+                    Applications = Applications.Where(s => s.Data <= EndData && s.Data >= StartData).OrderBy(s => s.Id).ToList();
             }
-
-            Applications.OrderBy(s => s.Id);
-
 
             Signal(nameof(Applications));
         }
@@ -208,39 +206,46 @@ namespace SolickManagerV3_4.Pages
         {
             if(SelectedApplication != null)
             {
-                if(DB.Instance.Applicationservices.FirstOrDefault(s => s.Idapplication == this.SelectedApplication.Id) != null)
+                if ((bool)new ConfirmationWindow("Вы хотите удалить заявку и все связанные с ней данные?").ShowDialog())
                 {
-                    var list = DB.Instance.Applicationservices.Where(s => s.Idapplication == this.SelectedApplication.Id).ToList();
-                    foreach (var appServ in list) 
+                    if (DB.Instance.Applicationservices.FirstOrDefault(s => s.Idapplication == this.SelectedApplication.Id) != null)
                     {
-                        DB.Instance.Applicationservices.Remove(appServ);
+                        var list = DB.Instance.Applicationservices.Where(s => s.Idapplication == this.SelectedApplication.Id).ToList();
+                        foreach (var appServ in list)
+                        {
+                            appServ.Deleted = true;
+                            DB.Instance.Applicationservices.Update(appServ);
+                        }
                     }
-                }
-                if (DB.Instance.Applicationproducts.FirstOrDefault(s => s.Idapplication == this.SelectedApplication.Id) != null)
-                {
-                    var list = DB.Instance.Applicationproducts.Where(s => s.Idapplication == this.SelectedApplication.Id).ToList();
-                    foreach (var appProd in list)
+                    if (DB.Instance.Applicationproducts.FirstOrDefault(s => s.Idapplication == this.SelectedApplication.Id) != null)
                     {
-                        DB.Instance.Applicationproducts.Remove(appProd);
+                        var list = DB.Instance.Applicationproducts.Where(s => s.Idapplication == this.SelectedApplication.Id).ToList();
+                        foreach (var appProd in list)
+                        {
+                            appProd.Deleted = true;
+                            DB.Instance.Applicationproducts.Update(appProd);
+                        }
                     }
-                }
-                if (DB.Instance.Applicationassemblies.FirstOrDefault(s => s.Idapplication == this.SelectedApplication.Id) != null)
-                {
-                    var list = DB.Instance.Applicationassemblies.Where(s => s.Idapplication == this.SelectedApplication.Id).ToList();
-                    foreach (var appAssem in list)
+                    if (DB.Instance.Applicationassemblies.FirstOrDefault(s => s.Idapplication == this.SelectedApplication.Id) != null)
                     {
-                        DB.Instance.Applicationassemblies.Remove(appAssem);
+                        var list = DB.Instance.Applicationassemblies.Where(s => s.Idapplication == this.SelectedApplication.Id).ToList();
+                        foreach (var appAssem in list)
+                        {
+                            appAssem.Deleted = true;
+                            DB.Instance.Applicationassemblies.Update(appAssem);
+                        }
                     }
+
+                    SelectedApplication.Deleted = true;
+                    DB.Instance.Applications.Update(SelectedApplication);
+
+                    DB.Instance.SaveChanges();
+
+                    MessageBox.Show("Выбранная заявка удалена!");
+
+                    StatusesList = FillStatusesList();
+                    Signal(nameof(StatusesList));
                 }
-
-                DB.Instance.Applications.Remove(SelectedApplication);
-
-                DB.Instance.SaveChanges();
-
-                MessageBox.Show("Выбранная заявка удалена!");
-
-                StatusesList = FillStatusesList();
-                Signal(nameof(StatusesList));
             }
             else
                 MessageBox.Show("Не выбрана ни одна заявка!");
@@ -254,7 +259,8 @@ namespace SolickManagerV3_4.Pages
         {
             if (SelectedServiceInSelectedApplication != null)
             {
-                DB.Instance.Applicationservices.Remove(SelectedServiceInSelectedApplication);
+                SelectedServiceInSelectedApplication.Deleted = true;
+                DB.Instance.Applicationservices.Update(SelectedServiceInSelectedApplication);
                 DB.Instance.SaveChanges();
 
                 Signal(nameof(SelectedApplication));

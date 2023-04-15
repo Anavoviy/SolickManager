@@ -69,8 +69,9 @@ namespace SolickManagerV3_4.Windows
 
         private void FilterService()
         {
-            var result = DB.Instance.Services.Where(s => (s.Title.ToLower().Contains(Title.ToLower()) || Title == "") &&
-                                                         (Description == "" || s.Description.ToLower().Contains(Description.ToLower())));
+            var result = DB.Instance.Services.Where(s => ((s.Title.ToLower().Contains(Title.ToLower()) || Title == "") &&
+                                                         (Description == "" || s.Description.ToLower().Contains(Description.ToLower()))) 
+                                                         && s.Deleted == false);
 
             Services = result.ToList();
 
@@ -78,9 +79,10 @@ namespace SolickManagerV3_4.Windows
         }
         private void FilterWorker()
         {
-            var result = DB.Instance.Workers.Where(s => (this.SecondName == "" || s.Surname.ToLower().Contains(this.SecondName.ToLower())) &&
+            var result = DB.Instance.Workers.Where(s => ((this.SecondName == "" || s.Surname.ToLower().Contains(this.SecondName.ToLower())) &&
                                                         (this.FirstName == "" || s.Firstname.ToLower().Contains(this.FirstName.ToLower())) &&
-                                                        (this.Patronymic == "" || s.Patronymic.ToLower().Contains(this.Patronymic.ToLower())));
+                                                        (this.Patronymic == "" || s.Patronymic.ToLower().Contains(this.Patronymic.ToLower())))
+                                                        && s.Deleted == false);
 
             Workers = result.ToList();
 
