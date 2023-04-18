@@ -47,7 +47,7 @@ public partial class Application
         {
             double sum = 0;
 
-            var ApplicationServices = DB.Instance.Applicationservices.Include(s => s.IdserviceNavigation).Where(s => s.Idapplication == this.Id);
+            var ApplicationServices = DB.Instance.Applicationservices.Include(s => s.IdserviceNavigation).Where(s => s.Idapplication == this.Id && s.Deleted == false);
 
                     foreach(var applicationService in ApplicationServices)
                     {

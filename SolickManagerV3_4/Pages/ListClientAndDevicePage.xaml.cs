@@ -56,10 +56,15 @@ namespace SolickManagerV3_4.Pages
             set
             {
                 selectedClient = value;
+                if(SelectedClient != null)
+                    Clientsdevices = SelectedClient.Clientsdevices.Where(s => s.Deleted == false).ToList();
+
+                Signal(nameof(Clientsdevices));
                 Signal();
             }
         }
 
+        public List<Clientsdevice> Clientsdevices { get; set; } = new List<Clientsdevice>();
         public Clientsdevice SelectedDeviceInSelectedClient { get; set; }
 
         // Основной list
@@ -148,12 +153,27 @@ namespace SolickManagerV3_4.Pages
 
         private void AddDevice(object sender, RoutedEventArgs e)
         {
+            if (SelectedClient != null)
+                new AddClient_sDeviceWindow(SelectedClient).ShowDialog();
+
+            Search();
+            SelectedClient = Clients.FirstOrDefault(s => s.Id == this.SelectedClient.Id);
+            Signal(nameof(SelectedClient));
 
         }
 
         private void DeleteDevice(object sender, RoutedEventArgs e)
         {
+            if(SelectedClient != null && SelectedDeviceInSelectedClient != null)
+            {
+                SelectedDeviceInSelectedClient.Deleted = true;
+                DB.Instance.Clientsdevices.Update(SelectedDeviceInSelectedClient);
+                DB.Instance.SaveChanges();
 
+                Search();
+                SelectedClient = Clients.FirstOrDefault(s => s.Id == this.SelectedClient.Id);
+                Signal(nameof(SelectedClient));
+            }
         }
     }
 }

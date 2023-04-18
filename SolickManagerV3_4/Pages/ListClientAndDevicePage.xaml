@@ -322,7 +322,7 @@
                                         FontFamily="Inter/#Inter-V.ttf"
                                         Height="24"/>
                                 <ListView BorderThickness="0"
-                                         ItemsSource="{Binding SelectedClient.Clientsdevices}"
+                                         ItemsSource="{Binding Clientsdevices}"
                                          SelectedItem="{Binding SelectedDeviceInSelectedClient}"
                                          DisplayMemberPath="Model"
                                          FontSize="12"

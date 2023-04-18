@@ -63,7 +63,7 @@ namespace SolickManagerV3_4.Pages
                 selectedApplication = value;
                 if (selectedApplication != null) {
                     SelectedStatusIndex = EditStatusesList.IndexOf(SelectedApplication.Status);
-                    SelectedApplicationServices = this.SelectedApplication.ListService;
+                    SelectedApplicationServices = this.SelectedApplication.ListService.Where(s => s.Deleted == false).ToList();
                         }
                 Signal(nameof(SelectedStatusIndex));
                 Signal(nameof(SelectedApplicationServices));
@@ -263,12 +263,15 @@ namespace SolickManagerV3_4.Pages
                 DB.Instance.Applicationservices.Update(SelectedServiceInSelectedApplication);
                 DB.Instance.SaveChanges();
 
-                Signal(nameof(SelectedApplication));
-
-                this.SelectedApplicationServices = this.SelectedApplication.ListService;
+                
             }
             else
                 MessageBox.Show("Не выбрана ни одна услуга!");
+
+            Search();
+
+            this.SelectedApplicationServices = Applications.FirstOrDefault(s => s.Id == this.SelectedApplication.Id).ListService.Where(s => s.Deleted == false).ToList();
+            Signal(nameof(SelectedApplicationServices));
         }
         private void AddCrossApplicationService(object sender, RoutedEventArgs e)
         {
@@ -276,7 +279,7 @@ namespace SolickManagerV3_4.Pages
 
             Signal(nameof(SelectedApplication));
 
-            this.SelectedApplicationServices = this.SelectedApplication.ListService;
+            this.SelectedApplicationServices = this.SelectedApplication.ListService.Where(s => s.Deleted == false).ToList();
         }
     }
 }
