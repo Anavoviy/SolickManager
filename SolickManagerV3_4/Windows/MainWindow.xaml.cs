@@ -81,6 +81,16 @@ namespace SolickManagerV3_4
         //Анимация бокового меню
         private void AnimationMenu(object sender, RoutedEventArgs e)
         {
+            OpenMenu();
+        }
+        private void AnimationCloseMenu(object sender, RoutedEventArgs e)
+        {
+            CloseMenu();
+        }
+
+        // Методы боковго окна
+        private void OpenMenu()
+        {
             MenuPanel.Visibility = Visibility.Visible;
 
             DoubleAnimation da = new DoubleAnimation();
@@ -90,8 +100,7 @@ namespace SolickManagerV3_4
 
             MenuPanel.BeginAnimation(DockPanel.WidthProperty, da);
         }
-
-        private void AnimationCloseMenu(object sender, RoutedEventArgs e)
+        private void CloseMenu()
         {
             DoubleAnimation da = new DoubleAnimation();
             da.From = MenuPanel.ActualWidth;
@@ -102,7 +111,6 @@ namespace SolickManagerV3_4
 
             Signal();
         }
-
         private void CloseEnd(object? sender, EventArgs e)
         {
             MenuPanel.Visibility = Visibility.Collapsed;
@@ -130,16 +138,84 @@ namespace SolickManagerV3_4
             this.Close();
         }
 
+        // Переходы по вкладкам бокового меню
+        private void Applications(object sender, MouseButtonEventArgs e)
+        {
+            Navigation.GetInstance().CurrentPage = new ListApplicationPage(Worker);
+
+            CloseMenu();
+
+            Signal();
+        }
         private void ClientsAndDevices(object sender, MouseButtonEventArgs e)
         {
             Navigation.GetInstance().CurrentPage = new ListClientAndDevicePage(Worker);
+            
+            CloseMenu();
+            
+            Signal();
+        }
+        private void Services(object sender, MouseButtonEventArgs e)
+        {
+            Navigation.GetInstance().CurrentPage = new ListServicesPage(Worker);
 
-            DoubleAnimation da = new DoubleAnimation();
-            da.From = MenuPanel.ActualWidth;
-            da.To = 30;
-            da.Duration = TimeSpan.FromMilliseconds(300);
-            da.Completed += CloseEnd;
-            MenuPanel.BeginAnimation(DockPanel.WidthProperty, da);
+            CloseMenu();
+
+            Signal();
+        }
+        private void Assemblies(object sender, MouseButtonEventArgs e)
+        {
+            Navigation.GetInstance().CurrentPage = new ListAssembliesPage(Worker);
+
+            CloseMenu();
+
+            Signal();
+        }
+        private void Products(object sender, MouseButtonEventArgs e)
+        {
+            Navigation.GetInstance().CurrentPage = new ListProductsPage(Worker);
+
+            CloseMenu();
+
+            Signal();
+        }
+        private void WareHouse(object sender, MouseButtonEventArgs e)
+        {
+            Navigation.GetInstance().CurrentPage = new WareHousePage(Worker);
+
+            CloseMenu();
+
+            Signal();
+        }
+        private void Accounting(object sender, MouseButtonEventArgs e)
+        {
+            Navigation.GetInstance().CurrentPage = new AccountingPage(Worker);
+
+            CloseMenu();
+
+            Signal();
+        }
+        private void Management(object sender, MouseButtonEventArgs e)
+        {
+            Navigation.GetInstance().CurrentPage = new ManagementPage(Worker);
+
+            CloseMenu();
+
+            Signal();
+        }
+        private void Reports(object sender, MouseButtonEventArgs e)
+        {
+            Navigation.GetInstance().CurrentPage = new ReportsPage(Worker);
+
+            CloseMenu();
+
+            Signal();
+        }
+        private void Settings(object sender, MouseButtonEventArgs e)
+        {
+            Navigation.GetInstance().CurrentPage = new SettingsPage(Worker);
+
+            CloseMenu();
 
             Signal();
         }

@@ -106,7 +106,7 @@
                     </Button>
                 </Grid>
                 <Rectangle Width="300" Height="1" Fill="White"/>
-                <Border Height="36" Width="280" Padding="3" CornerRadius="5" Margin="10 20 10 0" Style="{DynamicResource RightMenuElement}">
+                <Border Height="36" Width="280" Padding="3" CornerRadius="5" Margin="10 20 10 0" Style="{DynamicResource RightMenuElement}" MouseLeftButtonDown="Applications">
                     <StackPanel  Orientation="Horizontal">
                         <Image Source="/Windows/Images/Application.png" Height="30" Width="30" HorizontalAlignment="Left"/>
                         <Label Content="Заявки"
@@ -118,7 +118,7 @@
                     </StackPanel>
                 </Border>
 
-                <Border Height="36" Width="280" Padding="3" CornerRadius="5" Margin="10 20 10 0" Style="{DynamicResource RightMenuElement}" MouseLeftButtonDown="ClientsAndDevices">
+                <Border Height="36" Width="280" Padding="3" CornerRadius="5" Margin="10 10 10 10" Style="{DynamicResource RightMenuElement}" MouseLeftButtonDown="ClientsAndDevices">
                     <StackPanel  Orientation="Horizontal">
                         <Image Source="/Windows/Images/Clients.png" Height="30" Width="30" HorizontalAlignment="Left"/>
                         <Label Content="Клиенты и устройства"
@@ -131,7 +131,7 @@
                 </Border>
                 <Rectangle Width="250" Height="1" Fill="White" HorizontalAlignment="Left"/>
 
-                <Border Height="36" Width="280" Padding="3" CornerRadius="5" Margin="10 20 10 0" Style="{DynamicResource RightMenuElement}">
+                <Border Height="36" Width="280" Padding="3" CornerRadius="5" Margin="10 15 10 0" Style="{DynamicResource RightMenuElement}" MouseLeftButtonDown="Services">
                     <StackPanel  Orientation="Horizontal">
                         <Image Source="/Windows/Images/Service.png" Height="30" Width="30" HorizontalAlignment="Left"/>
                         <Label Content="Услуги"
@@ -142,7 +142,7 @@
                        FontFamily="Inter/#Inter-V.ttf"/>
                     </StackPanel>
                 </Border>
-                <Border Height="36" Width="280" Padding="3" CornerRadius="5" Margin="10 20 10 0" Style="{DynamicResource RightMenuElement}">
+                <Border Height="36" Width="280" Padding="3" CornerRadius="5" Margin="10 10 10 0" Style="{DynamicResource RightMenuElement}" MouseLeftButtonDown="Assemblies">
                     <StackPanel  Orientation="Horizontal">
                         <Image Source="/Windows/Images/Assemblies.png" Height="30" Width="30" HorizontalAlignment="Left"/>
                         <Label Content="Сборки и группы товаров"
@@ -153,7 +153,7 @@
                        FontFamily="Inter/#Inter-V.ttf"/>
                     </StackPanel>
                 </Border>
-                <Border Height="36" Width="280" Padding="3" Margin="10 20 10 0" CornerRadius="5" Style="{DynamicResource RightMenuElement}">
+                <Border Height="36" Width="280" Padding="3" Margin="10 10 10 10" CornerRadius="5" Style="{DynamicResource RightMenuElement}" MouseLeftButtonDown="Products">
                     <StackPanel  Orientation="Horizontal">
                         <Image Source="/Windows/Images/Produxts.png" Height="30" Width="30" HorizontalAlignment="Left"/>
                         <Label Content="Товары"
@@ -166,7 +166,7 @@
                 </Border>
                 <Rectangle Width="250" Height="1" Fill="White" HorizontalAlignment="Left"/>
 
-                <Border Height="36" Width="280" Padding="3" CornerRadius="5" Margin="10 20 10 0" Style="{DynamicResource RightMenuElement}">
+                <Border Height="36" Width="280" Padding="3" CornerRadius="5" Margin="10 15 10 0" Style="{DynamicResource RightMenuElement}" MouseLeftButtonDown="WareHouse">
                     <StackPanel  Orientation="Horizontal">
                         <Image Source="/Windows/Images/sklad.png" Height="30" Width="30" HorizontalAlignment="Left"/>
                         <Label Content="Склад"
@@ -177,7 +177,7 @@
                        FontFamily="Inter/#Inter-V.ttf"/>
                     </StackPanel>
                 </Border>
-                <Border Height="36" Width="280" Padding="3" CornerRadius="5" Margin="10 20 10 0" Style="{DynamicResource RightMenuElement}">
+                <Border Height="36" Width="280" Padding="3" CornerRadius="5" Margin="10 10 10 0" Style="{DynamicResource RightMenuElement}" MouseLeftButtonDown="Accounting">
                     <StackPanel  Orientation="Horizontal">
                         <Image Source="/Windows/Images/money.png" Height="30" Width="30" HorizontalAlignment="Left"/>
                         <Label Content="Бухгалтерия"
@@ -188,7 +188,7 @@
                        FontFamily="Inter/#Inter-V.ttf"/>
                     </StackPanel>
                 </Border>
-                <Border Height="36" Width="280" Padding="3" CornerRadius="5" Margin="10 20 10 0" Style="{DynamicResource RightMenuElement}">
+                <Border Height="36" Width="280" Padding="3" CornerRadius="5" Margin="10 10 10 0" Style="{DynamicResource RightMenuElement}" MouseLeftButtonDown="Management">
                     <StackPanel  Orientation="Horizontal">
                         <Image Source="/Windows/Images/managment.png" Height="30" Width="30" HorizontalAlignment="Left"/>
                         <Label Content="Менеджмент"
@@ -199,7 +199,7 @@
                        FontFamily="Inter/#Inter-V.ttf"/>
                     </StackPanel>
                 </Border>
-                <Border Height="36" Width="280" Padding="3" CornerRadius="5" Margin="10 20 10 0" Style="{DynamicResource RightMenuElement}">
+                <Border Height="36" Width="280" Padding="3" CornerRadius="5" Margin="10 10 10 0" Style="{DynamicResource RightMenuElement}" MouseLeftButtonDown="Reports">
                     <StackPanel  Orientation="Horizontal">
                         <Image Source="/Windows/Images/otchet.png" Height="30" Width="30" HorizontalAlignment="Left"/>
                         <Label Content="Отчёты"
@@ -214,7 +214,7 @@
                 
             </StackPanel>
             <StackPanel DockPanel.Dock="Bottom" Height="auto" VerticalAlignment="Bottom">
-                <Border Height="36" Width="280" Padding="3" CornerRadius="5" Margin="10 20 10 0" Style="{DynamicResource RightMenuElement}">
+                <Border Height="36" Width="280" Padding="3" CornerRadius="5" Margin="10 20 10 0" Style="{DynamicResource RightMenuElement}" MouseLeftButtonDown="Settings">
                     <StackPanel  Orientation="Horizontal">
                         <Image Source="/Windows/Images/settings.png" Height="30" Width="30" HorizontalAlignment="Left"/>
                         <Label Content="Настройки"
@@ -225,7 +225,7 @@
                        FontFamily="Inter/#Inter-V.ttf"/>
                     </StackPanel>
                 </Border>
-                <Border Height="36" Width="280" Padding="3" CornerRadius="5" Margin="10 20 10 0" Style="{DynamicResource RightMenuElement}" VerticalAlignment="Bottom" MouseLeftButtonDown="Exit">
+                <Border Height="36" Width="280" Padding="3" CornerRadius="5" Margin="10 10 10 10" Style="{DynamicResource RightMenuElement}" VerticalAlignment="Bottom" MouseLeftButtonDown="Exit">
                     <StackPanel  Orientation="Horizontal">
                         <Image Source="/Windows/Images/Exit2.png" Height="30" Width="30" HorizontalAlignment="Left"/>
                         <Label Content="Выйти"
