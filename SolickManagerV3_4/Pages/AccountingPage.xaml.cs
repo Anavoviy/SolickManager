@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SolickManagerV3_4.DTO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,14 @@ namespace SolickManagerV3_4.Pages
     /// </summary>
     public partial class AccountingPage : Page
     {
+        //Работник за приложением
+        public Worker Worker { get; set; }
+
         public AccountingPage(DTO.Worker worker)
         {
             InitializeComponent();
+        
+            Worker = worker;
         }
     }
 }

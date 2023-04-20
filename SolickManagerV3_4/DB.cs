@@ -21,7 +21,5 @@ namespace SolickManagerV3_4
             }
             set => solickManager = value;
         }
-
-        
     }
 }

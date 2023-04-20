@@ -21,16 +21,16 @@ namespace SolickManagerV3_4.Pages
     /// </summary>
     public partial class SettingsPage : Page
     {
-        public SettingsPage()
-        {
-            InitializeComponent();
-        }
+        //Работник за приложением
+        public Worker Worker { get; set; }
 
         public SettingsPage(Worker worker)
         {
+            InitializeComponent();
+
             Worker = worker;
         }
 
-        public Worker Worker { get; }
+      
     }
 }

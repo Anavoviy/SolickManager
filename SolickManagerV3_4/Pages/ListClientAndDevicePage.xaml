@@ -54,6 +54,7 @@
                         <DataGrid.CellStyle>
                             <Style TargetType="{x:Type DataGridCell}">
                                 <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                <Setter Property="VerticalAlignment" Value="Center"/>
                                 <Setter Property="FontFamily" Value="Inter"/>
                                 <Setter Property="FontSize" Value="11"/>
 

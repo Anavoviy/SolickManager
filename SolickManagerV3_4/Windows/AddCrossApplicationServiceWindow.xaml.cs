@@ -23,7 +23,7 @@ namespace SolickManagerV3_4.Windows
     /// </summary>
     public partial class AddCrossApplicationServiceWindow : Window, INotifyPropertyChanged
     {
-        private string title = "";
+        private string searchTitle = "";
         private string descripton = "";
         private decimal cost = 0;
         private string secondName = "";
@@ -37,7 +37,7 @@ namespace SolickManagerV3_4.Windows
         }
 
         // Данные новой услуги
-        public string Title { get => title; set { title = value; FilterService(); } }
+        public string SearchTitle { get => searchTitle; set { searchTitle = value; FilterService(); } }
         public string Description { get => descripton; set { descripton = value; FilterService(); } }
         public decimal Cost { get => cost; set { cost = value; FilterService(); ValidCost(); } }
 

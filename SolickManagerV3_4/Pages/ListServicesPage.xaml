@@ -5,10 +5,324 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:SolickManagerV3_4.Pages"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="680" d:DesignWidth="1280"
       Title="ListServicesPage">
 
     <Grid>
-        
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="310"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+
+            <Grid>
+                <Border Background="White"
+                        CornerRadius="10"
+                        MinWidth="940"
+                        MinHeight="580"
+                        BorderThickness="0"
+                        Margin="20 25 10 00"
+                        Padding="0 20 0 0">
+
+                    <DataGrid Style="{DynamicResource DataGridSolickStyle}" AutoGenerateColumns="False" 
+                              HeadersVisibility="Column"
+                              IsReadOnly="true"
+                              ItemsSource="{Binding Services}"
+                              SelectedItem="{Binding SelectedService}"
+                              HorizontalAlignment="Left"
+                              MinWidth="940"
+                              Width="auto"
+                              Height="auto"
+                              HorizontalGridLinesBrush="Transparent"
+                              VerticalGridLinesBrush="Transparent">
+                        <DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="Background" Value="#3993DD"/>
+                                <Setter Property="Foreground" Value="White"/>
+                                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                <Setter Property="Padding" Value="5 1"/>
+                            </Style>
+                        </DataGrid.ColumnHeaderStyle>
+                        <DataGrid.CellStyle>
+                            <Style TargetType="{x:Type DataGridCell}">
+                                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                <Setter Property="FontFamily" Value="Inter"/>
+                                <Setter Property="FontSize" Value="11"/>
+
+                                <Style.Triggers>
+                                    <Trigger Property="IsSelected" Value="True" >
+                                        <Setter Property="Background" Value="#24FFE9" />
+                                        <Setter Property="Foreground" Value="Black" />
+
+                                        <Setter Property="BorderThickness" Value="0"/>
+                                    </Trigger>
+
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGrid.CellStyle>
+                        <DataGrid.RowStyle>
+                            <Style TargetType="{x:Type DataGridRow}">
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="Background" Value="White"/>
+                                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                <Setter Property="FontFamily" Value="Inter"/>
+                                <Setter Property="FontSize" Value="11"/>
+
+                                <Style.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter Property="Background" Value="#24FFE9"/>
+                                        <Setter Property="Foreground" Value="Black"/>
+                                    </Trigger>
+
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#B5FFF8" />
+                                        <Setter Property="Foreground" Value="Black" />
+
+                                        <Setter Property="BorderThickness" Value="0"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGrid.RowStyle>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Width="60*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Код" Binding="{Binding Id}"/>
+                            <DataGridTextColumn Width="240*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Название" Binding="{Binding Title}"/>
+                            <DataGridTextColumn Width="500*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Описание" Binding="{Binding Description}"/>
+                            <DataGridTextColumn Width="140*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Стоимость" Binding="{Binding CostView}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Border>
+
+                <Grid Height="34" VerticalAlignment="Top" Margin="20 5 10 0">
+                    <Label Content="Услуги" 
+                           FontFamily="Assets/Inter/#Inter-V.ttf"
+                           FontSize="22"
+                           Margin="10 0 0 0"
+                           HorizontalAlignment="Left"/>
+                    <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                        <Button Style="{DynamicResource ButtonRoundStyle}" Margin="0 0 10 0"
+                                Click="AddNewService">
+                            <Border CornerRadius="5"
+                                    BorderThickness="0"
+                                    Background="#F0F0F0"
+                                    Height="32"
+                                    Width="32"
+                                    Padding="2">
+                                <Image Source="/Pages/Images/Add.png"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Center"/>
+                            </Border>
+                        </Button>
+                        <Button Style="{DynamicResource ButtonRoundStyle}" Margin="0 0 10 0" Click="EditSelectedService">
+                            <Border CornerRadius="5"
+                                    BorderThickness="0"
+                                    Background="#F0F0F0"
+                                    Height="32"
+                                    Width="32"
+                                    Padding="2">
+                                <Image Source="/Pages/Images/Edit.png"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Center"/>
+                            </Border>
+                        </Button>
+                        <Button Style="{DynamicResource ButtonRoundStyle}" Click="DeleteSelectedService">
+                            <Border CornerRadius="5"
+                                    BorderThickness="0"
+                                    Background="#F0F0F0"
+                                    Height="32"
+                                    Width="32"
+                                    Padding="2">
+                                <Image Source="/Pages/Images/Delete.png"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Center"/>
+                            </Border>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+
+
+
+
+        </Grid>
+
+        <Border Grid.Column="1" 
+                    CornerRadius="10" 
+                    Width="280"
+                    Height="auto"
+                    MinHeight="600"
+                    Margin="10 20 20 20"
+                    Padding="20"
+                    Background="#3993DD"
+                    VerticalAlignment="Top">
+            <StackPanel>
+                <Border Width="240"
+                        Height="155"
+                        CornerRadius="10"
+                        BorderThickness="1"
+                        BorderBrush="White"
+                        Padding="10"
+                        Margin="0 0 0 20">
+                    <StackPanel Width="218">
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Название"
+                                   Margin="0 0 2 0"
+                                   FontSize="14"
+                                   FontFamily="Inter/#Inter-V.ttf"
+                                   Foreground="White"/>
+                            <TextBox Height="20"
+                                     HorizontalAlignment="Right"
+                                     Width="145"
+                                     VerticalContentAlignment="Center"
+                                     FontSize="14"
+                                     FontFamily="Inter/#Inter-V.ttf"
+                                     Foreground="Black"
+                                     BorderThickness="0"
+                                     Background="White"
+                                     Style="{DynamicResource RoundTextBox}"
+                                     Text="{Binding SearchTitle, UpdateSourceTrigger = PropertyChanged}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Стоимость"
+                                   Margin="0 0 5 0"
+                                   FontSize="14"
+                                   FontFamily="Inter/#Inter-V.ttf"
+                                   Foreground="White"/>
+                            <TextBox Height="20"
+                                     HorizontalAlignment="Right"
+                                     Width="135"
+                                     VerticalContentAlignment="Center"
+                                     FontSize="14"
+                                     FontFamily="Inter/#Inter-V.ttf"
+                                     Foreground="Black"
+                                     BorderThickness="0"
+                                     Background="White"
+                                     Style="{DynamicResource RoundTextBox}"
+                                     Text="{Binding Cost, UpdateSourceTrigger = PropertyChanged}"/>
+                        </StackPanel>
+                        <Border CornerRadius="10"
+                                Background="White"
+                                BorderThickness="0"
+                                Width="218"
+                                Height="75"
+                                Padding="5"
+                                Margin="0 5 0 0">
+                            <StackPanel 
+                                    Width="208"
+                                    Height="65">
+                                <TextBlock  Text="Описание:"
+                                        FontSize="14"
+                                        Foreground="Black"
+                                        FontFamily="Inter/#Inter-V.ttf"/>
+                                <TextBox Text="{Binding Description, UpdateSourceTrigger = PropertyChanged}"
+                                         Style="{DynamicResource RoundTextBox}"
+                                         TextWrapping="Wrap"
+                                         FontSize="12"
+                                         Foreground="Black"
+                                         FontFamily="Inter/#Inter-V.ttf"
+                                         Width="208"
+                                         MinHeight="90"
+                                         MaxHeight="300"
+                                         Height="auto"
+                                         HorizontalAlignment="Center">
+                                </TextBox>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </Border>
+                <Border Width="240"
+                        CornerRadius="10"
+                        BorderThickness="1"
+                        BorderBrush="White"
+                        Padding="10"
+                        Height="auto">
+                    <StackPanel >
+                        <Label Content="Услуга"
+                               FontSize="16"
+                               FontFamily="Inter/#Inter-V.ttf"
+                               Foreground="White"
+                               HorizontalContentAlignment="Center"/>
+                        <StackPanel Orientation="Horizontal" 
+                                    Width="218">
+                            <Label Content="Название"
+                                   FontSize="14"
+                                   FontFamily="Inter/#Inter-V.ttf"
+                                   Foreground="White"
+                                   Margin="0 0 5 0"/>
+                            <TextBox Text="{Binding SelectedService.Title}"
+                                     Style="{DynamicResource RoundTextBox}"
+                                     Height="20"
+                                     Width="141"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" 
+                                    Width="218"
+                                    Margin="0 10 0 0">
+                            <Label Content="Стоимость"
+                                   FontSize="14"
+                                   FontFamily="Inter/#Inter-V.ttf"
+                                   Foreground="White"
+                                   Margin="0 0 5 0"/>
+                            <TextBox Text="{Binding SelectedService.Cost}"
+                                     Style="{DynamicResource RoundTextBox}"
+                                     Height="20"
+                                     Width="135"/>
+                        </StackPanel>
+
+
+                        <Border CornerRadius="10"
+                                Background="White"
+                                BorderThickness="0"
+                                Width="218"
+                                Height="210"
+                                Padding="5"
+                                Margin="0 18 0 0">
+                            <StackPanel 
+                                    Width="208"
+                                    Height="200">
+                                <Label  Content="Описание:"
+                                        FontSize="14"
+                                        Foreground="Black"
+                                        FontFamily="Inter/#Inter-V.ttf"/>
+                                <TextBox Text="{Binding SelectedService.Description}"
+                                         Style="{DynamicResource RoundTextBox}"
+                                         TextWrapping="Wrap"
+                                         FontSize="12"
+                                         Foreground="Black"
+                                         FontFamily="Inter/#Inter-V.ttf"
+                                         Width="208"
+                                         MinHeight="90"
+                                         MaxHeight="300"
+                                         Height="auto"
+                                         HorizontalAlignment="Center">
+                                </TextBox>
+                            </StackPanel>
+                        </Border>
+
+
+                        <Button Style="{DynamicResource ButtonRoundStyle}" 
+                                Content="Применить"
+                                Width="180"
+                                Height="30"
+                                FontFamily="Inter/#Inter-V.ttf"
+                                FontSize="18"
+                                Foreground="Black"
+                                Background="White"
+                                BorderThickness="0"
+                                Margin="0 14 0 0"
+                                Click="SaveEditSelectedService"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </Border>
     </Grid>
 </Page>
