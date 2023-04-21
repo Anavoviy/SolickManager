@@ -93,7 +93,7 @@ namespace SolickManagerV3_4.Windows
             Worker = worker;
             FilterClients();
 
-            this.DataApplication = application.DateView;
+            //this.DataApplication = application.DateView;
             this.SelectedClient = application.IdclientNavigation;
             this.SelectedDevice = application.IddeviceNavigation;
             this.Problem = application.Problem;

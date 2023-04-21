@@ -23,7 +23,7 @@
                            Height="20"/>
                 <ComboBox Width="148" 
                           Margin="10 0" 
-                          ItemsSource="{Binding Services}"
+                          ItemsSource="{Binding ServicesList}"
                           SelectedItem="{Binding SelectedService}"/>
                 <Button Content="новая"
                         Style="{DynamicResource ButtonRoundStyle}"
@@ -44,7 +44,7 @@
                         <Label Height="24" Content="Стоимость за услугу" FontFamily="Inter" FontSize="14" FontWeight="Medium" Margin="0 0 0 5"/>
                     </StackPanel>
                     <StackPanel Grid.Column="1">
-                        <TextBox Width="auto" Height="24" Margin="0 0 0 5" Text="{Binding SearchTitle, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBox Width="auto" Height="24" Margin="0 0 0 5" Text="{Binding EditTitle, UpdateSourceTrigger=PropertyChanged}"/>
                         <TextBox Width="auto" Height="24" Margin="0 0 0 5" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"/>
                         <TextBox x:Name="CostTextBox" Width="auto" Height="24" Margin="0 0 0 5" Text="{Binding Cost, UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>

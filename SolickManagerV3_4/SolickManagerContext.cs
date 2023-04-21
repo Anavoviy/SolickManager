@@ -64,6 +64,7 @@ public partial class SolickManagerContext : DbContext
     public virtual DbSet<Workingshift> Workingshifts { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=SolickManager;Username=postgres;Password=vova2005");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -425,6 +426,7 @@ public partial class SolickManagerContext : DbContext
             entity.ToTable("product");
 
             entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Amount).HasColumnName("amount");
             entity.Property(e => e.Cost).HasColumnType("money");
             entity.Property(e => e.Description).HasColumnName("description");
             entity.Property(e => e.Idcategory).HasColumnName("idcategory");

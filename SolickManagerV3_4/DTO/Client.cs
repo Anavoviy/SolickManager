@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Windows.Markup;
 
 namespace SolickManagerV3_4.DTO;
 
@@ -30,7 +29,6 @@ public partial class Client
     public virtual ICollection<Application> Applications { get; } = new List<Application>();
 
     public virtual ICollection<Clientsdevice> Clientsdevices { get; } = new List<Clientsdevice>();
-
 
     [NotMapped]
     public string FIO

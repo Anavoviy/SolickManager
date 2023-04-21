@@ -63,7 +63,7 @@ namespace SolickManagerV3_4.Pages
                 selectedApplication = value;
                 if (selectedApplication != null) {
                     SelectedStatusIndex = EditStatusesList.IndexOf(SelectedApplication.Status);
-                    SelectedApplicationServices = this.SelectedApplication.ListService.Where(s => s.Deleted == false).ToList();
+                    //SelectedApplicationServices = this.SelectedApplication.ListService.Where(s => s.Deleted == false).ToList();
                         }
                 Signal(nameof(SelectedStatusIndex));
                 Signal(nameof(SelectedApplicationServices));
@@ -275,11 +275,15 @@ namespace SolickManagerV3_4.Pages
         }
         private void AddCrossApplicationService(object sender, RoutedEventArgs e)
         {
-            new AddCrossApplicationServiceWindow(this.SelectedApplication).ShowDialog();
+            if (SelectedApplication != null)
+            {
+                new AddCrossApplicationServiceWindow(this.SelectedApplication).ShowDialog();
 
-            Signal(nameof(SelectedApplication));
+                Signal(nameof(SelectedApplication));
 
-            this.SelectedApplicationServices = this.SelectedApplication.ListService.Where(s => s.Deleted == false).ToList();
+
+                this.SelectedApplicationServices = this.SelectedApplication.ListService.Where(s => s.Deleted == false).ToList();
+            }
         }
     }
 }

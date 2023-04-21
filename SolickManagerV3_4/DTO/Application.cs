@@ -18,7 +18,7 @@ public partial class Application
 
     public string Problem { get; set; } = null!;
 
-    public string? Diagnostics { get; set; } = null!;
+    public string? Diagnostics { get; set; }
 
     public string Status { get; set; } = null!;
 
@@ -49,13 +49,14 @@ public partial class Application
 
             var ApplicationServices = DB.Instance.Applicationservices.Include(s => s.IdserviceNavigation).Where(s => s.Idapplication == this.Id && s.Deleted == false);
 
-                    foreach(var applicationService in ApplicationServices)
-                    {
-                        sum += (double) applicationService.IdserviceNavigation.Cost;
-                    }
+            foreach (var applicationService in ApplicationServices)
+            {
+                sum += (double)applicationService.IdserviceNavigation.Cost;
+            }
 
-                    return sum.ToString() + " руб.";
-                } }
+            return sum.ToString() + " руб.";
+        }
+    }
 
     [NotMapped]
     public string DateView
@@ -66,11 +67,12 @@ public partial class Application
         }
     }
 
-[NotMapped]
+    [NotMapped]
     public List<Applicationservice> ListService
     {
         get
         {
             return DB.Instance.Applicationservices.Include(s => s.IdserviceNavigation).Where(s => s.Idapplication == this.Id).ToList();
-    }   }
+        }
+    }
 }

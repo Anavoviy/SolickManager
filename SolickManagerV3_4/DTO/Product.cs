@@ -17,6 +17,8 @@ public partial class Product
 
     public decimal Cost { get; set; }
 
+    public int Amount { get; set; }
+
     public virtual ICollection<Applicationproduct> Applicationproducts { get; } = new List<Applicationproduct>();
 
     public virtual ICollection<Assemblyproduct> Assemblyproducts { get; } = new List<Assemblyproduct>();

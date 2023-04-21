@@ -49,14 +49,16 @@ public partial class Worker
 
     public virtual ICollection<Workingshift> Workingshifts { get; } = new List<Workingshift>();
 
-
     public override string ToString()
     {
         return Firstname + " " + Surname[0] + ".";
     }
 
-    public string FIO { get
+    public string FIO
+    {
+        get
         {
             return this.Surname + " " + this.Firstname + " " + this.Patronymic;
-        } }
+        }
+    }
 }

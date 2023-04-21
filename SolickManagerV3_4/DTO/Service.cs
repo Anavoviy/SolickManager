@@ -17,11 +17,13 @@ public partial class Service
 
     public virtual ICollection<Applicationservice> Applicationservices { get; } = new List<Applicationservice>();
 
-    public string CostView { 
-        get 
+    public string CostView
+    {
+        get
         {
             return this.Cost + " руб.";
-        } }
+        }
+    }
 
     public override string ToString()
     {

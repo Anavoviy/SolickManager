@@ -37,7 +37,7 @@ namespace SolickManagerV3_4.Windows
         }
 
         // Данные новой услуги
-        public string SearchTitle { get => searchTitle; set { searchTitle = value; FilterService(); } }
+        public string EditTitle { get => searchTitle; set { searchTitle = value; FilterService(); } }
         public string Description { get => descripton; set { descripton = value; FilterService(); } }
         public decimal Cost { get => cost; set { cost = value; FilterService(); ValidCost(); } }
 
@@ -47,7 +47,7 @@ namespace SolickManagerV3_4.Windows
         public string Patronymic { get => patronymic; set { patronymic = value; FilterWorker(); } }
 
         // Данные списка
-        public List<Service> Services { get; set; } = new List<Service>();
+        public List<Service> ServicesList { get; set; } = new List<Service>();
         public Service SelectedService { get; set; }
 
         public List<Worker> Workers { get; set; } = new List<Worker>();
@@ -69,13 +69,13 @@ namespace SolickManagerV3_4.Windows
 
         private void FilterService()
         {
-            var result = DB.Instance.Services.Where(s => ((s.Title.ToLower().Contains(Title.ToLower()) || Title == "") &&
-                                                         (Description == "" || s.Description.ToLower().Contains(Description.ToLower()))) 
+            var result = DB.Instance.Services.Where(s => (s.Title.ToLower().Contains(EditTitle.ToLower()) || EditTitle == "") &&
+                                                         (Description == "" || s.Description.ToLower().Contains(Description.ToLower())) 
                                                          && s.Deleted == false);
 
-            Services = result.ToList();
+            ServicesList = result.ToList();
 
-            Signal(nameof(Services));
+            Signal(nameof(ServicesList));
         }
         private void FilterWorker()
         {
