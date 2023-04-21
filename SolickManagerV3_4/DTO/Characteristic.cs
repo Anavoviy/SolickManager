@@ -14,4 +14,9 @@ public partial class Characteristic
     public virtual ICollection<Categorycharacteristic> Categorycharacteristics { get; } = new List<Categorycharacteristic>();
 
     public virtual ICollection<Productcharacteristic> Productcharacteristics { get; } = new List<Productcharacteristic>();
+
+    public override string ToString()
+    {
+        return Title;
+    }
 }

@@ -30,5 +30,18 @@ namespace SolickManagerV3_4.Pages
 
             Worker = worker;
         }
+
+        private void ListProductsButton(object sender, MouseButtonEventArgs e)
+        {
+            Navigation.GetInstance().CurrentPage = new ViewListProductsPage(Worker);
+        }
+        private void CategoriesButton(object sender, MouseButtonEventArgs e)
+        {
+            Navigation.GetInstance().CurrentPage = new ListCategoriesPage(Worker);
+        }
+        private void CharacteristicsButton(object sender, MouseButtonEventArgs e)
+        {
+            Navigation.GetInstance().CurrentPage = new ListCharacteristicsPage(Worker);
+        }
     }
 }
