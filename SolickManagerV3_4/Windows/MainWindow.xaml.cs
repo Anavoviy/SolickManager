@@ -123,7 +123,6 @@ namespace SolickManagerV3_4
             CloseIt = true;
             this.Close();
         }
-
         private void CloseWindow(object sender, CancelEventArgs e)
         {
             SaveWorkingShift((bool)new ConfirmationWindow("Сохранить сессию работника?").ShowDialog());
@@ -131,7 +130,6 @@ namespace SolickManagerV3_4
             if(CloseIt)
                 new AuthorizationWindow().Show();
         }
-
         private void ExitWindow(object sender, RoutedEventArgs e)
         {
             CloseIt = true;

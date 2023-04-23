@@ -13,7 +13,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using SolickManagerV3_4.DTO;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using SolickManagerV3_4.Windows;

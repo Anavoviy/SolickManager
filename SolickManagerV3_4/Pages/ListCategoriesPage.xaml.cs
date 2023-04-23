@@ -136,6 +136,14 @@ namespace SolickManagerV3_4.Pages
         {
             if (SelectedCategory != null)
             {
+
+                List<Categorycharacteristic> cc = DB.Instance.Categorycharacteristics.Where(s => s.Idcategory == SelectedCategory.Id).ToList();
+                foreach (Categorycharacteristic c in cc)
+                {
+                    c.Deleted = true;
+                    DB.Instance.Categorycharacteristics.Update(c);
+                }
+
                 SelectedCategory.Deleted = true;
 
                 DB.Instance.Categories.Update(SelectedCategory);

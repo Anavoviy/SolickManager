@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SolickManagerV3_4.DTO;
 
@@ -30,4 +31,10 @@ public partial class Product
     public virtual ICollection<Productcharacteristic> Productcharacteristics { get; } = new List<Productcharacteristic>();
 
     public virtual ICollection<Productpricechange> Productpricechanges { get; } = new List<Productpricechange>();
+
+    public Provider Provider { 
+        get 
+        {
+            return DB.Instance.Providers.FirstOrDefault(s => s.Id == DB.Instance.Shipments.FirstOrDefault(s => s.Id == this.Idshipment).Idprovider);
+        } }
 }

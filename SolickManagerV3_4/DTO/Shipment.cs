@@ -11,9 +11,9 @@ public partial class Shipment
 
     public int Idprovider { get; set; }
 
-    public int Numberproducts { get; set; }
+    public int? Numberproducts { get; set; }
 
-    public decimal Amount { get; set; }
+    public decimal? Amount { get; set; }
 
     public string Notes { get; set; } = null!;
 

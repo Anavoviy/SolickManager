@@ -673,7 +673,7 @@
                         Padding="10"
                         Height="auto">
                     <StackPanel >
-                        <Label Content="Операция"
+                        <Label Content="Заявка"
                                FontSize="16"
                                FontFamily="Inter/#Inter-V.ttf"
                                Foreground="White"
