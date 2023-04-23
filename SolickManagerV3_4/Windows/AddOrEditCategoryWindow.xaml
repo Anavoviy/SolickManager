@@ -51,21 +51,22 @@
                                         Foreground="Black"
                                         FontFamily="Inter/#Inter-V.ttf"
                                         Height="24"/>
-                                <ListView BorderThickness="0"
-                                         ItemsSource="{Binding CategoryCharacteristics}"
-                                         SelectedItem="{Binding SelectedCategoryCharacteristic}"
-                                         FontSize="12"
-                                         Foreground="Black"
-                                         FontFamily="Inter/#Inter-V.ttf"
-                                         Width="290"
-                                         Height="165"
-                                         HorizontalAlignment="Center">
+                                <ListView x:Name="CategoryCharacteristicsListView" 
+                                          ItemsSource="{Binding CategoryCharacteristics}" 
+                                          BorderThickness="0"
+                                          SelectedItem="{Binding SelectedCategoryCharacteristic, UpdateSourceTrigger=PropertyChanged}"
+                                          FontSize="12"
+                                          Foreground="Black"
+                                          FontFamily="Inter/#Inter-V.ttf"
+                                          Width="290"
+                                          Height="145"
+                                          HorizontalAlignment="Center">
                                     <ListView.ContextMenu>
                                         <ContextMenu>
                                             <MenuItem Header="Удалить" Click="DeleteCharacteristic"/>
                                         </ContextMenu>
                                     </ListView.ContextMenu>
-                                </ListView>
+                    </ListView> 
                             </StackPanel>
                         </Border>
             
@@ -78,7 +79,7 @@
                                Foreground="White"/>
                 
                 
-                <TextBox Text="{Binding SearchText}"
+                <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
                              Style="{DynamicResource RoundTextBox}"
                              Height="20"
                              Width="215"
