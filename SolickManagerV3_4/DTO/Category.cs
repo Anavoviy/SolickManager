@@ -27,7 +27,7 @@ public partial class Category
             List<Categorycharacteristic> categorycharacteristics = DB.Instance.Categorycharacteristics
                 .Include(s => s.IdcharacteristicNavigation)
                 .Where(s => s.Idcategory == this.Id && s.Deleted == false)
-                .OrderBy(s => s.Idcharacteristic).ThenBy(s => s.Idcategory).ToList();
+                .OrderBy(s => s.Idcharacteristic).ToList();
 
             if (categorycharacteristics.Count > 0)
             {

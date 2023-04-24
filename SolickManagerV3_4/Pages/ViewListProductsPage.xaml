@@ -100,7 +100,7 @@
                             <DataGridTextColumn Width="120*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Поставщик" Binding="{Binding Provider.Title}"/>
                             <DataGridTextColumn Width="280*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Описание" Binding="{Binding Description}"/>
                             <DataGridTextColumn Width="80*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="На складе" Binding="{Binding Amount}"/>
-                            <DataGridTextColumn Width="100*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Стоимость" Binding="{Binding Cost}"/>
+                            <DataGridTextColumn Width="100*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Стоимость" Binding="{Binding CostView}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </Border>
@@ -121,18 +121,6 @@
                                     Width="32"
                                     Padding="2">
                                 <Image Source="/Pages/Images/Add.png"
-                                       VerticalAlignment="Center"
-                                       HorizontalAlignment="Center"/>
-                            </Border>
-                        </Button>
-                        <Button Style="{DynamicResource ButtonRoundStyle}" Margin="0 0 10 0" Click="EditSelectedProduct">
-                            <Border CornerRadius="5"
-                                    BorderThickness="0"
-                                    Background="#F0F0F0"
-                                    Height="32"
-                                    Width="32"
-                                    Padding="2">
-                                <Image Source="/Pages/Images/Edit.png"
                                        VerticalAlignment="Center"
                                        HorizontalAlignment="Center"/>
                             </Border>
@@ -169,7 +157,7 @@
                     VerticalAlignment="Top">
             <StackPanel>
                 <Border Width="240"
-                        Height="170"
+                        Height="90"
                         CornerRadius="10"
                         BorderThickness="1"
                         BorderBrush="White"
@@ -228,25 +216,6 @@
                                       Height="20"
                                       HorizontalAlignment="Right"/>
                         </StackPanel>
-                        <StackPanel 
-                                    Width="218"
-                                    Height="80">
-                            <TextBlock  Text="Описание:"
-                                        FontSize="14"
-                                        Foreground="White"
-                                        FontFamily="Inter/#Inter-V.ttf"/>
-                            <TextBox Text="{Binding SearchDescription}"
-                                         Style="{DynamicResource RoundTextBox}"
-                                         TextWrapping="Wrap"
-                                         FontSize="12"
-                                         Foreground="Black"
-                                         FontFamily="Inter/#Inter-V.ttf"
-                                         Width="218"
-                                         Height="60"
-                                         HorizontalAlignment="Center"
-                                         Padding="3">
-                            </TextBox>
-                        </StackPanel>
                     </StackPanel>
                 </Border>
                 
@@ -286,7 +255,8 @@
                                    FontSize="14"
                                    FontFamily="Inter/#Inter-V.ttf"
                                    Foreground="White"/>
-                            <TextBox Height="20"
+                            <TextBox x:Name="CostTextBox"
+                                     Height="20"
                                      HorizontalAlignment="Right"
                                      Width="143"
                                      VerticalContentAlignment="Center"
@@ -296,7 +266,7 @@
                                      BorderThickness="0"
                                      Background="White"
                                      Style="{DynamicResource RoundTextBox}"
-                                     Text="{Binding SelectedProduct.Cost, UpdateSourceTrigger=PropertyChanged}"/>
+                                     Text="{Binding NewCost, UpdateSourceTrigger=PropertyChanged}"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
                             <TextBlock Text="На складе"
@@ -325,9 +295,7 @@
                                 Padding="5"
                                 Margin="0 18 0 0">
                             <StackPanel 
-                                    Width="208"
-                                    MinHeight="110"
-                                    Height="auto">
+                                    Width="208">
                                 <TextBlock  Text=" Описание:"
                                         FontSize="14"
                                         Foreground="Black"
@@ -339,13 +307,14 @@
                                          Foreground="Black"
                                          FontFamily="Inter/#Inter-V.ttf"
                                          Width="208"
-                                         Height="150"
+                                         Height="235"
                                          HorizontalAlignment="Center">
                                 </TextBox>
                             </StackPanel>
                         </Border>
 
-                        <Button Style="{DynamicResource ButtonRoundStyle}" 
+                        <Button x:Name="SaveButton"
+                                Style="{DynamicResource ButtonRoundStyle}" 
                                 Content="Применить"
                                 Width="180"
                                 Height="30"

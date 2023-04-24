@@ -37,4 +37,12 @@ public partial class Product
         {
             return DB.Instance.Providers.FirstOrDefault(s => s.Id == DB.Instance.Shipments.FirstOrDefault(s => s.Id == this.Idshipment).Idprovider);
         } }
+
+    public string CostView { get
+        {
+            if(DB.Instance.Productpricechanges.FirstOrDefault(s => s.Idproduct == this.Id) != null)
+                return DB.Instance.Productpricechanges.Where(s => s.Idproduct == this.Id).OrderBy(s => s.Id).Last().Newcost.ToString();
+            else
+                return this.Cost.ToString();
+        } }
 }

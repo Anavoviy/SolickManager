@@ -1,0 +1,144 @@
+﻿<Window x:Class="SolickManagerV3_4.Windows.AddOrEditProductWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SolickManagerV3_4.Windows"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="AddOrEditProductWindow" Height="700" Width="400">
+    <Border Width="350"
+            Height="620"
+            CornerRadius="10"
+            Background="#3993DD"
+            Padding="25">
+        <StackPanel>
+            <TextBlock Foreground="White"
+                       Height="25"
+                       VerticalAlignment="Top"
+                       HorizontalAlignment="Center"
+                       FontSize="20"
+                       FontFamily="Inter"
+                       FontWeight="Medium"
+                       Text="Товар"
+                       Margin="0 0 0 15"/>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Модель"
+                               FontFamily="Inter"
+                               FontSize="16"
+                               Height="20"
+                               FontWeight="Medium"
+                               Foreground="White"/>
+                <TextBox Text="{Binding Product.Model}"
+                             Style="{DynamicResource RoundTextBox}"
+                             Height="20"
+                             Width="215"
+                             Margin="25 0 0 0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal"
+                        Margin="0 10 0 0">
+                <TextBlock Text="Категория"
+                           Foreground="White"
+                           FontFamily="Inter"
+                           FontSize="16"
+                           Height="20"/>
+                <ComboBox Width="215" 
+                          Margin="10 0" 
+                          ItemsSource="{Binding Categories}"
+                          DisplayMemberPath="Title"
+                          SelectedItem="{Binding SelectedCategory}"/>
+                
+            </StackPanel>
+            <StackPanel Orientation="Horizontal"
+                        Margin="0 10 0 10">
+                <TextBlock Text="Поставщик"
+                           Foreground="White"
+                           FontFamily="Inter"
+                           FontSize="16"
+                           Height="20"/>
+                <ComboBox x:Name="ProviderComboBox"
+                          Width="216" 
+                          Margin="2 0" 
+                          ItemsSource="{Binding Providers}"
+                          DisplayMemberPath="Title"
+                          SelectedItem="{Binding SelectedProvider}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Стоимость"
+                               FontFamily="Inter"
+                               FontSize="16"
+                               Height="20"
+                               FontWeight="Medium"
+                               Foreground="White"/>
+                <TextBox x:Name="CostTextBox" Text="{Binding Cost, UpdateSourceTrigger=PropertyChanged}"
+                             Style="{DynamicResource RoundTextBox}"
+                             Height="20"
+                             Width="215"
+                             Margin="4 0 0 0"/>
+            </StackPanel>
+            <Label Content="Описание"  
+                   Foreground="White"
+                   FontFamily="Inter"
+                   FontSize="16"
+                   Height="28" 
+                   Margin="0 5 0 0"/>
+            <Border CornerRadius="5" Background="White" Padding="5" >
+                <TextBox Style="{DynamicResource RoundTextBox}"
+                         Text="{Binding Product.Description}"
+                         TextWrapping="Wrap"
+                         FontSize="12"
+                         Foreground="Black"
+                         FontFamily="Inter"
+                         Width="290"
+                         Height="60"
+                         HorizontalAlignment="Center"/>
+            </Border>
+            <Border CornerRadius="10"
+                                Background="White"
+                                BorderThickness="0"
+                                Width="300"
+                                MinHeight="100"
+                                Padding="5"
+                                Margin="0 20 0 0">
+                <StackPanel 
+                                    Width="290"
+                                    Height="215">
+                    <Label  Content="Характеристики:"
+                                        FontSize="14"
+                                        Foreground="Black"
+                                        FontFamily="Inter/#Inter-V.ttf"
+                                        Height="24"/>
+                    <DataGrid x:Name="CategoryCharacteristicsListView" 
+                              AutoGenerateColumns="False"
+                                          ItemsSource="{Binding Characteristics}" 
+                                          BorderThickness="0"
+                                          FontSize="12"
+                                          Foreground="Black"
+                                          FontFamily="Inter/#Inter-V.ttf"
+                                          Width="290"
+                                          Height="190"
+                                          HorizontalAlignment="Center">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Характеристика" Binding="{Binding IdcharacteristicNavigation.Title}"/>
+                            <DataGridTextColumn Header="Значение" Binding="{Binding Meaning}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </Border>
+
+            
+            <Button x:Name="SaveButton"
+                    Style="{DynamicResource ButtonRoundStyle}"
+                    Content="Сохранить"
+                    Width="260"
+                    Margin="0 30 0 0"
+                    Height="35"
+                    Background="White"
+                    FontSize="20"
+                    FontWeight="Medium"
+                    FontFamily="Inter"
+                    Click="Save"/>
+        </StackPanel>
+    </Border>
+</Window>

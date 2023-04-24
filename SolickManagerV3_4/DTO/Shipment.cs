@@ -15,7 +15,7 @@ public partial class Shipment
 
     public decimal? Amount { get; set; }
 
-    public string Notes { get; set; } = null!;
+    public string? Notes { get; set; }
 
     public bool Deleted { get; set; }
 

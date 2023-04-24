@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SolickManagerV3_4.DTO;
+using SolickManagerV3_4.Windows;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -28,6 +29,7 @@ namespace SolickManagerV3_4.Pages
         private decimal searchCost = 0;
         private Category searchCategory = new Category() { Title = "Все категории" };
         private string searchDescription = "";
+        private Product selectedProduct = new Product();
 
         public event PropertyChangedEventHandler? PropertyChanged;
         void Signal([CallerMemberName] string prop = null)
@@ -41,15 +43,43 @@ namespace SolickManagerV3_4.Pages
         // Данные для поиска
         public string SearchModel { get => searchModel; set { searchModel = value; Search(); } }
         public decimal SearchCost { get => searchCost; set { searchCost = value; Search(); } }
-        public Category SearchCategory { get => searchCategory; set { searchCategory = value; Search(); } }
+        public Category SearchCategory { get => searchCategory; 
+            set 
+            { 
+                searchCategory = value; 
+                Search();
+                if (SelectedProduct == null || (SelectedProduct.Idcategory != SearchCategory.Id && SearchCategory.Title != "Все категории")) 
+                {
+                    SelectedProduct = new Product();
+                }
+            } }
         public string SearchDescription { get => searchDescription; set { searchDescription = value; Search(); } }
 
         public List<Category> SearchCategoriesList { get; set; }
 
         // Основные данные
         public List<Product> Products { get; set; } = new List<Product>();
-        public Product SelectedProduct { get; set; } = new Product();
+        public Product SelectedProduct { get => selectedProduct; 
+            set 
+            { 
+                selectedProduct = value;
+                if (SelectedProduct != null)
+                    OldCost = decimal.Parse(SelectedProduct.CostView);
+                else
+                    OldCost = 0;
+                
+                NewCost = OldCost;
+                Signal(nameof(NewCost));
+                Signal();
 
+            } }
+
+        // Дополнительные данные
+        private decimal OldCost = 0;
+        private decimal newCost = 0;
+        public decimal NewCost { get => newCost; set { newCost = value; ValidCost(); } }
+        
+        
         public ViewListProductsPage(DTO.Worker worker)
         {
             InitializeComponent();
@@ -62,6 +92,19 @@ namespace SolickManagerV3_4.Pages
             DataContext = this;
         }
 
+        private void ValidCost()
+        {
+            if (NewCost >= 0)
+            {
+                CostTextBox.Foreground = new SolidColorBrush(Colors.Black);
+                SaveButton.IsEnabled = true;
+            }
+            else
+            {
+                CostTextBox.Foreground = new SolidColorBrush(Colors.Red);
+                SaveButton.IsEnabled = false;
+            }
+        }
         private void FillCategories()
         {
             SearchCategoriesList = new List<Category>();
@@ -76,10 +119,13 @@ namespace SolickManagerV3_4.Pages
 
         private void Search()
         {
-            var result = DB.Instance.Products.Include(s => s.IdcategoryNavigation).Include(s => s.IdshipmentNavigation).Where(s => (SearchModel == "" || s.Model.ToLower().Contains(SearchModel.ToLower())) &&
-                                                                                                                             (SearchCost == 0 || SearchCost == s.Cost) &&
-                                                                                                                             (SearchCategory.Title == "Все категории" || s.Idcategory == SearchCategory.Id) &&
-                                                                                                                             (SearchDescription == "" || s.Description.ToLower().Contains(SearchDescription.ToLower())));
+            var result = DB.Instance.Products.Include(s => s.IdcategoryNavigation)
+                                             .Include(s => s.IdshipmentNavigation)
+                                             .Where(s => (SearchModel == "" || s.Model.ToLower().Contains(SearchModel.ToLower())) &&
+                                                   (SearchCost == 0 || SearchCost == s.Cost) &&
+                                                   (SearchCategory.Title == "Все категории" || s.Idcategory == SearchCategory.Id) &&
+                                                   (SearchDescription == "" || (s.Description != null && s.Description.ToLower().Contains(SearchDescription.ToLower()))
+                                                   ));
 
             Products = result.OrderBy(s => s.Id).ToList();
 
@@ -88,15 +134,17 @@ namespace SolickManagerV3_4.Pages
 
         private void AddNewProduct(object sender, RoutedEventArgs e)
         {
+            new AddOrEditProductWindow().ShowDialog();
 
-        }
-        private void EditSelectedProduct(object sender, RoutedEventArgs e)
-        {
+            Search();
 
+            SelectedProduct = Products.FirstOrDefault(s => s.Id == SelectedProduct.Id);
+
+            Signal(nameof(SelectedProduct));
         }
         private void DeleteSelectedProduct(object sender, RoutedEventArgs e)
         {
-            if(SelectedProduct != null) 
+            if (SelectedProduct != null)
             {
                 if (DB.Instance.Productpricechanges.FirstOrDefault(s => s.Idproduct == SelectedProduct.Id) != null)
                 {
@@ -105,7 +153,7 @@ namespace SolickManagerV3_4.Pages
                     DB.Instance.Productpricechanges.RemoveRange(PPC);
                 }
 
-                if(DB.Instance.Productcharacteristics.FirstOrDefault(s => s.Idproduct == SelectedProduct.Id) != null)
+                if (DB.Instance.Productcharacteristics.FirstOrDefault(s => s.Idproduct == SelectedProduct.Id) != null)
                 {
                     List<Productcharacteristic> PC = DB.Instance.Productcharacteristics.Where(s => s.Idproduct == SelectedProduct.Id).ToList();
 
@@ -116,13 +164,27 @@ namespace SolickManagerV3_4.Pages
                 DB.Instance.SaveChanges();
 
                 MessageBox.Show("Товар успешно удалён!");
+
+                Search();
             }
+
         }
 
         private void SaveEditSelectedProduct(object sender, RoutedEventArgs e)
         {
             if (SelectedProduct != null)
             {
+                if (NewCost != OldCost)
+                {
+                    DB.Instance.Productpricechanges.Add(new Productpricechange()
+                    {
+                        Idproduct = SelectedProduct.Id,
+                        Newcost = NewCost,
+                        Ratio = NewCost / OldCost
+                    });
+                    DB.Instance.SaveChanges();
+                }
+
                 DB.Instance.Products.Update(SelectedProduct);
                 DB.Instance.SaveChanges();
 
