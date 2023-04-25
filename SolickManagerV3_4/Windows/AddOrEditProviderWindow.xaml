@@ -5,8 +5,142 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SolickManagerV3_4.Windows.Images"
         mc:Ignorable="d"
-        Title="AddOrEditProviderWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        WindowStartupLocation="CenterScreen"
+        Title="AddOrEditProviderWindow" Height="650" Width="400">
+    <Border Width="350"
+            Height="570"
+            CornerRadius="10"
+            Background="#3993DD"
+            Padding="25">
+        <StackPanel>
+            <TextBlock Foreground="White"
+                       Height="25"
+                       VerticalAlignment="Top"
+                       HorizontalAlignment="Center"
+                       FontSize="20"
+                       FontFamily="Inter"
+                       FontWeight="Medium"
+                       Text="Поставщик"
+                       Margin="0 0 0 15"/>
+
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="1. Основная информация"
+                           Foreground="White"
+                           FontFamily="Inter"
+                           FontSize="16"
+                           Height="20"
+                           Margin="0 0 0 5"/>
+                <Border BorderThickness="0" CornerRadius="5" Padding="5" Background="White">
+                    <StackPanel Background="White">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Название"
+                                       Height="20"
+                                       FontFamily="Inter"
+                                       FontSize="14"
+                                       FontWeight="Medium"/>
+                            <TextBox Text="{Binding EditProvider.Title}" 
+                                     Height="20"
+                                     Width="215"
+                                     Margin="10 0 0 0"
+                                     BorderThickness="0"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Менеджер"
+                                       Height="20"
+                                       FontFamily="Inter"
+                                       FontSize="14"
+                                       FontWeight="Medium"/>
+                            <TextBox Text="{Binding EditProvider.DirectorManager}"
+                                     HorizontalAlignment="Right"
+                                     Height="20"
+                                     Width="215"
+                                     Margin="10 0 0 0"
+                                     BorderThickness="0"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Реквизиты"
+                                       Height="20"
+                                       FontFamily="Inter"
+                                       FontSize="14"
+                                       FontWeight="Medium"/>
+                            <TextBox Text="{Binding EditProvider.Requisites}" 
+                                     Height="20"
+                                     Width="215"
+                                     Margin="10 0 0 0"
+                                     BorderThickness="0"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Margin="0 30 0 0">
+                <TextBlock Text="2. Контакты"
+                           Foreground="White"
+                           FontFamily="Inter"
+                           FontSize="16"
+                           Height="20"
+                           Margin="0 0 0 5"/>
+                <Border BorderThickness="0" CornerRadius="5" Padding="5" Background="White">
+                    <StackPanel Background="White">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Телефон"
+                                       Height="20"
+                                       FontFamily="Inter"
+                                       FontSize="14"
+                                       FontWeight="Medium"/>
+                            <TextBox Text="{Binding EditProvider.Phone}" 
+                                     Height="20"
+                                     Width="215"
+                                     Margin="20 0 0 0"
+                                     BorderThickness="0"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Email"
+                                       Height="20"
+                                       FontFamily="Inter"
+                                       FontSize="14"
+                                       FontWeight="Medium"/>
+                            <TextBox Text="{Binding EditProvider.Email}"
+                                     HorizontalAlignment="Right"
+                                     Height="20"
+                                     Width="215"
+                                     Margin="42 0 0 0"
+                                     BorderThickness="0"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+
+
+            <Label Content="Заметки"  
+                   Foreground="White"
+                   FontFamily="Inter"
+                   FontSize="16"
+                   Height="28" 
+                   Margin="0 30 0 0"/>
+            <Border CornerRadius="5" Background="White" Padding="5" >
+                <TextBox Style="{DynamicResource RoundTextBox}"
+                         Text="{Binding EditProvider.Notes}"
+                         TextWrapping="Wrap"
+                         FontSize="12"
+                         Foreground="Black"
+                         FontFamily="Inter"
+                         Width="290"
+                         MinHeight="145"
+                         MaxHeight="180"
+                         HorizontalAlignment="Center"/>
+            </Border>
+
+            <Button x:Name="SaveButton"
+                    Style="{DynamicResource ButtonRoundStyle}"
+                    Content="Сохранить"
+                    Width="260"
+                    Margin="0 30 0 0"
+                    Height="35"
+                    Background="White"
+                    FontSize="20"
+                    FontWeight="Medium"
+                    FontFamily="Inter"
+                    Click="Save"/>
+        </StackPanel>
+    </Border> 
 </Window>

@@ -88,13 +88,13 @@ namespace SolickManagerV3_4.Windows
 
         private void FillProviders()
         {
-            Providers = DB.Instance.Providers.OrderBy(s => s.Title).ToList();
+            Providers = DB.Instance.Providers.Where(s => s.Deleted == false).OrderBy(s => s.Title).ToList();
 
             Signal(nameof(Providers));
         }
         private void FillCategories()
         {
-            Categories = DB.Instance.Categories.OrderBy(s => s.Title).ToList();
+            Categories = DB.Instance.Categories.Where(s => s.Deleted == false).OrderBy(s => s.Title).ToList();
 
             Signal(nameof(Categories));
 
@@ -106,7 +106,7 @@ namespace SolickManagerV3_4.Windows
                 Characteristics = new List<Productcharacteristic>();
 
                 List<Characteristic> characteristics = DB.Instance.Categorycharacteristics.Include(s => s.IdcharacteristicNavigation)
-                                                                                          .Where(s => s.Idcategory == SelectedCategory.Id)
+                                                                                          .Where(s => s.Idcategory == SelectedCategory.Id && s.Deleted == false)
                                                                                           .Select(s => s.IdcharacteristicNavigation)
                                                                                           .OrderBy(s => s.Title).ToList();
 
@@ -118,7 +118,7 @@ namespace SolickManagerV3_4.Windows
             else if (SelectedCategory != null && IsEdit)
             {
                 Characteristics = DB.Instance.Productcharacteristics.Include(s => s.IdcharacteristicNavigation)
-                                                                    .Where(s => s.Idproduct == Product.Id)
+                                                                    .Where(s => s.Idproduct == Product.Id && s.Deleted == false)
                                                                     .OrderBy(s => s.IdcharacteristicNavigation.Title).ToList();
 
                 Signal(nameof(Characteristics));

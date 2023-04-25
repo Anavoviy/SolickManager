@@ -1,12 +1,13 @@
-﻿<Page x:Class="SolickManagerV3_4.Pages.ViewListProductsPage"
+﻿<Page x:Class="SolickManagerV3_4.Pages.ListProvidersPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:SolickManagerV3_4.Pages"
-      mc:Ignorable="d"
+      mc:Ignorable="d" 
       d:DesignHeight="680" d:DesignWidth="1280"
-      Title="ViewListProductsPage">
+      Title="ListProvidersPage">
+
     <Grid>
 
         <Grid.ColumnDefinitions>
@@ -23,13 +24,13 @@
                         MinHeight="580"
                         BorderThickness="0"
                         Margin="20 25 10 00"
-                        Padding="0 20 0 0">
+                        Padding="0 20 0 10">
 
                     <DataGrid Style="{DynamicResource DataGridSolickStyle}" AutoGenerateColumns="False" 
                               HeadersVisibility="Column"
                               IsReadOnly="true"
-                              ItemsSource="{Binding Products}"
-                              SelectedItem="{Binding SelectedProduct}"
+                              ItemsSource="{Binding Providers}"
+                              SelectedItem="{Binding SelectedProvider}"
                               HorizontalAlignment="Left"
                               MinWidth="940"
                               Width="auto"
@@ -91,25 +92,24 @@
                         </DataGrid.RowStyle>
                         <DataGrid.Columns>
                             <DataGridTextColumn Width="60*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Код" Binding="{Binding Id}"/>
-                            <DataGridTextColumn Width="180*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Модель" Binding="{Binding Model}"/>
-                            <DataGridTextColumn Width="120*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Категория" Binding="{Binding IdcategoryNavigation.Title}"/>
-                            <DataGridTextColumn Width="120*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Поставщик" Binding="{Binding Provider.Title}"/>
-                            <DataGridTextColumn Width="280*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Описание" Binding="{Binding Description}"/>
-                            <DataGridTextColumn Width="80*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="На складе" Binding="{Binding Amount}"/>
-                            <DataGridTextColumn Width="100*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Стоимость" Binding="{Binding CostView}"/>
+                            <DataGridTextColumn Width="150*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Название" Binding="{Binding Title}"/>
+                            <DataGridTextColumn Width="150*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Представитель" Binding="{Binding DirectorManager}"/>
+                            <DataGridTextColumn Width="120*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Номер телефона" Binding="{Binding Phone}"/>
+                            <DataGridTextColumn Width="120*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Email" Binding="{Binding Email}"/>
+                            <DataGridTextColumn Width="340*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Заметки" Binding="{Binding Notes}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </Border>
 
                 <Grid Height="34" VerticalAlignment="Top" Margin="20 5 10 0">
-                    <Label Content="Товары" 
+                    <Label Content="Поставщики" 
                            FontFamily="Assets/Inter/#Inter-V.ttf"
                            FontSize="22"
                            Margin="10 0 0 0"
                            HorizontalAlignment="Left"/>
                     <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                         <Button Style="{DynamicResource ButtonRoundStyle}" Margin="0 0 10 0"
-                                Click="AddNewProduct">
+                                Click="AddNewProvider">
                             <Border CornerRadius="5"
                                     BorderThickness="0"
                                     Background="#F0F0F0"
@@ -121,7 +121,19 @@
                                        HorizontalAlignment="Center"/>
                             </Border>
                         </Button>
-                        <Button Style="{DynamicResource ButtonRoundStyle}" Click="DeleteSelectedProduct">
+                        <Button Style="{DynamicResource ButtonRoundStyle}" Margin="0 0 10 0" Click="EditSelectedProvider">
+                            <Border CornerRadius="5"
+                                    BorderThickness="0"
+                                    Background="#F0F0F0"
+                                    Height="32"
+                                    Width="32"
+                                    Padding="2">
+                                <Image Source="/Pages/Images/Edit.png"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Center"/>
+                            </Border>
+                        </Button>
+                        <Button Style="{DynamicResource ButtonRoundStyle}" Click="DeleteSelectedProvider">
                             <Border CornerRadius="5"
                                     BorderThickness="0"
                                     Background="#F0F0F0"
@@ -145,15 +157,14 @@
         <Border Grid.Column="1" 
                     CornerRadius="10" 
                     Width="280"
-                    Height="auto"
-                    MinHeight="600"
+                    Height="580"
                     Margin="10 20 20 20"
                     Padding="20"
                     Background="#3993DD"
                     VerticalAlignment="Top">
             <StackPanel>
                 <Border Width="240"
-                        Height="90"
+                        Height="70"
                         CornerRadius="10"
                         BorderThickness="1"
                         BorderBrush="White"
@@ -161,8 +172,8 @@
                         Margin="0 0 0 20">
                     <StackPanel Width="218">
                         <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
-                            <TextBlock Text="Модель"
-                                   Margin="0 0 24 0"
+                            <TextBlock Text="Название"
+                                   Margin="0 0 13 0"
                                    FontSize="14"
                                    FontFamily="Inter/#Inter-V.ttf"
                                    Foreground="White"/>
@@ -176,10 +187,10 @@
                                      BorderThickness="0"
                                      Background="White"
                                      Style="{DynamicResource RoundTextBox}"
-                                     Text="{Binding SearchModel, UpdateSourceTrigger=PropertyChanged}"/>
+                                     Text="{Binding SearchTitle, UpdateSourceTrigger=PropertyChanged}"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
-                            <TextBlock Text="Стоимость"
+                            <TextBlock Text="Менеджер"
                                    Margin="0 0 6 0"
                                    FontSize="14"
                                    FontFamily="Inter/#Inter-V.ttf"
@@ -194,27 +205,11 @@
                                      BorderThickness="0"
                                      Background="White"
                                      Style="{DynamicResource RoundTextBox}"
-                                     Text="{Binding SearchCost, UpdateSourceTrigger=PropertyChanged}"/>
-                        </StackPanel>                        
-                        <StackPanel Orientation="Horizontal" 
-                                    Width="218">
-                            <TextBlock Text="Категория"
-                                   FontSize="14"
-                                   FontFamily="Inter/#Inter-V.ttf"
-                                   Foreground="White"
-                                   Margin="0 0 10 0"/>
-                            <ComboBox ItemsSource="{Binding SearchCategoriesList}"
-                                      SelectedItem ="{Binding SearchCategory}"
-                                      DisplayMemberPath="Title"
-                                      Background="White"
-                                      BorderThickness="0"
-                                      Width="142"
-                                      Height="20"
-                                      HorizontalAlignment="Right"/>
+                                     Text="{Binding SearchDirectorManager, UpdateSourceTrigger=PropertyChanged}"/>
                         </StackPanel>
                     </StackPanel>
                 </Border>
-                
+
                 <Border Width="240"
                         CornerRadius="10"
                         BorderThickness="1"
@@ -222,14 +217,14 @@
                         Padding="10"
                         Height="auto">
                     <StackPanel >
-                        <Label Content="Товар"
+                        <Label Content="Поставщик"
                                FontSize="16"
                                FontFamily="Inter/#Inter-V.ttf"
                                Foreground="White"
                                HorizontalContentAlignment="Center"/>
                         <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
-                            <TextBlock Text="Модель"
-                                   Margin="0 0 23 0"
+                            <TextBlock Text="Название"
+                                   Margin="0 0 14 0"
                                    FontSize="14"
                                    FontFamily="Inter/#Inter-V.ttf"
                                    Foreground="White"/>
@@ -243,10 +238,10 @@
                                      BorderThickness="0"
                                      Background="White"
                                      Style="{DynamicResource RoundTextBox}"
-                                     Text="{Binding SelectedProduct.Model, UpdateSourceTrigger=PropertyChanged}"/>
+                                     Text="{Binding SelectedProvider.Title, UpdateSourceTrigger=PropertyChanged}"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
-                            <TextBlock Text="Стоимость"
+                            <TextBlock Text="Менеджер"
                                    Margin="0 0 6 0"
                                    FontSize="14"
                                    FontFamily="Inter/#Inter-V.ttf"
@@ -262,11 +257,11 @@
                                      BorderThickness="0"
                                      Background="White"
                                      Style="{DynamicResource RoundTextBox}"
-                                     Text="{Binding NewCost, UpdateSourceTrigger=PropertyChanged}"/>
+                                     Text="{Binding SelectedProvider.DirectorManager, UpdateSourceTrigger=PropertyChanged}"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
-                            <TextBlock Text="На складе"
-                                   Margin="0 0 10 0"
+                            <TextBlock Text="Телефон"
+                                   Margin="0 0 19 0"
                                    FontSize="14"
                                    FontFamily="Inter/#Inter-V.ttf"
                                    Foreground="White"/>
@@ -280,7 +275,7 @@
                                      BorderThickness="0"
                                      Background="White"
                                      Style="{DynamicResource RoundTextBox}"
-                                     Text="{Binding SelectedProduct.Amount, UpdateSourceTrigger=PropertyChanged}"/>
+                                     Text="{Binding SelectedProvider.Phone, UpdateSourceTrigger=PropertyChanged}"/>
                         </StackPanel>
 
                         <Border CornerRadius="10"
@@ -292,11 +287,11 @@
                                 Margin="0 18 0 0">
                             <StackPanel 
                                     Width="208">
-                                <TextBlock  Text=" Описание:"
+                                <TextBlock  Text=" Заметки:"
                                         FontSize="14"
                                         Foreground="Black"
                                         FontFamily="Inter/#Inter-V.ttf"/>
-                                <TextBox Text="{Binding SelectedProduct.Description}"
+                                <TextBox Text="{Binding SelectedProvider.Notes}"
                                          Style="{DynamicResource RoundTextBox}"
                                          TextWrapping="Wrap"
                                          FontSize="12"
@@ -320,7 +315,7 @@
                                 Background="White"
                                 BorderThickness="0"
                                 Margin="0 14 0 0"
-                                Click="SaveEditSelectedProduct"/>
+                                Click="SaveEditSelectedprovider"/>
                     </StackPanel>
                 </Border>
             </StackPanel>

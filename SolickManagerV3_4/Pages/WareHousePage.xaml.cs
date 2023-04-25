@@ -30,5 +30,15 @@ namespace SolickManagerV3_4.Pages
 
             Worker = worker;
         }
+
+        private void ListShipmentsButton(object sender, MouseButtonEventArgs e)
+        {
+            Navigation.GetInstance().CurrentPage = new ListShipmentsPage(Worker);
+        }
+
+        private void ListProvidersButton(object sender, MouseButtonEventArgs e)
+        {
+            Navigation.GetInstance().CurrentPage = new ListProvidersPage(Worker);
+        }
     }
 }
