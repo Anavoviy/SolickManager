@@ -160,6 +160,8 @@ namespace SolickManagerV3_4.Pages
                     DB.Instance.Productcharacteristics.RemoveRange(PC);
                 }
 
+                DB.Instance.Shipments.Remove(DB.Instance.Shipments.FirstOrDefault(s => s.Id == SelectedProduct.Idshipment));
+
                 DB.Instance.Products.Remove(SelectedProduct);
                 DB.Instance.SaveChanges();
 

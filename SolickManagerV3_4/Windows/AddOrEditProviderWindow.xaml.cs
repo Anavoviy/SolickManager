@@ -23,6 +23,7 @@ namespace SolickManagerV3_4.Windows.Images
 
         // Основные данные
         public Provider EditProvider { get; set; } = new Provider();
+        public Provider OldProvider { get; set; } = new Provider();
 
         public AddOrEditProviderWindow()
         {
@@ -35,6 +36,7 @@ namespace SolickManagerV3_4.Windows.Images
             InitializeComponent();
 
             EditProvider = provider;
+            OldProvider.Title = provider.Title;
 
             DataContext = this;
         }
@@ -49,6 +51,11 @@ namespace SolickManagerV3_4.Windows.Images
                     EditProvider.DirectorManager = "";
 
                 DB.Instance.Providers.Add(EditProvider);
+                DB.Instance.Bankaccounts.Add(new Bankaccount()
+                {
+                    Title = "Поставщик " + EditProvider.Title,
+                    Balance = 0
+                });
                 DB.Instance.SaveChanges();
 
                 MessageBox.Show("Успешно добавлен новый поставщик!");
@@ -63,6 +70,13 @@ namespace SolickManagerV3_4.Windows.Images
                     EditProvider.DirectorManager = "";
 
                 DB.Instance.Providers.Update(EditProvider);
+
+                Bankaccount bacc = DB.Instance.Bankaccounts.FirstOrDefault(s => s.Title == "Поставщик " + OldProvider.Title);
+                DateTime data = DateTime.Now;
+                bacc.Title = "Поставщик " + EditProvider.Title;
+
+                DB.Instance.Bankaccounts.Update(bacc);
+
                 DB.Instance.SaveChanges();
 
                 MessageBox.Show("Успешно изменён поставщик!");

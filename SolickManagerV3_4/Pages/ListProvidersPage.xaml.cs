@@ -39,7 +39,8 @@ namespace SolickManagerV3_4.Pages
 
         // Основные данные
         public List<Provider> Providers { get; set; }
-        public Provider SelectedProvider { get => selectedProvider; set { selectedProvider = value; Signal(); } }
+        public Provider SelectedProvider { get => selectedProvider; set { selectedProvider = value; OldSelectedProviderTitle = SelectedProvider.Title; Signal(); } }
+        private string OldSelectedProviderTitle = "";
 
         // Поиск среди поставщиков
         public string SearchDirectorManager { get => searchDirectorManager; set { searchDirectorManager = value; Search(); } }
@@ -92,8 +93,11 @@ namespace SolickManagerV3_4.Pages
             if(SelectedProvider != null)
             {
                 SelectedProvider.Deleted = true;
+                Bankaccount bacc = DB.Instance.Bankaccounts.FirstOrDefault(s => s.Title == "Поставщик " + SelectedProvider.Title);
+                bacc.Deleted = true;
 
                 DB.Instance.Providers.Update(SelectedProvider);
+                DB.Instance.Bankaccounts.Update(bacc);
                 DB.Instance.SaveChanges();
 
                 Search();
@@ -107,6 +111,10 @@ namespace SolickManagerV3_4.Pages
             if (SelectedProvider != null && SelectedProvider.Title != null && SelectedProvider.DirectorManager != null)
             {
                 DB.Instance.Providers.Update(SelectedProvider);
+                Bankaccount bacc = DB.Instance.Bankaccounts.FirstOrDefault(s => s.Title == "Поставщик " + OldSelectedProviderTitle);
+                bacc.Title = "Поставщик " + SelectedProvider.Title;
+
+                DB.Instance.Bankaccounts.Update(bacc);
                 DB.Instance.SaveChanges();
 
                 Search();

@@ -7,8 +7,206 @@
       mc:Ignorable="d" 
       d:DesignHeight="680" d:DesignWidth="1280"
       Title="ListShipmentsPage">
-
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="310"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Margin="0 0 0 25">
+            <Grid>
+                <Border Background="White"
+                        CornerRadius="10"
+                        MinWidth="940"
+                        MinHeight="580"
+                        BorderThickness="0"
+                        Margin="20 25 10 00"
+                        Padding="0 20 0 10">
+                    
+                    <DataGrid Style="{DynamicResource DataGridSolickStyle}" AutoGenerateColumns="False" 
+                              HeadersVisibility="Column"
+                              IsReadOnly="true"
+                              ItemsSource="{Binding Shipments}"
+                              SelectedItem="{Binding SelectedShipment}"
+                              HorizontalAlignment="Left"
+                              MinWidth="940"
+                              Width="auto"
+                              Height="auto"
+                              HorizontalGridLinesBrush="Transparent"
+                              VerticalGridLinesBrush="Transparent">
+                        <DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="Background" Value="#3993DD"/>
+                                <Setter Property="Foreground" Value="White"/>
+                                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                <Setter Property="Padding" Value="5 1"/>
+                            </Style>
+                        </DataGrid.ColumnHeaderStyle>
+                        <DataGrid.CellStyle>
+                            <Style TargetType="{x:Type DataGridCell}">
+                                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                <Setter Property="FontFamily" Value="Inter"/>
+                                <Setter Property="FontSize" Value="11"/>
+
+                                <Style.Triggers>
+                                    <Trigger Property="IsSelected" Value="True" >
+                                        <Setter Property="Background" Value="#24FFE9" />
+                                        <Setter Property="Foreground" Value="Black" />
+                                        <Setter Property="BorderThickness" Value="0"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGrid.CellStyle>
+                        <DataGrid.RowStyle>
+                            <Style TargetType="{x:Type DataGridRow}">
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="Background" Value="White"/>
+                                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                <Setter Property="FontFamily" Value="Inter"/>
+                                <Setter Property="FontSize" Value="11"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter Property="Background" Value="#24FFE9"/>
+                                        <Setter Property="Foreground" Value="Black"/>
+                                    </Trigger>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#B5FFF8" />
+                                        <Setter Property="Foreground" Value="Black" />
+                                        <Setter Property="BorderThickness" Value="0"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGrid.RowStyle>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Width="60*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Код" Binding="{Binding Id}"/>
+                            <DataGridTextColumn Width="80*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Дата" Binding="{Binding DataView}"/>
+                            <DataGridTextColumn Width="130*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Поставщик" Binding="{Binding IdproviderNavigation.Title}"/>
+                            <DataGridTextColumn Width="120*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Номер телефона" Binding="{Binding IdproviderNavigation.Phone}"/>
+                            <DataGridTemplateColumn Width="440*" Header="Товары">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ListView ItemsSource="{Binding Products}">
+                                            <ListView.View>
+                                                <GridView>
+                                                    <GridViewColumn Header="Модель" DisplayMemberBinding="{Binding Model}"/>
+                                                    <GridViewColumn Header="Количество" DisplayMemberBinding="{Binding Amount}"/>
+                                                    <GridViewColumn Header="Стоимость единицы" DisplayMemberBinding="{Binding Cost}"/>
+                                                </GridView>
+                                            </ListView.View>
+                                        </ListView>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Width="120*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Общая стоимость" Binding="{Binding Amount}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Border>
+
+                <Grid Height="34" VerticalAlignment="Top" Margin="20 5 10 0">
+                    <Label Content="Поставки" 
+                           FontFamily="Assets/Inter/#Inter-V.ttf"
+                           FontSize="22"
+                           Margin="10 0 0 0"
+                           HorizontalAlignment="Left"/>
+                    <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                        <Button Style="{DynamicResource ButtonRoundStyle}" Margin="0 0 10 0"
+                                Click="AddNewShipment">
+                            <Border CornerRadius="5"
+                                    BorderThickness="0"
+                                    Background="#F0F0F0"
+                                    Height="32"
+                                    Width="32"
+                                    Padding="2">
+                                <Image Source="/Pages/Images/Add.png"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Center"/>
+                            </Border>
+                        </Button>
+                        <Button Style="{DynamicResource ButtonRoundStyle}" Click="DeleteSelectedShipment">
+                            <Border CornerRadius="5"
+                                    BorderThickness="0"
+                                    Background="#F0F0F0"
+                                    Height="32"
+                                    Width="32"
+                                    Padding="2">
+                                <Image Source="/Pages/Images/Delete.png"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Center"/>
+                            </Border>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+
+
+
+
+        </Grid>
+
+        <Border Grid.Column="1" 
+                    CornerRadius="10" 
+                    Width="280"
+                    Height="auto"
+                    Margin="10 20 20 20"
+                    Padding="20"
+                    Background="#3993DD"
+                    VerticalAlignment="Top">
+            <StackPanel>
+                <Border Width="240"
+                        Height="auto"
+                        CornerRadius="10"
+                        BorderThickness="1"
+                        BorderBrush="White"
+                        Padding="10">
+                    <StackPanel Width="218">
+                        <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
+                            <TextBlock Text="Поставщик"
+                                   Margin="0 0 3 0"
+                                   FontSize="14"
+                                   FontFamily="Inter/#Inter-V.ttf"
+                                   Foreground="White"/>
+                            <TextBox Height="20"
+                                     HorizontalAlignment="Right"
+                                     Width="143"
+                                     VerticalContentAlignment="Center"
+                                     FontSize="14"
+                                     FontFamily="Inter/#Inter-V.ttf"
+                                     Foreground="Black"
+                                     BorderThickness="0"
+                                     Background="White"
+                                     Style="{DynamicResource RoundTextBox}"
+                                     Text="{Binding SearchTitleProvider, UpdateSourceTrigger=PropertyChanged}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal"
+                                    Width="218">
+                            <Label Content="с"
+                                   Margin="0 0 2 0"
+                                   FontSize="14"
+                                   FontFamily="Inter/#Inter-V.ttf"
+                                   Foreground="White"/>
+                            <TextBox FontSize="14"
+                                     FontFamily="Inter/#Inter-V.ttf"
+                                     Width="80"
+                                     Height="20"
+                                     Style="{DynamicResource RoundTextBox}"
+                                     Text="{Binding DataStart, UpdateSourceTrigger=PropertyChanged}"/>
+                            <Label Content="по"
+                                   FontSize="14"
+                                   FontFamily="Inter/#Inter-V.ttf"
+                                   Foreground="White" Margin="10 0 2 0"/>
+                            <TextBox FontSize="14"
+                                     FontFamily="Inter/#Inter-V.ttf"
+                                     Width="80"
+                                     Height="20"
+                                     Style="{DynamicResource RoundTextBox}"
+                                     Text="{Binding DataEnd, UpdateSourceTrigger=PropertyChanged}"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </Border>
     </Grid>
 </Page>

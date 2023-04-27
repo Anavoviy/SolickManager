@@ -45,4 +45,8 @@ public partial class Product
             else
                 return this.Cost.ToString();
         } }
+    public decimal CostAll { get
+        {
+            return (Amount * Cost);
+        } }
 }

@@ -48,6 +48,7 @@ namespace SolickManagerV3_4.Windows
         // Полезные данные
         private decimal oldCost;
         private decimal cost = 0;
+        public OtherFunctons OtherFunctons { get; set; } = OtherFunctons.Instance;
 
         public AddOrEditProductWindow()
         {
@@ -125,12 +126,6 @@ namespace SolickManagerV3_4.Windows
             }
         }
 
-
-        private void AddNewProvider(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private class ProdCharacteristics
         {
             public Characteristic Characteristic { get; set; }
@@ -143,33 +138,46 @@ namespace SolickManagerV3_4.Windows
             {
                 Product.Idcategory = SelectedCategory.Id;
                 Product.Cost = this.Cost;
-
-                DB.Instance.Shipments.Add(new Shipment()
-                {
-                    Data = OtherFunctons.Instance.DateOnlyNow(),
-                    Idprovider = SelectedProvider.Id,
-                    Amount = Product.Cost,
-                    Numberproducts = 1
-                });
-                DB.Instance.SaveChanges();
-
-                Product.Idshipment = DB.Instance.Shipments.OrderBy(s => s.Id).Last().Id;
-
                 Product.Amount = 1;
 
-                DB.Instance.Products.Add(Product);
-                DB.Instance.SaveChanges();
+                if (ProviderComboBox.IsEditable == false)
+                {
+                    OtherFunctons.Instance.AddProduct(Product);
 
-                int idProd = DB.Instance.Products.OrderBy(s => s.Id).Last().Id;
-                foreach (Productcharacteristic c in Characteristics)
-                    c.Idproduct = idProd;
+                    int idProd = OtherFunctons.Products.OrderBy(s => s.Id).Last().Id;
+                    foreach (Productcharacteristic c in Characteristics)
+                        c.Idproduct = idProd;
 
-                DB.Instance.Productcharacteristics.AddRange(Characteristics);
-                DB.Instance.SaveChanges();
+                    OtherFunctons.Productcharacteristics.AddRange(Characteristics);
+                }
+                else
+                {
+                    DB.Instance.Shipments.Add(new Shipment()
+                    {
+                        Data = OtherFunctons.Instance.DateOnlyNow(),
+                        Idprovider = SelectedProvider.Id,
+                        Amount = Product.Cost,
+                        Numberproducts = 1
+                    });
+                    DB.Instance.SaveChanges();
+
+                    Product.Idshipment = DB.Instance.Shipments.OrderBy(s => s.Id).Last().Id;
+
+                    DB.Instance.Products.Add(Product);
+                    DB.Instance.SaveChanges();
+
+                    int idProd = DB.Instance.Products.OrderBy(s => s.Id).Last().Id;
+                    foreach (Productcharacteristic c in Characteristics)
+                        c.Idproduct = idProd;
+
+                    DB.Instance.Productcharacteristics.AddRange(Characteristics);
+                    DB.Instance.SaveChanges();
+                }
 
                 MessageBox.Show("Товар успешно добавлен!");
 
                 this.Close();
+
             }
         }
     }
