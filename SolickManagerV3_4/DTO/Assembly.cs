@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace SolickManagerV3_4.DTO;
 
@@ -30,4 +33,42 @@ public partial class Assembly
     public virtual Worker IdmasterassemblerNavigation { get; set; } = null!;
 
     public virtual Worker IdmasterconfigurationNavigation { get; set; } = null!;
+
+    [NotMapped]
+    public string CostView { get
+        {
+            return Cost.ToString() + " руб.";
+        } }
+
+    [NotMapped]
+    public string MastersView { get
+        {
+            return DB.Instance.Workers.FirstOrDefault(s => s.Id == this.Idmasterconfiguration).FIO + ", " + DB.Instance.Workers.FirstOrDefault(s => s.Id == this.Idmasterassembler).FIO;
+        } }
+
+    [NotMapped]
+    public string DataView { get
+        {
+            return Data.ToString();
+        } }
+
+    [NotMapped]
+    public List<Product> Products
+    {
+        get
+        {
+            List<Product> products = new List<Product>();
+
+            var result = DB.Instance.Assemblyproducts.Include(s => s.IdproductNavigation).Where(s => s.Idassembly == this.Id).ToList();
+            if (result.Count > 0)
+            {
+                foreach (var assemblyProd in result)
+                {
+                    products.Add(assemblyProd.IdproductNavigation);
+                }
+            }
+
+            return products;
+        }
+    }
 }

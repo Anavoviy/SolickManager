@@ -15,6 +15,7 @@ namespace SolickManagerV3_4
 
         public static List<Product> Products { get; set; } = new List<Product>();
         public static List<Productcharacteristic> Productcharacteristics { get; set; } = new List<Productcharacteristic>();
+        public static List<Assemblyproduct> AssemblyProducts { get; set; } = new List<Assemblyproduct>();
 
         public static OtherFunctons Instance
         {
@@ -64,6 +65,18 @@ namespace SolickManagerV3_4
                 }
 
                 Products.Remove(product);
+            }
+        }
+        public void AddProductInGroup(Product product)
+        {
+            if(product != null)
+            {
+                AssemblyProducts.Add(new Assemblyproduct()
+                {
+                    IdproductNavigation = product,
+                    Idproduct = product.Id,
+                    Count = 1
+                });
             }
         }
     }
