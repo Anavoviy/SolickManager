@@ -55,6 +55,8 @@ namespace SolickManagerV3_4.Pages
 
             Search();
 
+            Masters = DB.Instance.Workers.Where(s => s.Deleted == false).OrderBy(s => s.Surname).ThenBy(s => s.Firstname).ThenBy(s => s.Patronymic).ToList();
+
             Worker = worker;
 
             DataContext = this;
