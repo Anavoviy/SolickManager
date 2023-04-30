@@ -29,6 +29,18 @@ namespace SolickManagerV3_4.Pages
             InitializeComponent();
         
             Worker = worker;
+
+            DataContext = this;
+        }
+
+        private void ListOperations(object sender, MouseButtonEventArgs e)
+        {
+            Navigation.GetInstance().CurrentPage = new OperationsListPage(Worker);
+        }
+
+        private void ListBankAccounts(object sender, MouseButtonEventArgs e)
+        {
+            Navigation.GetInstance().CurrentPage = new BankAccountaListPage(Worker);
         }
     }
 }

@@ -9,6 +9,8 @@
 
   <ItemGroup>
     <None Remove="Pages\Images\Add.png" />
+    <None Remove="Pages\Images\BankAccount.png" />
+    <None Remove="Pages\Images\BankOperation.png" />
     <None Remove="Pages\Images\Categories.png" />
     <None Remove="Pages\Images\Characteristic.png" />
     <None Remove="Pages\Images\Delete.png" />
@@ -41,6 +43,12 @@
 
   <ItemGroup>
     <Resource Include="Pages\Images\Add.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Pages\Images\BankAccount.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Pages\Images\BankOperation.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Pages\Images\Categories.png">

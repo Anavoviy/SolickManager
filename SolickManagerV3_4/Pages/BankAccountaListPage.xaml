@@ -1,4 +1,4 @@
-﻿<Page x:Class="SolickManagerV3_4.Pages.ListCharacteristicsPage"
+﻿<Page x:Class="SolickManagerV3_4.Pages.BankAccountaListPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,21 +6,14 @@
       xmlns:local="clr-namespace:SolickManagerV3_4.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="680" d:DesignWidth="1280"
-      Title="ListCharacteristicsPage">
-
+      Title="BankAccountaListPage">
     <Grid>
-
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="310"/>
         </Grid.ColumnDefinitions>
 
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="50"/>
-            </Grid.RowDefinitions>
-
+        <Grid Margin="0 0 0 25">
             <Grid>
                 <Border Background="White"
                         CornerRadius="10"
@@ -28,18 +21,18 @@
                         MinHeight="580"
                         BorderThickness="0"
                         Margin="20 25 10 00"
-                        Padding="0 20 0 0">
+                        Padding="0 20 0 10">
 
                     <DataGrid Style="{DynamicResource DataGridSolickStyle}" AutoGenerateColumns="False" 
                               VerticalAlignment="Top"
                               HeadersVisibility="Column"
                               IsReadOnly="true"
-                              ItemsSource="{Binding Characteristics}"
-                              SelectedItem="{Binding SelectedCharacteristic}"
+                              ItemsSource="{Binding Bankaccounts}"
+                              SelectedItem="{Binding SelectedBankAccount}"
                               HorizontalAlignment="Left"
                               MinWidth="940"
                               Width="auto"
-                              Height="630"
+                              Height="620"
                               HorizontalGridLinesBrush="Transparent"
                               VerticalGridLinesBrush="Transparent">
                         <DataGrid.ColumnHeaderStyle>
@@ -63,11 +56,7 @@
                                     <Trigger Property="IsSelected" Value="True" >
                                         <Setter Property="Background" Value="#24FFE9" />
                                         <Setter Property="Foreground" Value="Black" />
-
                                         <Setter Property="BorderThickness" Value="0"/>
-                                    </Trigger>
-
-                                    <Trigger Property="IsMouseOver" Value="True">
                                     </Trigger>
                                 </Style.Triggers>
                             </Style>
@@ -79,39 +68,36 @@
                                 <Setter Property="VerticalContentAlignment" Value="Center"/>
                                 <Setter Property="FontFamily" Value="Inter"/>
                                 <Setter Property="FontSize" Value="11"/>
-
                                 <Style.Triggers>
                                     <Trigger Property="IsSelected" Value="True">
                                         <Setter Property="Background" Value="#24FFE9"/>
                                         <Setter Property="Foreground" Value="Black"/>
                                     </Trigger>
-
                                     <Trigger Property="IsMouseOver" Value="True">
                                         <Setter Property="Background" Value="#B5FFF8" />
                                         <Setter Property="Foreground" Value="Black" />
-
                                         <Setter Property="BorderThickness" Value="0"/>
                                     </Trigger>
                                 </Style.Triggers>
                             </Style>
                         </DataGrid.RowStyle>
                         <DataGrid.Columns>
-                            <DataGridTextColumn Width="60*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Код" Binding="{Binding Id}"/>
-                            <DataGridTextColumn Width="880*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Название" Binding="{Binding Title}"/>
-                            
+                            <DataGridTextColumn Width="20*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Код" Binding="{Binding Id}"/>
+                            <DataGridTextColumn Width="100*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Название" Binding="{Binding Title}"/>
+                            <DataGridTextColumn Width="180*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Баланс" Binding="{Binding Balance}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </Border>
 
                 <Grid Height="34" VerticalAlignment="Top" Margin="20 5 10 0">
-                    <Label Content="Характеристики" 
+                    <Label Content="Счета" 
                            FontFamily="Assets/Inter/#Inter-V.ttf"
                            FontSize="22"
                            Margin="10 0 0 0"
                            HorizontalAlignment="Left"/>
                     <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                         <Button Style="{DynamicResource ButtonRoundStyle}" Margin="0 0 10 0"
-                                Click="AddNewCharacteristic">
+                                Click="AddNewBankAccount">
                             <Border CornerRadius="5"
                                     BorderThickness="0"
                                     Background="#F0F0F0"
@@ -123,19 +109,7 @@
                                        HorizontalAlignment="Center"/>
                             </Border>
                         </Button>
-                        <Button Style="{DynamicResource ButtonRoundStyle}" Margin="0 0 10 0" Click="EditSelectedCharacteristic">
-                            <Border CornerRadius="5"
-                                    BorderThickness="0"
-                                    Background="#F0F0F0"
-                                    Height="32"
-                                    Width="32"
-                                    Padding="2">
-                                <Image Source="/Pages/Images/Edit.png"
-                                       VerticalAlignment="Center"
-                                       HorizontalAlignment="Center"/>
-                            </Border>
-                        </Button>
-                        <Button Style="{DynamicResource ButtonRoundStyle}" Click="DeleteSelectedCharacteristic">
+                        <Button Style="{DynamicResource ButtonRoundStyle}" Click="DeleteSelectedBankAccount">
                             <Border CornerRadius="5"
                                     BorderThickness="0"
                                     Background="#F0F0F0"
@@ -160,7 +134,7 @@
                     CornerRadius="10" 
                     Width="280"
                     Height="auto"
-                    MinHeight="220"
+                    MinHeight="250"
                     Margin="10 20 20 20"
                     Padding="20"
                     Background="#3993DD"
@@ -173,13 +147,14 @@
                         BorderBrush="White"
                         Padding="10"
                         Margin="0 0 0 20">
-                    <StackPanel Orientation="Horizontal">
-                        <Label Content="Поиск"
+                    <StackPanel Width="218">
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Название"
                                    Margin="0 0 2 0"
                                    FontSize="14"
                                    FontFamily="Inter/#Inter-V.ttf"
                                    Foreground="White"/>
-                        <TextBox Height="20"
+                            <TextBox Height="20"
                                      HorizontalAlignment="Right"
                                      Width="145"
                                      VerticalContentAlignment="Center"
@@ -189,7 +164,8 @@
                                      BorderThickness="0"
                                      Background="White"
                                      Style="{DynamicResource RoundTextBox}"
-                                     Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"/>
+                                     Text="{Binding SearchTitle, UpdateSourceTrigger = PropertyChanged}"/>
+                        </StackPanel>
                     </StackPanel>
                 </Border>
                 <Border Width="240"
@@ -199,7 +175,7 @@
                         Padding="10"
                         Height="auto">
                     <StackPanel >
-                        <Label Content="Характеристика"
+                        <Label Content="Счёт"
                                FontSize="16"
                                FontFamily="Inter/#Inter-V.ttf"
                                Foreground="White"
@@ -210,11 +186,24 @@
                                    FontSize="14"
                                    FontFamily="Inter/#Inter-V.ttf"
                                    Foreground="White"
-                                   Margin="0 0 3 0"/>
-                            <TextBox Text="{Binding SelectedCharacteristic.Title}"
+                                   Margin="0 0 5 0"/>
+                            <TextBox Text="{Binding SelectedBankAccount.Title}"
                                      Style="{DynamicResource RoundTextBox}"
                                      Height="20"
-                                     Width="142"/>
+                                     Width="141"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" 
+                                    Width="218"
+                                    Margin="0 10 0 0">
+                            <Label Content="Баланс"
+                                   FontSize="14"
+                                   FontFamily="Inter/#Inter-V.ttf"
+                                   Foreground="White"
+                                   Margin="0 0 5 0"/>
+                            <TextBox Text="{Binding SelectedBankAccount.Balance}"
+                                     Style="{DynamicResource RoundTextBox}"
+                                     Height="20"
+                                     Width="159"/>
                         </StackPanel>
 
                         <Button Style="{DynamicResource ButtonRoundStyle}" 
@@ -227,7 +216,7 @@
                                 Background="White"
                                 BorderThickness="0"
                                 Margin="0 14 0 0"
-                                Click="SaveEditSelectedCharacteristic"/>
+                                Click="SaveEditSelectedBancAccount"/>
                     </StackPanel>
                 </Border>
             </StackPanel>
