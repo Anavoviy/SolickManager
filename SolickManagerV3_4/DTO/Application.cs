@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Drawing;
 using System.Linq;
+using System.Windows.Media;
 
 namespace SolickManagerV3_4.DTO;
 
@@ -75,4 +77,6 @@ public partial class Application
             return DB.Instance.Applicationservices.Include(s => s.IdserviceNavigation).Where(s => s.Idapplication == this.Id).ToList();
         }
     }
+
+    
 }

@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:SolickManagerV3_4.Windows"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
+        Icon="Images/SolulCompIcon.ico"
         Title="AddOrEditProductWindow" Height="700" Width="800">
     <Border Width="750"
             Height="620"

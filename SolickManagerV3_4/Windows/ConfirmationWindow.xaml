@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:SolickManagerV3_4.Windows"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
+        Icon="Images/SolulCompIcon.ico"
         Title="Подтвержение" Height="300" Width="500">
     <Grid>
         <Grid.RowDefinitions>

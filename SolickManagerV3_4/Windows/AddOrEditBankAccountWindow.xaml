@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:SolickManagerV3_4.Windows"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
+        Icon="Images/SolulCompIcon.ico"
         Title="AddOrEditBankAccountWindow" Height="270" Width="400">
     <Grid>
         <Border Width="350"

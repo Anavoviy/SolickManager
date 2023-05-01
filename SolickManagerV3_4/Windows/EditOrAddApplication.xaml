@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:SolickManagerV3_4.Windows"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
+        Icon="Images/SolulCompIcon.ico"
         Title="EditOrAddApplication" Height="700" Width="400"
     xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2">
     <Window.Resources>

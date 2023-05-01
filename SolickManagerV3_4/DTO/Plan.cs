@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace SolickManagerV3_4.DTO;
 
@@ -16,4 +18,10 @@ public partial class Plan
     public virtual Howpay IdhowpayNavigation { get; set; } = null!;
 
     public virtual ICollection<Worker> Workers { get; } = new List<Worker>();
+
+    [NotMapped]
+    public string HowPayTitle { get
+        {
+            return DB.Instance.Howpays.FirstOrDefault(s => s.Id == this.Idhowpay).Title;
+        } }
 }

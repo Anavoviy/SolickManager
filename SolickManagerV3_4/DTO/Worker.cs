@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SolickManagerV3_4.DTO;
 
@@ -54,6 +55,7 @@ public partial class Worker
         return Firstname + " " + Surname[0] + ".";
     }
 
+    [NotMapped]
     public string FIO
     {
         get
@@ -61,4 +63,10 @@ public partial class Worker
             return this.Surname + " " + this.Firstname + " " + this.Patronymic;
         }
     }
+
+    [NotMapped]
+    public string BirthdayView { get
+        {
+            return Birthday.ToString("d");
+        } }
 }

@@ -1,4 +1,4 @@
-﻿<Page x:Class="SolickManagerV3_4.Pages.OperationsListPage"
+﻿<Page x:Class="SolickManagerV3_4.Pages.ListWorkersPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:SolickManagerV3_4.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="680" d:DesignWidth="1280"
-      Title="OperationsListPage">
+      Title="ListWorkersPage">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
@@ -27,8 +27,8 @@
                               VerticalAlignment="Top"
                               HeadersVisibility="Column"
                               IsReadOnly="true"
-                              ItemsSource="{Binding Operations}"
-                              SelectedItem="{Binding SelectedOperation}"
+                              ItemsSource="{Binding Workers}"
+                              SelectedItem="{Binding SelectedWorker}"
                               HorizontalAlignment="Left"
                               MinWidth="940"
                               Width="auto"
@@ -82,27 +82,28 @@
                             </Style>
                         </DataGrid.RowStyle>
                         <DataGrid.Columns>
-                            <DataGridTextColumn Width="60*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Код" Binding="{Binding Id}"/>
-                            <DataGridTextColumn Width="100*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Дата открытия" Binding="{Binding DataOpenView}"/>
-                            <DataGridTextColumn Width="100*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Дата закрытия" Binding="{Binding DataCloseView}"/>
-                            <DataGridTextColumn Width="120*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Статус" Binding="{Binding Status}"/>
-                            <DataGridTextColumn Width="120*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Дебет" Binding="{Binding DebetNavigation.Title}"/>
-                            <DataGridTextColumn Width="120*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Кредит" Binding="{Binding CreditNavigation.Title}"/>
-                            <DataGridTextColumn Width="120*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Объект" Binding="{Binding Object}"/>
-                            <DataGridTextColumn Width="120*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Сумма" Binding="{Binding Amount}"/>
+                            <DataGridTextColumn Width="40*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Код" Binding="{Binding Id}"/>
+                            <DataGridTextColumn Width="150*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="ФИО" Binding="{Binding FIO}"/>
+                            <DataGridTextColumn Width="110*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Дата рождения" Binding="{Binding BirthdayView}"/>
+                            <DataGridTextColumn Width="120*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Должность" Binding="{Binding IdpostNavigation.Title}"/>
+                            <DataGridTextColumn Width="120*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="График" Binding="{Binding Graphic}"/>
+                            <DataGridTextColumn Width="100*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Телефон" Binding="{Binding Phone}"/>
+                            <DataGridTextColumn Width="140*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Email" Binding="{Binding Email}"/>
+                            <DataGridTextColumn Width="120*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Логин" Binding="{Binding Login}"/>
+                            <DataGridTextColumn Width="120*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Пароль" Binding="{Binding Password}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </Border>
 
                 <Grid Height="34" VerticalAlignment="Top" Margin="20 5 10 0">
-                    <Label Content="Операции" 
+                    <Label Content="Сотрудники" 
                            FontFamily="Assets/Inter/#Inter-V.ttf"
                            FontSize="22"
                            Margin="10 0 0 0"
                            HorizontalAlignment="Left"/>
                     <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                         <Button Style="{DynamicResource ButtonRoundStyle}" Margin="0 0 10 0"
-                                Click="AddNewOperation">
+                                Click="AddNewWorker">
                             <Border CornerRadius="5"
                                     BorderThickness="0"
                                     Background="#F0F0F0"
@@ -114,7 +115,19 @@
                                        HorizontalAlignment="Center"/>
                             </Border>
                         </Button>
-                        <Button Style="{DynamicResource ButtonRoundStyle}" Click="DeleteSelectedOperation">
+                        <Button Style="{DynamicResource ButtonRoundStyle}" Margin="0 0 10 0" Click="EditSelectedWorker">
+                            <Border CornerRadius="5"
+                                    BorderThickness="0"
+                                    Background="#F0F0F0"
+                                    Height="32"
+                                    Width="32"
+                                    Padding="2">
+                                <Image Source="/Pages/Images/Edit.png"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Center"/>
+                            </Border>
+                        </Button>
+                        <Button Style="{DynamicResource ButtonRoundStyle}" Click="DeleteSelectedWorker">
                             <Border CornerRadius="5"
                                     BorderThickness="0"
                                     Background="#F0F0F0"
@@ -177,52 +190,28 @@
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"
                         Margin="0 5 0 0" Width="218">
-                            <TextBlock Text="Статус"
+                            <TextBlock Text="Должность"
                            Foreground="White"
                            FontFamily="Inter"
                            FontSize="16"
                            Height="20"/>
-                            <ComboBox Width="156" 
-                          Margin="15 0" 
-                          ItemsSource="{Binding Statuses}"
-                          SelectedItem="{Binding SearchStatus}"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"
-                        Margin="0 5 0 0" Width="218">
-                            <TextBlock Text="Дебет"
-                           Foreground="White"
-                           FontFamily="Inter"
-                           FontSize="16"
-                           Height="20"/>
-                            <ComboBox Width="156" 
-                          Margin="18 0" 
-                          ItemsSource="{Binding Bankaccounts}"
-                          SelectedItem="{Binding SearchDebet}"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"
-                        Margin="0 5 0 0" Width="218">
-                            <TextBlock Text="Кредит"
-                           Foreground="White"
-                           FontFamily="Inter"
-                           FontSize="16"
-                           Height="20"/>
-                            <ComboBox Width="156" 
-                          Margin="10 0" 
-                          ItemsSource="{Binding Bankaccounts}"
-                          DisplayMemberPath="Title"
-                          SelectedItem="{Binding SearchCredit}"/>
+                            <ComboBox Width="121" 
+                                      Margin="15 0" 
+                                      ItemsSource="{Binding Posts}"
+                                      SelectedItem="{Binding SearchPost, UpdateSourceTrigger=PropertyChanged}"
+                                      DisplayMemberPath="Title"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Width="218" Margin="0 8 0 0">
-                            <TextBlock Text="Объект"
+                            <TextBlock Text="ФИО"
                                FontFamily="Inter"
                                FontSize="16"
                                Height="20"
                                Foreground="White"/>
-                            <TextBox Text="{Binding SearchObject, UpdateSourceTrigger=PropertyChanged}"
+                            <TextBox Text="{Binding SearchFIO, UpdateSourceTrigger=PropertyChanged}"
                              Style="{DynamicResource RoundTextBox}"
                              Height="20"
                              Width="156"
-                             Margin="8 0 0 0"/>
+                             Margin="26 0 0 0"/>
                         </StackPanel>
                     </StackPanel>
                 </Border>
@@ -231,75 +220,75 @@
                         BorderThickness="1"
                         BorderBrush="White"
                         Padding="10"
-                        Height="auto">
+                        Height="auto"
+                        Margin="0 20 0 0">
                     <StackPanel >
-                        <Label Content="Операция"
+                        <Label Content="Сотрудник"
                                FontSize="16"
                                FontFamily="Inter/#Inter-V.ttf"
                                Foreground="White"
                                HorizontalContentAlignment="Center"/>
-                        <StackPanel Orientation="Horizontal" Margin="3 0 0 0">
-                            <TextBlock Text="Дата закрытия"
-                                       Foreground="White"
-                                       FontFamily="Inter"
-                                       FontSize="16"
-                                       Height="20"/>
-                            <TextBox x:Name="DataTextBox"
-                                     Style="{DynamicResource RoundTextBox}" 
-                                     Width="95"
-                                     Margin="10 0"
-                                     Text="{Binding DataOperation, UpdateSourceTrigger=PropertyChanged}"/>
-                        </StackPanel>
                         <StackPanel Orientation="Horizontal" 
                                     Width="218"
                                     Margin="0 3 0 0 ">
-                            <Label Content="Статус:"
+                            <Label Content="Должность:"
                                    FontSize="14"
                                    FontFamily="Inter/#Inter-V.ttf"
                                    Foreground="White"
-                                   Margin="0 0 20 0"/>
+                                   Margin="0 0 0 0"/>
                             <ComboBox x:Name="StatusesComboBox"
-                                      ItemsSource="{Binding EditStatuses}"
-                                      SelectedItem="{Binding EditStatus}"
+                                      ItemsSource="{Binding EditListPosts}"
+                                      SelectedItem="{Binding EditPost}"
                                       Background="White"
                                       BorderThickness="0"
-                                      Width="143"
+                                      Width="133"
                                       Height="20"
-                                      HorizontalAlignment="Right"/>
+                                      HorizontalAlignment="Right"
+                                      DisplayMemberPath="Title"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="3 3 0 0">
-                            <TextBlock Text="Сумма"
+                            <TextBlock Text="Телефон"
                                        Foreground="White"
                                        FontFamily="Inter"
-                                       FontSize="16"
+                                       FontSize="14"
                                        Height="20"/>
                             <TextBox x:Name="CostTextBox"
                                      Style="{DynamicResource RoundTextBox}" 
-                                     Width="156"
+                                     Width="149"
                                      Margin="10 0"
-                                     Text="{Binding EditAmount, UpdateSourceTrigger=PropertyChanged}"/>
+                                     Text="{Binding SelectedWorker.Phone, UpdateSourceTrigger=PropertyChanged}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="3 6 0 0">
+                            <TextBlock Text="Email"
+                                       Foreground="White"
+                                       FontFamily="Inter"
+                                       FontSize="14"
+                                       Height="20"/>
+                            <TextBox Style="{DynamicResource RoundTextBox}" 
+                                     Width="162"
+                                     Margin="20 0"
+                                     Text="{Binding SelectedWorker.Email, UpdateSourceTrigger=PropertyChanged}"/>
                         </StackPanel>
                         <StackPanel 
                                     Width="208"
                                     MinHeight="110"
                                     Height="auto"
-                            Margin="0 3 0 0 ">
-                            <Label  Content="Объект:"
+                                    Margin="0 5 0 0 ">
+                            <TextBlock  Text="График:"
                                         FontSize="14"
                                         Foreground="White"
                                         FontFamily="Inter/#Inter-V.ttf"/>
-                            <TextBox x:Name="ObjectTextBox"
-                                         Text="{Binding SelectedOperation.Object}"
-                                         Style="{DynamicResource RoundTextBox}"
-                                         TextWrapping="Wrap"
-                                         FontSize="12"
-                                         Foreground="Black"
-                                         FontFamily="Inter/#Inter-V.ttf"
-                                         Width="208"
-                                         MinHeight="90"
-                                         MaxHeight="300"
-                                         Height="auto"
-                                         HorizontalAlignment="Center">
+                            <TextBox    Text="{Binding SelectedWorker.Graphic}"
+                                        Style="{DynamicResource RoundTextBox}"
+                                        TextWrapping="Wrap"
+                                        FontSize="12"
+                                        Foreground="Black"
+                                        FontFamily="Inter/#Inter-V.ttf"
+                                        Width="208"
+                                        MinHeight="90"
+                                        MaxHeight="300"
+                                        Height="auto"
+                                        HorizontalAlignment="Center">
                             </TextBox>
                         </StackPanel>
                         <Button x:Name="SaveButton"
@@ -313,7 +302,7 @@
                                 Background="White"
                                 BorderThickness="0"
                                 Margin="0 14 0 0"
-                                Click="SaveEditSelectedOperation"/>
+                                Click="SaveEditWorker"/>
                     </StackPanel>
                 </Border>
             </StackPanel>

@@ -28,7 +28,24 @@ namespace SolickManagerV3_4.Pages
         {
             InitializeComponent();
 
-            Worker = worker; 
+            Worker = worker;
+
+            DataContext = this;
+        }
+
+        private void ListWorkersButton(object sender, MouseButtonEventArgs e)
+        {
+            Navigation.GetInstance().CurrentPage = new ListWorkersPage(Worker);
+        }
+
+        private void ListPostsButton(object sender, MouseButtonEventArgs e)
+        {
+            Navigation.GetInstance().CurrentPage = new ListPostsPage(Worker);
+        }
+
+        private void ListPlansButton(object sender, MouseButtonEventArgs e)
+        {
+            Navigation.GetInstance().CurrentPage = new ListPlansPage(Worker);
         }
     }
 }

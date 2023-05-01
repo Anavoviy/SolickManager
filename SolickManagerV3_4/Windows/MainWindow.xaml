@@ -8,6 +8,7 @@
         Closing="CloseWindow"
         WindowStartupLocation="CenterScreen"
         Title="MainWindow" MinHeight="720" MinWidth="1280"
+        Icon="Images/SolulCompIcon.ico"
         Background="#FAFAFA">
     <Grid>
         <Grid.RowDefinitions>

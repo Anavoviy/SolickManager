@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SolickManagerV3_4.DTO;
 
@@ -28,4 +29,18 @@ public partial class Operation
     public virtual Bankaccount? CreditNavigation { get; set; }
 
     public virtual Bankaccount? DebetNavigation { get; set; }
+
+    [NotMapped]
+    public string DataOpenView { get
+        {
+            return Dataopen.ToString("d");
+        } }
+    [NotMapped]
+    public string DataCloseView
+    {
+        get
+        {
+            return Dataclose.ToString();
+        }
+    }
 }

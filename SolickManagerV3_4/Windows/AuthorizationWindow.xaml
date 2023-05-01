@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:SolickManagerV3_4.Windows"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
+        Icon="Images/SolulCompIcon.ico"
         Title="Авторизация" MinHeight="720" MinWidth="1280"
         MaxHeight="1080" MaxWidth="1920">
     <Grid Background="#FAFAFA">
