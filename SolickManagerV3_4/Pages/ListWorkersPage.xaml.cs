@@ -18,6 +18,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using SolickManagerV3_4.Windows;
 
 namespace SolickManagerV3_4.Pages
 {
@@ -131,11 +132,18 @@ namespace SolickManagerV3_4.Pages
 
         private void AddNewWorker(object sender, RoutedEventArgs e)
         {
+            new AddOrEditWorkerWindow().ShowDialog();
 
+            Search();
         }
         private void EditSelectedWorker(object sender, RoutedEventArgs e)
         {
+            if(SelectedWorker != null)
+            {
+                new AddOrEditWorkerWindow(SelectedWorker).ShowDialog();
 
+                Search();
+            }
         }
         private void DeleteSelectedWorker(object sender, RoutedEventArgs e)
         {

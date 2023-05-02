@@ -24,4 +24,9 @@ public partial class Plan
         {
             return DB.Instance.Howpays.FirstOrDefault(s => s.Id == this.Idhowpay).Title;
         } }
+
+    public override string ToString()
+    {
+        return Costofone.ToString() + "руб. " + HowPayTitle;
+    }
 }

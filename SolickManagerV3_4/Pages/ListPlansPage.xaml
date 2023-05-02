@@ -183,6 +183,7 @@
                             <ComboBox x:Name="StatusesComboBox"
                                       ItemsSource="{Binding HowPays}"
                                       SelectedItem="{Binding EditHowPay}"
+                                      DisplayMemberPath="Title"
                                       Background="White"
                                       BorderThickness="0"
                                       Width="139"

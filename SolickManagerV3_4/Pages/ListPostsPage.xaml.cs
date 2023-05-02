@@ -16,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using SolickManagerV3_4.Windows;
 
 namespace SolickManagerV3_4.Pages
 {
@@ -68,7 +69,9 @@ namespace SolickManagerV3_4.Pages
 
         private void AddNewPost(object sender, RoutedEventArgs e)
         {
+            new AddOrEditPostWindow().ShowDialog();
 
+            Search();
         }
         private void DeleteSelectedPost(object sender, RoutedEventArgs e)
         {
