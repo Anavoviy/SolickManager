@@ -161,7 +161,7 @@
                                        FontFamily="Inter"
                                        FontSize="14"
                                        FontWeight="Medium"/>
-                            <TextBox Text="{Binding EditWorker.Email}"
+                            <TextBox Text="{Binding EditWorker.Requisites}"
                                      HorizontalAlignment="Right"
                                      Height="20"
                                      Width="210"
