@@ -48,6 +48,7 @@ namespace SolickManagerV3_4.Windows
         // Полезные данные
         private decimal oldCost;
         private decimal cost = 0;
+        private bool IsEditable = false;
         public OtherFunctons OtherFunctons { get; set; } = OtherFunctons.Instance;
 
         public AddOrEditProductWindow()
@@ -66,7 +67,7 @@ namespace SolickManagerV3_4.Windows
 
             FillProviders();
             SelectedProvider = Providers.FirstOrDefault(s => s.Id == provider.Id);
-            ProviderComboBox.IsEditable = false;
+            IsEditable = false;
 
             FillCategories();
 
@@ -140,11 +141,16 @@ namespace SolickManagerV3_4.Windows
                 Product.Cost = this.Cost;
                 Product.Amount = 1;
 
-                if (ProviderComboBox.IsEditable == false)
+                if (IsEditable)
                 {
                     OtherFunctons.Instance.AddProduct(Product);
+                    
+                    int idProd = 1;
+                    if (OtherFunctons.Products.Count > 0)
+                        idProd = OtherFunctons.Products.OrderBy(s => s.Id).Last().Id;
+                    else
+                        idProd = DB.Instance.Products.OrderBy(s => s.Id).Last().Id;
 
-                    int idProd = OtherFunctons.Products.OrderBy(s => s.Id).Last().Id;
                     foreach (Productcharacteristic c in Characteristics)
                         c.Idproduct = idProd;
 

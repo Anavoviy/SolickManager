@@ -40,8 +40,10 @@ namespace SolickManagerV3_4
 
         public void AddProduct(Product product)
         {
-            if (Products.Count == 0)
+            if (Products.Count == 0 && DB.Instance.Products.Count() > 0)
                 product.Id = DB.Instance.Products.OrderBy(s => s.Id).Last().Id + 1;
+            else if (DB.Instance.Products.Count() == 0)
+                product.Id = 1;
             else
                 product.Id = DB.Instance.Products.OrderBy(s => s.Id).Last().Id + Products.Count;
 

@@ -217,5 +217,14 @@ namespace SolickManagerV3_4
 
             Signal();
         }
+
+        private void Sales(object sender, MouseButtonEventArgs e)
+        {
+            Navigation.GetInstance().CurrentPage = new SalesPage(Worker);
+
+            CloseMenu();
+
+            Signal();
+        }
     }
 }

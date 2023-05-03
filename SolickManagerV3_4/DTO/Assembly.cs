@@ -71,4 +71,13 @@ public partial class Assembly
             return products;
         }
     }
+
+    [NotMapped]
+    public string GroupProductsView
+    {
+        get
+        {
+            return "";
+        }
+    }
 }

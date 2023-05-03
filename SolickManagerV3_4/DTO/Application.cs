@@ -18,7 +18,7 @@ public partial class Application
 
     public int Idmanager { get; set; }
 
-    public string Problem { get; set; } = null!;
+    public string? Problem { get; set; }
 
     public string? Diagnostics { get; set; }
 
@@ -78,5 +78,23 @@ public partial class Application
         }
     }
 
-    
+
+    [NotMapped]
+    public decimal PriceOfAllproducts
+    { 
+        get
+            {
+                decimal sum = 0;
+
+                return sum;
+            } 
+    }
+
+    [NotMapped]
+    public List<Product> Products { get
+        {
+            return DB.Instance.Applicationproducts.Include(s => s.IdproductNavigation).Where(s => s.Idapplication == this.Id).Select(s => s.IdproductNavigation).ToList();
+        } }
+
+
 }

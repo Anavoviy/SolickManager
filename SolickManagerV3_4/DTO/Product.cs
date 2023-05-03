@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
 namespace SolickManagerV3_4.DTO;
@@ -32,12 +33,14 @@ public partial class Product
 
     public virtual ICollection<Productpricechange> Productpricechanges { get; } = new List<Productpricechange>();
 
+    [NotMapped]
     public Provider Provider { 
         get 
         {
             return DB.Instance.Providers.FirstOrDefault(s => s.Id == DB.Instance.Shipments.FirstOrDefault(s => s.Id == this.Idshipment).Idprovider);
         } }
 
+    [NotMapped]
     public string CostView { get
         {
             if(DB.Instance.Productpricechanges.FirstOrDefault(s => s.Idproduct == this.Id) != null)
@@ -45,8 +48,16 @@ public partial class Product
             else
                 return this.Cost.ToString();
         } }
+
+    [NotMapped]
     public decimal CostAll { get
         {
             return (Amount * Cost);
+        } }
+
+    [NotMapped]
+    public string ProductView { get
+        {
+            return Model + " " + CostView + "руб.";
         } }
 }

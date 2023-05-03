@@ -137,6 +137,8 @@ namespace SolickManagerV3_4.Pages
         private void Search()
         {
             var result = DB.Instance.Applications
+                .Include(s => s.Applicationassemblies)
+                .Include(s => s.Applicationproducts)
                 .Include(s => s.IdclientNavigation)
                 .Include(s => s.IddeviceNavigation)
                 .Where(s => (
@@ -146,7 +148,9 @@ namespace SolickManagerV3_4.Pages
                     s.IdclientNavigation.Secondname.ToLower().Contains(searchText.ToLower()) ||
                     s.IdclientNavigation.Patronymic.ToLower().Contains(searchText.ToLower()) ||
                     s.IddeviceNavigation.Model.ToLower().Contains(searchText.ToLower())
-                    ) && s.Deleted == false
+                    ) && s.Deleted == false 
+                    && s.Applicationassemblies.Count() == 0 
+                    && s.Applicationproducts.Count() == 0
                     );
             if (StatusIndex == 0)
             {
