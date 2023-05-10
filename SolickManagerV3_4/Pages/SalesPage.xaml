@@ -133,18 +133,6 @@
                                        HorizontalAlignment="Center"/>
                             </Border>
                         </Button>
-                        <Button Style="{DynamicResource ButtonRoundStyle}" Margin="0 0 10 0" Click="EditSelectedSale">
-                            <Border CornerRadius="5"
-                                    BorderThickness="0"
-                                    Background="#F0F0F0"
-                                    Height="32"
-                                    Width="32"
-                                    Padding="2">
-                                <Image Source="/Pages/Images/Edit.png"
-                                       VerticalAlignment="Center"
-                                       HorizontalAlignment="Center"/>
-                            </Border>
-                        </Button>
                         <Button Style="{DynamicResource ButtonRoundStyle}" Click="DeleteSelectedSale">
                             <Border CornerRadius="5"
                                     BorderThickness="0"
@@ -259,7 +247,8 @@
                                    FontFamily="Inter/#Inter-V.ttf"
                                    Foreground="White"
                                    Margin="10 0 20 0"/>
-                            <ComboBox ItemsSource="{Binding EditStatusesList}"
+                            <ComboBox x:Name="StatusComboBox"
+                                      ItemsSource="{Binding EditStatusesList}"
                                       SelectedIndex="{Binding EditStatusIndex}"
                                       Background="White"
                                       BorderThickness="0"
@@ -321,7 +310,8 @@
                             </StackPanel>
                         </Border>
 
-                        <Button Style="{DynamicResource ButtonRoundStyle}" 
+                        <Button x:Name="SaveButton"
+                                Style="{DynamicResource ButtonRoundStyle}" 
                                 Content="Применить"
                                 Width="180"
                                 Height="30"

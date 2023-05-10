@@ -51,6 +51,14 @@ namespace SolickManagerV3_4.Pages
                 {
                     SelectedSaleProducts = SelectedSale.Products;
                     SelectedSaleGroupsProducts = SelectedSale.Assemblies;
+
+                    if(SelectedSale.Status == "Завершена")
+                    {
+                        StatusComboBox.IsEnabled = false;
+                        SaleProductsListView.IsEnabled = false;
+                        SaleAssembliesListView.IsEnabled = false;
+                        SaveButton.IsEnabled = false;
+                    }
                 }
                 else
                 {
@@ -136,13 +144,6 @@ namespace SolickManagerV3_4.Pages
 
             Search();
         }
-        private void EditSelectedSale(object sender, RoutedEventArgs e)
-        {
-            if (SelectedSale != null)
-            {
-
-            }
-        }
         private void DeleteSelectedSale(object sender, RoutedEventArgs e)
         {
             if(SelectedSale != null)
@@ -184,6 +185,8 @@ namespace SolickManagerV3_4.Pages
         {
             if(SelectedSale != null)
             {
+                SelectedSale.Status = EditStatusesList[EditStatusIndex];
+
                 List<Assembly> OldAssembliesList = DB.Instance.Applicationassemblies.Include(s => s.IdassembyNavigation).Where(s => s.Idapplication == SelectedSale.Id).Select(s => s.IdassembyNavigation).ToList();
                 List<Product> OldProductsList = DB.Instance.Applicationproducts.Include(s => s.IdproductNavigation).Where(s => s.Idapplication == SelectedSale.Id).Select(s => s.IdproductNavigation).ToList();
 
@@ -234,6 +237,37 @@ namespace SolickManagerV3_4.Pages
                         DB.Instance.Products.Update(product);
                     }
                 }
+
+                if(SelectedSale.Status == "Завершена")
+                {
+                    Bankaccount bankaccount;
+
+                    if (DB.Instance.Bankaccounts.FirstOrDefault(s => s.Title == "Касса") != null)
+                    {
+                        bankaccount = DB.Instance.Bankaccounts.FirstOrDefault(s => s.Title == "Касса");
+                        bankaccount.Balance += SelectedSale.PriceOfAllproducts;
+
+                        DB.Instance.Bankaccounts.Update(bankaccount);
+
+                        DB.Instance.Operations.Add(new Operation()
+                        {
+                            Status = "Завершена",
+                            Debet = DB.Instance.Bankaccounts.FirstOrDefault(s => s.Title == "Касса").Id,
+                            Object = "Продажа",
+                            Dataopen = OtherFunctons.Instance.DateOnlyNow(),
+                            Dataclose = OtherFunctons.Instance.DateOnlyNow(),
+                            Amount = SelectedSale.PriceOfAllproducts
+                        });
+                    }
+                    else
+                    {
+                        SelectedSale.Status = "Собрана";
+
+                        MessageBox.Show("У вас нет счёта \"Касса\"!");
+                    }
+                }
+
+                    
 
                 DB.Instance.SaveChanges();
 
