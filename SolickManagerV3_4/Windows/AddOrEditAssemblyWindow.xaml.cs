@@ -88,7 +88,7 @@ namespace SolickManagerV3_4.Windows
 
         private void AddProductInGroup(object sender, RoutedEventArgs e)
         {
-            new ListAssembliesWindow().ShowDialog();
+            new ListAssembliesWindow(true, true).ShowDialog();
             ProductsListView.Items.Refresh();
         }
 
@@ -116,8 +116,15 @@ namespace SolickManagerV3_4.Windows
 
                 int AssemblyId = DB.Instance.Assemblies.OrderBy(s => s.Id).Last().Id;
 
-                foreach (var AssProd in OtherFunctons.AssemblyProducts) 
-                    AssProd.Idassembly = AssemblyId;            
+                foreach (var AssProd in OtherFunctons.AssemblyProducts)
+                {
+                    AssProd.Idassembly = AssemblyId;
+                    AssProd.Count = AssProd.AddCount;
+
+                    Product product = DB.Instance.Products.FirstOrDefault(s => s.Id == AssProd.Idproduct);
+                    product.Amount -= AssProd.Count;
+                    DB.Instance.Products.Update(product);
+                }
 
                 DB.Instance.Assemblyproducts.AddRange(OtherFunctons.AssemblyProducts);
                 DB.Instance.SaveChanges();

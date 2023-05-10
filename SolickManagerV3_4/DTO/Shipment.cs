@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace SolickManagerV3_4.DTO;
 
@@ -28,5 +29,11 @@ public partial class Shipment
     public string DataView { get
         {
             return Data.ToString("d");
+        } }
+
+    [NotMapped]
+    public string ProviderTitle { get
+        {
+            return DB.Instance.Providers.FirstOrDefault(s => s.Id == this.Idprovider).Title;
         } }
 }

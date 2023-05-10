@@ -67,7 +67,7 @@ namespace SolickManagerV3_4.Windows
 
             FillProviders();
             SelectedProvider = Providers.FirstOrDefault(s => s.Id == provider.Id);
-            IsEditable = false;
+            IsEditable = true;
 
             FillCategories();
 
@@ -138,7 +138,10 @@ namespace SolickManagerV3_4.Windows
             if (Product != null && (Product.Model != "" && Product.Model != null) && SelectedCategory != null && SelectedProvider != null)
             {
                 Product.Idcategory = SelectedCategory.Id;
-                Product.Cost = this.Cost;
+                if(this.Cost == 0)
+                    Product.Cost = 1;
+                else
+                    Product.Cost = this.Cost;
                 Product.Amount = 1;
 
                 if (IsEditable)

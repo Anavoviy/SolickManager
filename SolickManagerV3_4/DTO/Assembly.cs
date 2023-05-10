@@ -77,7 +77,7 @@ public partial class Assembly
     {
         get
         {
-            return "";
+            return Title;
         }
     }
 }

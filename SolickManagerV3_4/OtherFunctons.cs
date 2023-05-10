@@ -16,6 +16,7 @@ namespace SolickManagerV3_4
         public static List<Product> Products { get; set; } = new List<Product>();
         public static List<Productcharacteristic> Productcharacteristics { get; set; } = new List<Productcharacteristic>();
         public static List<Assemblyproduct> AssemblyProducts { get; set; } = new List<Assemblyproduct>();
+        public static List<Assembly> Assemblies { get; set; } = new List<Assembly>();
 
         public static OtherFunctons Instance
         {
@@ -45,7 +46,7 @@ namespace SolickManagerV3_4
             else if (DB.Instance.Products.Count() == 0)
                 product.Id = 1;
             else
-                product.Id = DB.Instance.Products.OrderBy(s => s.Id).Last().Id + Products.Count;
+                product.Id = DB.Instance.Products.OrderBy(s => s.Id).Last().Id + Products.Count + 1;
 
             Products.Add(product);
         }

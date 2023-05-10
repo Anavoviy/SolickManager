@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         Closing="CloseWindow"
         WindowStartupLocation="CenterScreen"
+        WindowState="Maximized"
         Title="MainWindow" MinHeight="720" MinWidth="1280"
         Icon="Images/SolulCompIcon.ico"
         Background="#FAFAFA">

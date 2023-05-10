@@ -94,7 +94,8 @@ namespace SolickManagerV3_4.Pages
 
         private void ValidCost()
         {
-            if (NewCost >= 0)
+            decimal cost;
+            if (NewCost > 0)
             {
                 CostTextBox.Foreground = new SolidColorBrush(Colors.Black);
                 SaveButton.IsEnabled = true;
@@ -137,14 +138,14 @@ namespace SolickManagerV3_4.Pages
             new AddOrEditProductWindow().ShowDialog();
 
             Search();
-
-            SelectedProduct = Products.FirstOrDefault(s => s.Id == SelectedProduct.Id);
+            if(SelectedProduct != null) 
+                SelectedProduct = Products.FirstOrDefault(s => s.Id == SelectedProduct.Id);
 
             Signal(nameof(SelectedProduct));
         }
         private void DeleteSelectedProduct(object sender, RoutedEventArgs e)
         {
-            if (SelectedProduct != null)
+            if (SelectedProduct != null && (bool)new ConfirmationWindow("Вместе с товаром удалятся все привязанные к нему записи о продажах. Вы уверены, что хотите удалить данный товар?").ShowDialog())
             {
                 if (DB.Instance.Productpricechanges.FirstOrDefault(s => s.Idproduct == SelectedProduct.Id) != null)
                 {
@@ -160,7 +161,13 @@ namespace SolickManagerV3_4.Pages
                     DB.Instance.Productcharacteristics.RemoveRange(PC);
                 }
 
-                DB.Instance.Shipments.Remove(DB.Instance.Shipments.FirstOrDefault(s => s.Id == SelectedProduct.Idshipment));
+                if (DB.Instance.Applicationproducts.FirstOrDefault(s => s.Idproduct == SelectedProduct.Id) != null)
+                {
+                    List<Applicationproduct> PC = DB.Instance.Applicationproducts.Where(s => s.Idproduct == SelectedProduct.Id).ToList();
+
+                    DB.Instance.Applicationproducts.RemoveRange(PC);
+                }
+
 
                 DB.Instance.Products.Remove(SelectedProduct);
                 DB.Instance.SaveChanges();
@@ -176,13 +183,13 @@ namespace SolickManagerV3_4.Pages
         {
             if (SelectedProduct != null)
             {
-                if (NewCost != OldCost)
+                if (NewCost - OldCost != 0)
                 {
                     DB.Instance.Productpricechanges.Add(new Productpricechange()
                     {
                         Idproduct = SelectedProduct.Id,
                         Newcost = NewCost,
-                        Ratio = NewCost / OldCost
+                        Ratio = (decimal) NewCost / OldCost
                     });
                     DB.Instance.SaveChanges();
                 }
@@ -191,8 +198,8 @@ namespace SolickManagerV3_4.Pages
                 DB.Instance.SaveChanges();
 
                 Search();
-
-                SelectedProduct = Products.FirstOrDefault(s => s.Id == SelectedProduct.Id);
+                if(SelectedProduct != null) 
+                    SelectedProduct = Products.FirstOrDefault(s => s.Id == SelectedProduct.Id);
                 Signal(nameof(SelectedProduct));
 
                 MessageBox.Show("Продукт успешно изменён!");

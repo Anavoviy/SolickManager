@@ -101,7 +101,7 @@
                                         <StackPanel>
                                             <ListBox ItemsSource="{Binding Products}"
                                                 DisplayMemberPath="ProductView"/>
-                                            <ListBox ItemsSource="{Binding Applicationassemblies}"
+                                            <ListBox ItemsSource="{Binding Assemblies}"
                                                  DisplayMemberPath="Title"/>
                                         </StackPanel>
                                     </DataTemplate>
@@ -278,11 +278,12 @@
                                     Width="208"
                                     MinHeight="110"
                                     Height="auto">
-                                <Label  Content="Ремонт:"
+                                <Label  Content="Товары:"
                                         FontSize="14"
                                         Foreground="Black"
                                         FontFamily="Inter/#Inter-V.ttf"/>
-                                <ListView ItemsSource="{Binding SelectedSaleProducts}"
+                                <ListView x:Name="SaleProductsListView"
+                                          ItemsSource="{Binding SelectedSaleProducts}"
                                           SelectedItem="{Binding SelectedSaleSelectedProduct}"
                                           DisplayMemberPath="ProductView"
                                           FontSize="12"
@@ -299,7 +300,8 @@
                                         </ContextMenu>
                                     </ListView.ContextMenu>
                                 </ListView>
-                                <ListView ItemsSource="{Binding SelectedSaleGroupsProducts}"
+                                <ListView x:Name="SaleAssembliesListView"
+                                          ItemsSource="{Binding SelectedSaleGroupsProducts}"
                                           SelectedItem="{Binding SelectedSaleSelectedGroupProducts}"
                                           DisplayMemberPath="GroupProductsView"
                                           FontSize="12"

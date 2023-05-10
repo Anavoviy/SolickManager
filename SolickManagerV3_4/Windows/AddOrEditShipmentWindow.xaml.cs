@@ -96,7 +96,12 @@ namespace SolickManagerV3_4.Windows
         
         private void Save(object sender, RoutedEventArgs e)
         {
-            if(SelectedProvider != null && OtherFunctons.Products.Count > 0) 
+            List<Product> NullProduct = OtherFunctons.Products.Where(s => s.Id == 0).ToList();
+            if (NullProduct.Count > 0)
+                foreach (var product in NullProduct)
+                    OtherFunctons.RemoveProduct(product);
+
+            if (SelectedProvider != null && OtherFunctons.Products.Count > 0) 
             {
                 EditShipment.Data = DateOnly.Parse(EditData);
                 EditShipment.Idprovider = SelectedProvider.Id;

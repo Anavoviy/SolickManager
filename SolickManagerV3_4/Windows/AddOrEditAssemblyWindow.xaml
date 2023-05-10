@@ -135,7 +135,7 @@
                                           HorizontalAlignment="Center">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Модель" Width="224*" Binding="{Binding IdproductNavigation.Model}"/>
-                            <DataGridTextColumn Header="Кол-во" Width="55*" Binding="{Binding Count}"/>
+                            <DataGridTextColumn Header="Кол-во" Width="55*" Binding="{Binding AddCount}"/>
                             <DataGridTextColumn Header="Стоимость ед." Width="100*" Binding="{Binding IdproductNavigation.Cost}"/>
                             <DataGridTextColumn Header="Общая стоимость" Width="120*" Binding="{Binding CostAll}"/>
                         </DataGrid.Columns>

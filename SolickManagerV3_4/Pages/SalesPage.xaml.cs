@@ -17,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using SolickManagerV3_4.Windows;
 
 namespace SolickManagerV3_4.Pages
 {
@@ -38,7 +39,28 @@ namespace SolickManagerV3_4.Pages
 
         // Основные данные
         public List<DTO.Application> Sales { get; set; }
-        public DTO.Application SelectedSale { get => selectedSale; set { selectedSale = value; } }
+        public DTO.Application SelectedSale { get => selectedSale; 
+            set 
+            { 
+                selectedSale = value;
+                
+                SelectedSaleGroupsProducts.Clear();
+                SelectedSaleProducts.Clear();
+
+                if(SelectedSale != null)
+                {
+                    SelectedSaleProducts = SelectedSale.Products;
+                    SelectedSaleGroupsProducts = SelectedSale.Assemblies;
+                }
+                else
+                {
+                    SelectedSaleGroupsProducts = new List<Assembly>();
+                    SelectedSaleProducts = new List<Product>();
+                }
+                Signal();
+                Signal(nameof(SelectedSaleProducts));
+                Signal(nameof(SelectedSaleGroupsProducts));
+            } }
 
         // Поиск
         public string DataStart { get; set; }
@@ -50,9 +72,9 @@ namespace SolickManagerV3_4.Pages
         // Быстрое редактирование
         public List<string> EditStatusesList { get; set; } = new List<string>() { "Создана", "Принята", "Собрана", "Оплачена", "Завершена" };
         public int EditStatusIndex { get; set; }
-        public List<Product> SelectedSaleProducts { get; set; }
+        public List<Product> SelectedSaleProducts { get; set; } = new List<Product>();
         public Product SelectedSaleSelectedProduct { get; set; }
-        public List<Assembly> SelectedSaleGroupsProducts { get; set; }
+        public List<Assembly> SelectedSaleGroupsProducts { get; set; } = new List<Assembly>();
         public Assembly SelectedSaleSelectedGroupProducts { get; set; }
 
         public SalesPage(Worker worker)
@@ -110,11 +132,16 @@ namespace SolickManagerV3_4.Pages
 
         private void AddNewSale(object sender, RoutedEventArgs e)
         {
+            new AddOrEditSaleWindow(Worker).ShowDialog();
 
+            Search();
         }
         private void EditSelectedSale(object sender, RoutedEventArgs e)
         {
+            if (SelectedSale != null)
+            {
 
+            }
         }
         private void DeleteSelectedSale(object sender, RoutedEventArgs e)
         {
@@ -124,30 +151,149 @@ namespace SolickManagerV3_4.Pages
 
                 DB.Instance.Applications.Update(SelectedSale);
 
+                if (SelectedSale.Assemblies.Count() > 0)
+                {
+                    foreach (Assembly assembly in SelectedSale.Assemblies)
+                    {
+                        DB.Instance.Applicationassemblies.Remove(DB.Instance.Applicationassemblies.FirstOrDefault(s => s.Idapplication == SelectedSale.Id && s.Idassemby == assembly.Id));
+
+                        assembly.Deleted = false;
+                        DB.Instance.Assemblies.Update(assembly);
+                    }
+                }
+                if (SelectedSale.Products.Count() > 0)
+                {
+                    foreach (Product product in SelectedSale.Products)
+                    {
+                        DB.Instance.Applicationproducts.Remove(DB.Instance.Applicationproducts.FirstOrDefault(s => s.Idapplication == SelectedSale.Id && s.Idproduct == product.Id));
+
+                        product.Amount += 1;
+                        DB.Instance.Products.Update(product);
+                    }
+                }
+
+                DB.Instance.SaveChanges();
+
+                MessageBox.Show("Продажа успешно удалена!");
+
                 Search();
             }
         }
 
         private void SaveEditSelectedSale(object sender, RoutedEventArgs e)
         {
+            if(SelectedSale != null)
+            {
+                List<Assembly> OldAssembliesList = DB.Instance.Applicationassemblies.Include(s => s.IdassembyNavigation).Where(s => s.Idapplication == SelectedSale.Id).Select(s => s.IdassembyNavigation).ToList();
+                List<Product> OldProductsList = DB.Instance.Applicationproducts.Include(s => s.IdproductNavigation).Where(s => s.Idapplication == SelectedSale.Id).Select(s => s.IdproductNavigation).ToList();
 
+                List<Assembly> RemoveAssemblies = OldAssembliesList.Except(SelectedSaleGroupsProducts).ToList();
+                List<Product> RemoveProducts = OldProductsList.Except(SelectedSaleProducts).ToList();
+
+                List<Assembly> AddAssemblies = SelectedSaleGroupsProducts.Except(OldAssembliesList).ToList();
+                List<Product> AddProducts = SelectedSaleProducts.Except(OldProductsList).ToList();
+
+
+                if(RemoveAssemblies.Count() > 0)
+                {
+                    foreach (Assembly assembly in RemoveAssemblies) 
+                    {
+                        DB.Instance.Applicationassemblies.Remove(DB.Instance.Applicationassemblies.FirstOrDefault(s => s.Idapplication == SelectedSale.Id && s.Idassemby == assembly.Id));
+                        
+                        assembly.Deleted = false;
+                        DB.Instance.Assemblies.Update(assembly);
+                    }
+                }
+                if (RemoveProducts.Count() > 0)
+                {
+                    foreach (Product product in RemoveProducts)
+                    {
+                        DB.Instance.Applicationproducts.Remove(DB.Instance.Applicationproducts.FirstOrDefault(s => s.Idapplication == SelectedSale.Id && s.Idproduct == product.Id));
+
+                        product.Amount += 1;
+                        DB.Instance.Products.Update(product);
+                    }
+                }
+                if(AddAssemblies.Count() > 0) 
+                {
+                    foreach(Assembly assembly in AddAssemblies)
+                    {
+                        DB.Instance.Applicationassemblies.Add(new Applicationassembly() { Idapplication = SelectedSale.Id, Idassemby = assembly.Id });
+
+                        assembly.Deleted = false;
+                        DB.Instance.Assemblies.Update(assembly);
+                    }
+                }
+                if (AddProducts.Count() > 0)
+                {
+                    foreach (Product product in AddProducts)
+                    {
+                        DB.Instance.Applicationproducts.Add(new Applicationproduct() { Idapplication = SelectedSale.Id, Idproduct = product.Id });
+
+                        product.Amount -= 1;
+                        DB.Instance.Products.Update(product);
+                    }
+                }
+
+                DB.Instance.SaveChanges();
+
+                MessageBox.Show("Продажа успешно изменена!");
+
+                Search();
+            }
         }
 
         private void AddCrossSaleProduct(object sender, RoutedEventArgs e)
         {
+            if (SelectedSale != null)
+            {
+                OtherFunctons.Products.Clear();
 
+                new AddCrossSaleProductWindow(SelectedSaleProducts).ShowDialog();
+
+                if(OtherFunctons.Products.Count() > 0) 
+                    SelectedSaleProducts.Add(OtherFunctons.Products.Last());
+
+                Signal(nameof(SelectedSaleProducts));
+                SaleProductsListView.Items.Refresh();
+            }
         }
         private void DeleteCrossSaleProduct(object sender, RoutedEventArgs e)
         {
-
+            if (SelectedSale != null && SelectedSaleSelectedProduct != null && (SelectedSaleProducts.Count() > 1 || SelectedSaleGroupsProducts.Count() > 1))
+            {
+                SelectedSaleProducts.Remove(SelectedSaleSelectedProduct);
+                Signal(nameof(SelectedSaleProducts));
+                SaleProductsListView.Items.Refresh();
+            }
+            else
+                MessageBox.Show("Невозможно удалить товар из списка!");     
         }
         private void AddCrossSaleGroupProducts(object sender, RoutedEventArgs e)
         {
+            if (SelectedSale != null)
+            {
+                OtherFunctons.Assemblies.Clear();
 
+                new AddCrossSaleAssemblyWindow(SelectedSaleGroupsProducts).ShowDialog();
+
+                if (OtherFunctons.Assemblies.Count() > 0)
+                    SelectedSaleGroupsProducts.Add(OtherFunctons.Assemblies.Last());
+
+                Signal(nameof(SelectedSaleGroupsProducts));
+                SaleAssembliesListView.Items.Refresh();
+            }
         }
         private void DeleteCrossSaleGroupProducts(object sender, RoutedEventArgs e)
         {
-
+            if (SelectedSale != null && SelectedSaleSelectedGroupProducts != null && (SelectedSaleProducts.Count() > 1 || SelectedSaleGroupsProducts.Count() > 1))
+            {
+                SelectedSaleGroupsProducts.Remove(SelectedSaleSelectedGroupProducts);
+                Signal(nameof(SelectedSaleGroupsProducts));
+                SaleAssembliesListView.Items.Refresh();
+            }
+            else
+                MessageBox.Show("Невозможно сборку товаров товар из списка!");
         }
     }
 }

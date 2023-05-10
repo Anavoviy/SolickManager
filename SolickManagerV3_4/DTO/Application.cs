@@ -85,7 +85,8 @@ public partial class Application
         get
             {
                 decimal sum = 0;
-
+                sum += DB.Instance.Applicationproducts.Include(s => s.IdproductNavigation).Where(s => s.Idapplication == this.Id).Select(s => s.IdproductNavigation.Cost).ToList().Sum();
+                sum += DB.Instance.Applicationassemblies.Include(s => s.IdassembyNavigation).Where(s => s.Idapplication == this.Id).Select(s => s.IdassembyNavigation.Cost).ToList().Sum();
                 return sum;
             } 
     }
@@ -96,5 +97,10 @@ public partial class Application
             return DB.Instance.Applicationproducts.Include(s => s.IdproductNavigation).Where(s => s.Idapplication == this.Id).Select(s => s.IdproductNavigation).ToList();
         } }
 
+    [NotMapped]
+    public List<Assembly> Assemblies { get
+        {
+            return DB.Instance.Applicationassemblies.Include(s => s.IdassembyNavigation).Where(s => s.Idapplication == this.Id).Select(s => s.IdassembyNavigation).ToList();
+        } }
 
 }
