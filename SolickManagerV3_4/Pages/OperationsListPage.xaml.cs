@@ -52,7 +52,8 @@ namespace SolickManagerV3_4.Pages
             set
             {
                 selectedOperation = value;
-
+                ValidData();
+                ValidAmount();
                 if (SelectedOperation != null)
                 {
                     DataOperation = SelectedOperation.Dataclose.ToString();
@@ -158,7 +159,7 @@ namespace SolickManagerV3_4.Pages
         private void ValidData()
         {
             DateOnly data;
-            if (DateOnly.TryParse(DataOperation, out data) && DataOperation != null)
+            if (DateOnly.TryParse(DataOperation, out data) && DataOperation != null && DataOperation != "")
             {
                 DataTextBox.Foreground = new SolidColorBrush(Colors.Black);
                 SaveButton.IsEnabled = true;
@@ -194,7 +195,7 @@ namespace SolickManagerV3_4.Pages
 
         private void SaveEditSelectedOperation(object sender, RoutedEventArgs e)
         {
-            if (SelectedOperation != null)
+            if (SelectedOperation != null && DataOperation != "")
             {
                 SelectedOperation.Dataclose = DateOnly.Parse(DataOperation);
                 SelectedOperation.Amount = decimal.Parse(EditAmount);

@@ -18,7 +18,7 @@
         </Grid.RowDefinitions>
         <Grid
             Background="#17C3B2" Height="40" VerticalAlignment="Top">
-            <Menu Style="{DynamicResource MenuSolick}" VerticalAlignment="Center">
+            <Menu Style="{DynamicResource MenuSolick}" VerticalAlignment="Center" Visibility="Collapsed">
                 <MenuItem Header="Файл"/>
                 <MenuItem Header="Справка"/>
                 <MenuItem Header="Вид"/>
@@ -210,7 +210,7 @@
                        FontFamily="Inter/#Inter-V.ttf"/>
                     </StackPanel>
                 </Border>
-                <Border Height="36" Width="280" Padding="3" CornerRadius="5" Margin="10 10 10 0" Style="{DynamicResource RightMenuElement}" MouseLeftButtonDown="Reports">
+                <Border Height="36" Width="280" Padding="3" CornerRadius="5" Margin="10 10 10 0" Style="{DynamicResource RightMenuElement}" MouseLeftButtonDown="Reports" Visibility="Hidden">
                     <StackPanel  Orientation="Horizontal">
                         <Image Source="/Windows/Images/otchet.png" Height="30" Width="30" HorizontalAlignment="Left"/>
                         <Label Content="Отчёты"
@@ -225,7 +225,7 @@
                 
             </StackPanel>
             <StackPanel DockPanel.Dock="Bottom" Height="auto" VerticalAlignment="Bottom">
-                <Border Height="36" Width="280" Padding="3" CornerRadius="5" Margin="10 20 10 0" Style="{DynamicResource RightMenuElement}" MouseLeftButtonDown="Settings">
+                <Border Height="36" Width="280" Padding="3" CornerRadius="5" Margin="10 20 10 0" Style="{DynamicResource RightMenuElement}" MouseLeftButtonDown="Settings" Visibility="Hidden">
                     <StackPanel  Orientation="Horizontal">
                         <Image Source="/Windows/Images/settings.png" Height="30" Width="30" HorizontalAlignment="Left"/>
                         <Label Content="Настройки"
