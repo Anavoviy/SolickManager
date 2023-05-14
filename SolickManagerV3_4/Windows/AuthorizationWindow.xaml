@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Icon="Images/SolulCompIcon.ico"
-        Title="Авторизация" MinHeight="720" MinWidth="1280"
+        Title="SoulComp Manager" MinHeight="720" MinWidth="1280"
         MaxHeight="1080" MaxWidth="1920">
     <Grid Background="#FAFAFA">
         <Border Visibility="{Binding Authorization}" VerticalAlignment="Center" HorizontalAlignment="Center" Width="350" Height="400" CornerRadius="10" Background="#17c3b2">

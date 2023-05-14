@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Icon="Images/SolulCompIcon.ico"
         WindowStartupLocation="CenterOwner"
-        Title="ListAddAssemblyWindow" Height="640" Width="980">
+        Title="SoulComp Manager" Height="640" Width="980">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>

@@ -89,7 +89,13 @@ namespace SolickManagerV3_4.Windows
         private void AddProductInGroup(object sender, RoutedEventArgs e)
         {
             new ListAssembliesWindow(true, true).ShowDialog();
-            ProductsListView.Items.Refresh();
+            try
+            {
+                ProductsListView.Items.Refresh();
+            }catch(Exception ex)
+            {
+                MessageBox.Show("Ошибка добавления товара!");
+            }
         }
 
         private void DeleteProductFromGroup(object sender, RoutedEventArgs e)

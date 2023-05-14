@@ -33,9 +33,10 @@
                               HorizontalAlignment="Left"
                               MinWidth="940"
                               Width="auto"
-                              Height="auto"
+                              Height="630"
                               HorizontalGridLinesBrush="Transparent"
-                              VerticalGridLinesBrush="Transparent">
+                              VerticalGridLinesBrush="Transparent"
+                              VerticalAlignment="Top">
                         <DataGrid.ColumnHeaderStyle>
                             <Style TargetType="{x:Type DataGridColumnHeader}">
                                 <Setter Property="Background" Value="#3993DD"/>

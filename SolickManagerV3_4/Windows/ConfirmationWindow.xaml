@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Icon="Images/SolulCompIcon.ico"
-        Title="Подтвержение" Height="300" Width="500">
+        Title="SoulComp Manager" Height="300" Width="500">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>

@@ -63,7 +63,7 @@ namespace SolickManagerV3_4.Pages
                 selectedApplication = value;
                 if (selectedApplication != null) {
                     SelectedStatusIndex = EditStatusesList.IndexOf(SelectedApplication.Status);
-                    //SelectedApplicationServices = this.SelectedApplication.ListService.Where(s => s.Deleted == false).ToList();
+                    SelectedApplicationServices = this.SelectedApplication.ListService.ToList();
                         }
                 Signal(nameof(SelectedStatusIndex));
                 Signal(nameof(SelectedApplicationServices));

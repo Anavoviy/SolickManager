@@ -737,7 +737,7 @@
                                 <ListView Style="{DynamicResource RoundWhiteListBox}" 
                                          ItemsSource="{Binding SelectedApplicationServices}"
                                          SelectedItem="{Binding SelectedServiceInSelectedApplication}"
-                                          DisplayMemberPath="IdserviceNavigation"
+                                         DisplayMemberPath="IdserviceNavigation"
                                          FontSize="12"
                                          Foreground="Black"
                                          FontFamily="Inter/#Inter-V.ttf"

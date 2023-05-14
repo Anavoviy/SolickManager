@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SolickManagerV3_4.Windows"
         mc:Ignorable="d"
         Icon="Images/SolulCompIcon.ico"
-        Title="AddOrEditCharacteristicWindow" Height="260" Width="400">
+        Title="SoulComp Manager" Height="260" Width="400">
     <Grid>
         <Border Width="350"
             Height="180"

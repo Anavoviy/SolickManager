@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Icon="Images/SolulCompIcon.ico"
-        Title="AddCrossApplicationServiceWindow" Height="450" Width="400">
+        Title="SoulComp Manager" Height="450" Width="400">
     <Border
         Width="350"
         Height="400"

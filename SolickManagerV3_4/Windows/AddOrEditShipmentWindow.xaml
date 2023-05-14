@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SolickManagerV3_4.Windows"
         mc:Ignorable="d"
         Icon="Images/SolulCompIcon.ico"
-        Title="AddOrEditShipmentWindow" Height="700" Width="600">
+        Title="SoulComp Manager" Height="700" Width="600">
     <Border Width="550"
             Height="620"
             CornerRadius="10"
