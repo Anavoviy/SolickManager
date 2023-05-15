@@ -5,10 +5,85 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:SolickManagerV3_4.Pages"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="ReportsPage">
-
+      d:DesignHeight="680" d:DesignWidth="1280"
+      Title="ReportsPage"
+      xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" Margin="15">
+            <Menu Height="28" VerticalAlignment="Bottom" Background="#FAFAFA">
+                <MenuItem x:Name="WireHouseMenuItem"
+                          Header="Склад"
+                          Padding="10 3 10 3"
+                          Background="#FAFAFA"
+                          BorderThickness="0"
+                          BorderBrush="#17C3B2"
+                          Click="WireHouseClick"
+                          FontSize="18"
+                          FontWeight="Medium"
+                          FontStretch="Normal"
+                          FontFamily="Inter"
+                          Margin="0 0 50 0"/>
+                <MenuItem x:Name="SaleMenuItem"
+                          Header="Продажи"
+                          Padding="10 3 10 3"
+                          Background="#FAFAFA"
+                          BorderBrush="#17C3B2"
+                          BorderThickness="0"
+                          Click="SaleClick"
+                          FontSize="18"
+                          FontWeight="Medium"
+                          FontStretch="Normal"
+                          FontFamily="Inter"
+                          Margin="0 0 50 0"/>
+                <MenuItem x:Name="ApplicationMenuItem"
+                          Header="Заявки"
+                          Padding="10 3 10 3"
+                          Background="#FAFAFA"
+                          BorderBrush="#17C3B2"
+                          BorderThickness="0"
+                          Click="ApplicationClick"
+                          FontSize="18"
+                          FontWeight="Medium"
+                          FontStretch="Normal"
+                          FontFamily="Inter"
+                          Margin="0 0 0 0"/>
+            </Menu>
+        </StackPanel>
         
+        <Grid Grid.Row="1" x:Name="WireHouseGrid">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <lvc:PieChart x:Name="CategoriesPieceDiagram"
+                          Margin="25"
+                Series="{Binding DiagramCategoriesPiece}"
+                LegendPosition="Left">
+            </lvc:PieChart>
+            <lvc:PieChart x:Name="CategoriesMoneyDiagram" Grid.Column="1"
+                          Margin="25"
+                Series="{Binding DiagramCategoriesMoney}"
+                LegendPosition="Left">
+            </lvc:PieChart>
+            <lvc:PieChart x:Name="AssemblyOnProductPieceDiagram" Grid.Column="0" Grid.Row="1"
+                          Margin="25"
+                Series="{Binding DiagramAssembliesOnProductsPiece}"
+                LegendPosition="Left">
+            </lvc:PieChart>
+            <lvc:PieChart x:Name="AssemblyOnProductMoneyDiagram" Grid.Column="1" Grid.Row="1"
+                          Margin="25"
+                Series="{Binding DiagramAssembliesOnProductsMoney}"
+                LegendPosition="Left">
+            </lvc:PieChart>
+        </Grid>
     </Grid>
 </Page>

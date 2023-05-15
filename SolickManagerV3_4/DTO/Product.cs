@@ -52,7 +52,7 @@ public partial class Product
     [NotMapped]
     public decimal CostAll { get
         {
-            return (Amount * Cost);
+            return (Amount * decimal.Parse(this.CostView));
         } }
 
     [NotMapped]

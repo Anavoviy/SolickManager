@@ -35,13 +35,14 @@ namespace SolickManagerV3_4.Pages
         private string searchTitle = "";
         private decimal searchCost = 0;
         private Worker selectedMaster = null;
+        private Assembly selectedAssembly;
 
         //Работник за приложением
         public Worker Worker { get; set; }
 
         // Основные данные
         public List<Assembly> Assemblies { get; set; }
-        public Assembly SelectedAssembly { get; set; }
+        public Assembly SelectedAssembly { get => selectedAssembly; set { selectedAssembly = value; Signal(); } }
 
         // Поиск и фильтрация
         public string SearchTitle { get => searchTitle; set { searchTitle = value; Search(); } }
@@ -55,25 +56,32 @@ namespace SolickManagerV3_4.Pages
 
             Search();
 
-            Masters = DB.Instance.Workers.Where(s => s.Deleted == false).OrderBy(s => s.Surname).ThenBy(s => s.Firstname).ThenBy(s => s.Patronymic).ToList();
+            FillMasters();
 
             Worker = worker;
 
             DataContext = this;
         }
 
+        private void FillMasters()
+        {
+            Masters = new List<Worker>() { new Worker { Firstname = "Все мастера" , Id = 0} };
+            Masters.AddRange(DB.Instance.Workers.Where(s => s.Deleted == false).OrderBy(s => s.Surname).ThenBy(s => s.Firstname).ThenBy(s => s.Patronymic).ToList());
+
+            Signal(nameof(Masters));
+        }
         public void Search()
         {
             var result = DB.Instance.Assemblies.Where(s => (SearchTitle == "" || s.Title.ToLower().Contains(SearchTitle.ToLower())) &&
                                                            (SearchCost == 0 || s.Cost == SearchCost) &&
-                                                           (SelectedMaster == null || s.Idmasterconfiguration == SelectedMaster.Id || s.Idmasterassembler == SelectedMaster.Id) &&
+                                                           (SelectedMaster == null || SelectedMaster.Id == 0 || s.Idmasterconfiguration == SelectedMaster.Id || s.Idmasterassembler == SelectedMaster.Id) &&
                                                            s.Deleted == false);
-            
+
             Assemblies = result.OrderBy(s => s.Id).ToList();
 
             if (SelectedAssembly != null)
                 SelectedAssembly = Assemblies.FirstOrDefault(s => s.Id == SelectedAssembly.Id);
-            
+
             Signal(nameof(Assemblies));
             Signal(nameof(SelectedAssembly));
         }
@@ -104,6 +112,8 @@ namespace SolickManagerV3_4.Pages
             {
                 DB.Instance.Assemblies.Update(SelectedAssembly);
                 DB.Instance.SaveChanges();
+
+                MessageBox.Show("Успешно изменена выбранная группа товаров (сборка)!");
 
                 Search();
             }
