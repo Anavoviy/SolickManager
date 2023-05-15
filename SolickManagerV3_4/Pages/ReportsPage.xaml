@@ -85,5 +85,36 @@
                 LegendPosition="Left">
             </lvc:PieChart>
         </Grid>
+        <Grid Grid.Row="1" x:Name="SaleGrid">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <lvc:CartesianChart x:Name="SalesClosedDiagram"
+                                LegendPosition="Top">
+                
+            </lvc:CartesianChart>
+            <lvc:CartesianChart x:Name="SalesOpenedDiagram"
+                                LegendPosition="Top">
+
+            </lvc:CartesianChart>
+
+        </Grid>
+        <Grid Grid.Row="1" x:Name="ApplicationGrid">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+        </Grid>
     </Grid>
 </Page>

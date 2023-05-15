@@ -39,15 +39,18 @@ namespace SolickManagerV3_4.Pages
         //Работник за приложением
         public Worker Worker { get; set; }
 
-        // Название кнопки для склада: WireHouseMenuItem  Название Grid: WireHouseGrid
+        // Название кнопки для склада: WireHouseMenuItem   Название Grid: WireHouseGrid
         public ISeries[] DiagramCategoriesPiece { get; set; }
         public ISeries[] DiagramCategoriesMoney { get; set; }
         public ISeries[] DiagramAssembliesOnProductsPiece { get; set; }
         public ISeries[] DiagramAssembliesOnProductsMoney { get; set; }
 
 
-        // Название кнопки для продаж: SaleMenuItem
-        public ISeries[] DiagramSales { get; set; }
+        // Название кнопки для продаж: SaleMenuItem   Название Grid: SaleGrid
+        public ISeries[] DiagramSalesCLosed { get; set; } // SalesClosedDiagram
+        public ISeries[] DiagramSalesOpened { get; set; } // SalesOpenedDiagram
+        public ISeries[] DiagramSalesOnWorkersPiece { get; set; }
+        public ISeries[] DiagramSalesOnWorkersMoney { get; set; }
 
         // Название кнопки для заявок: ApplicationMenuItem
         public ISeries[] DiagramApplications { get; set; }
@@ -66,9 +69,12 @@ namespace SolickManagerV3_4.Pages
         private void WireHouseClick(object sender, RoutedEventArgs e)
         {
             SaleMenuItem.BorderThickness = new Thickness(0,0,0,0);
+            SaleGrid.Visibility = Visibility.Collapsed;
             ApplicationMenuItem.BorderThickness = new Thickness(0, 0, 0, 0);
+            ApplicationGrid.Visibility = Visibility.Collapsed;
 
             WireHouseMenuItem.BorderThickness = new Thickness(0, 0, 0, 1);
+            WireHouseGrid.Visibility = Visibility.Visible;
 
             List<Category> Categories = DB.Instance.Categories.Include(s => s.Products).Where(s => s.Deleted == false && s.Products.Count() > 0).Distinct().ToList();
             DiagramCategoriesPiece = new ISeries[Categories.Count()];
@@ -165,16 +171,24 @@ namespace SolickManagerV3_4.Pages
         private void SaleClick(object sender, RoutedEventArgs e)
         {
             ApplicationMenuItem.BorderThickness = new Thickness(0, 0, 0, 0);
+            ApplicationGrid.Visibility = Visibility.Collapsed;
             WireHouseMenuItem.BorderThickness = new Thickness(0, 0, 0, 0);
+            WireHouseGrid.Visibility = Visibility.Collapsed;
 
             SaleMenuItem.BorderThickness = new Thickness(0, 0, 0, 1);
+            SaleGrid.Visibility = Visibility.Visible;
+
+
         }
         private void ApplicationClick(object sender, RoutedEventArgs e)
         {
-            SaleMenuItem.BorderThickness = new Thickness(0, 0, 0, 0);
             WireHouseMenuItem.BorderThickness = new Thickness(0, 0, 0, 0);
+            WireHouseGrid.Visibility = Visibility.Collapsed;
+            SaleMenuItem.BorderThickness = new Thickness(0, 0, 0, 0);
+            SaleGrid.Visibility = Visibility.Collapsed;
 
-            ApplicationMenuItem.BorderThickness = new Thickness(0, 0, 0, 1);
+            ApplicationMenuItem.BorderThickness = new Thickness(0, 0, 0, 0);
+            ApplicationGrid.Visibility = Visibility.Visible;
         }
     }
 }
