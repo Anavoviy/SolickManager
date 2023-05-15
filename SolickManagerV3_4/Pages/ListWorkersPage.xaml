@@ -32,7 +32,6 @@
                               HorizontalAlignment="Left"
                               MinWidth="940"
                               Width="auto"
-                              Height="620"
                               HorizontalGridLinesBrush="Transparent"
                               VerticalGridLinesBrush="Transparent">
                         <DataGrid.ColumnHeaderStyle>

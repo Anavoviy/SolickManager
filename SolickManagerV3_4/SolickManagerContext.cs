@@ -64,7 +64,7 @@ public partial class SolickManagerContext : DbContext
     public virtual DbSet<Workingshift> Workingshifts { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=SolickManager;Username=postgres;Password=vova2005");
+        => optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=SolickManager;Username=postgres;Password=student");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

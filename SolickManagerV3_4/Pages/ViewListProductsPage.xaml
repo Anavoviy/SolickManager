@@ -33,7 +33,6 @@
                               HorizontalAlignment="Left"
                               MinWidth="940"
                               Width="auto"
-                              Height="630"
                               HorizontalGridLinesBrush="Transparent"
                               VerticalGridLinesBrush="Transparent"
                               VerticalAlignment="Top">

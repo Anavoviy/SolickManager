@@ -17,11 +17,12 @@
 
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
                 <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
 
             <Grid>
+                
                 <Border Background="White"
                         CornerRadius="10"
                         MinWidth="940"
@@ -39,7 +40,6 @@
                               HorizontalAlignment="Left"
                               MinWidth="940"
                               Width="auto"
-                              Height="630"
                               HorizontalGridLinesBrush="Transparent"
                               VerticalGridLinesBrush="Transparent">
                         <DataGrid.ColumnHeaderStyle>
@@ -102,7 +102,7 @@
                         </DataGrid.Columns>
                     </DataGrid>
                 </Border>
-
+                
                 <Grid Height="34" VerticalAlignment="Top" Margin="20 5 10 0">
                     <Label Content="Характеристики" 
                            FontFamily="Assets/Inter/#Inter-V.ttf"
