@@ -170,7 +170,9 @@ namespace SolickManagerV3_4.Windows
                     });
                     DB.Instance.SaveChanges();
 
-                    Product.Idshipment = DB.Instance.Shipments.OrderBy(s => s.Id).Last().Id;
+                    this.Product.Idshipment = DB.Instance.Shipments.OrderBy(s => s.Id).Last().Id;
+
+                    this.Product.Id = DB.Instance.Products.OrderBy(s => s.Id).Last().Id + 1;
 
                     DB.Instance.Products.Add(Product);
                     DB.Instance.SaveChanges();

@@ -122,7 +122,7 @@ namespace SolickManagerV3_4.Windows
             {
                 
                     Service newService = new Service();
-                    newService.Title = this.Title;
+                    newService.Title = this.EditTitle;
                     newService.Description = this.Description;
                     newService.Cost = this.Cost;
 

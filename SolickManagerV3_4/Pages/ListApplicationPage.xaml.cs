@@ -62,6 +62,14 @@ namespace SolickManagerV3_4.Pages
             {
                 selectedApplication = value;
                 if (selectedApplication != null) {
+
+                    if (SelectedApplication.Status == "Завершена")
+                    {
+                        SaveButton.IsEnabled = false;
+                        StatusesComboBox.IsEnabled = false;
+                        DiagnosticsTextBox.IsEnabled = false;
+                        ServiceListView.IsEnabled = false;
+                    }
                     SelectedStatusIndex = EditStatusesList.IndexOf(SelectedApplication.Status);
                     SelectedApplicationServices = this.SelectedApplication.ListService.ToList();
                         }

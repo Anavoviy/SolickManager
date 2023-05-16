@@ -85,8 +85,15 @@ public partial class Application
         get
             {
                 decimal sum = 0;
-                sum += DB.Instance.Applicationproducts.Include(s => s.IdproductNavigation).Where(s => s.Idapplication == this.Id).Select(s => s.IdproductNavigation.Cost).ToList().Sum();
-                sum += DB.Instance.Applicationassemblies.Include(s => s.IdassembyNavigation).Where(s => s.Idapplication == this.Id).Select(s => s.IdassembyNavigation.Cost).ToList().Sum();
+                List<Product> products = DB.Instance.Applicationproducts.Include(s => s.IdproductNavigation).Where(s => s.Idapplication == this.Id).Select(s => s.IdproductNavigation).ToList();
+                List<Assembly> assemblies = DB.Instance.Applicationassemblies.Include(s => s.IdassembyNavigation).Where(s => s.Idapplication == this.Id).Select(s => s.IdassembyNavigation).ToList();
+
+            foreach (Product product in products)
+                sum += decimal.Parse(product.CostView);
+
+            foreach (Assembly assembly in assemblies)
+                sum += assembly.Cost;
+
                 return sum;
             } 
     }

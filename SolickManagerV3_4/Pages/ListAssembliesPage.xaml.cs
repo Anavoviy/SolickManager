@@ -65,7 +65,7 @@ namespace SolickManagerV3_4.Pages
 
         private void FillMasters()
         {
-            Masters = new List<Worker>() { new Worker { Firstname = "Все мастера" , Id = 0} };
+            Masters = new List<Worker>() { new Worker { Firstname = "Все мастера" ,Surname = " ", Id = 0} };
             Masters.AddRange(DB.Instance.Workers.Where(s => s.Deleted == false).OrderBy(s => s.Surname).ThenBy(s => s.Firstname).ThenBy(s => s.Patronymic).ToList());
 
             Signal(nameof(Masters));

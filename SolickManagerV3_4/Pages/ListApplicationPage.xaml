@@ -680,7 +680,8 @@
                                    FontFamily="Inter/#Inter-V.ttf"
                                    Foreground="White"
                                    Margin="10 0 20 0"/>
-                            <ComboBox Style="{DynamicResource RoundComboBox}" 
+                            <ComboBox x:Name="StatusesComboBox"
+                                      Style="{DynamicResource RoundComboBox}" 
                                       ItemsSource="{Binding EditStatusesList}"
                                       SelectedIndex="{Binding SelectedStatusIndex}"
                                       Background="White"
@@ -705,7 +706,8 @@
                                         FontSize="14"
                                         Foreground="Black"
                                         FontFamily="Inter/#Inter-V.ttf"/>
-                                <TextBox Text="{Binding SelectedApplication.Diagnostics}"
+                                <TextBox x:Name="DiagnosticsTextBox"
+                                         Text="{Binding SelectedApplication.Diagnostics}"
                                          Style="{DynamicResource RoundTextBox}"
                                          TextWrapping="Wrap"
                                          FontSize="12"
@@ -734,7 +736,8 @@
                                         FontSize="14"
                                         Foreground="Black"
                                         FontFamily="Inter/#Inter-V.ttf"/>
-                                <ListView Style="{DynamicResource RoundWhiteListBox}" 
+                                <ListView x:Name="ServiceListView"
+                                         Style="{DynamicResource RoundWhiteListBox}" 
                                          ItemsSource="{Binding SelectedApplicationServices}"
                                          SelectedItem="{Binding SelectedServiceInSelectedApplication}"
                                          DisplayMemberPath="IdserviceNavigation"
@@ -755,7 +758,8 @@
                             </StackPanel>
                         </Border>
 
-                        <Button Style="{DynamicResource ButtonRoundStyle}" 
+                        <Button x:Name="SaveButton"
+                                Style="{DynamicResource ButtonRoundStyle}" 
                                 Content="Применить"
                                 Width="180"
                                 Height="30"
