@@ -129,17 +129,47 @@ namespace SolickManagerV3_4.Pages
 
         private void SaveEditSelectedApplication(object sender, RoutedEventArgs e)
         {
-            SelectedApplication.Status = EditStatusesList[SelectedStatusIndex];
+            if (SelectedApplication != null) {
+                SelectedApplication.Status = EditStatusesList[SelectedStatusIndex];
 
-            DB.Instance.Applications.Update(SelectedApplication);
-            DB.Instance.SaveChanges();
+                if(SelectedApplication.Status == "Завершена")
+                {
+                    Bankaccount bankaccount;
 
-            StatusesList = FillStatusesList();
+                    if (DB.Instance.Bankaccounts.FirstOrDefault(s => s.Title == "Касса") != null)
+                    {
+                        bankaccount = DB.Instance.Bankaccounts.FirstOrDefault(s => s.Title == "Касса");
+                        bankaccount.Balance += SelectedApplication.AllPriceService;
 
-            Signal(nameof(SelectedApplication));
-            Signal(nameof(StatusesList));
+                        DB.Instance.Bankaccounts.Update(bankaccount);
 
-            Search();
+                        DB.Instance.Operations.Add(new Operation()
+                        {
+                            Status = "Завершена",
+                            Debet = DB.Instance.Bankaccounts.FirstOrDefault(s => s.Title == "Касса").Id,
+                            Object = "Заявка #" + SelectedApplication.Id,
+                            Dataopen = OtherFunctons.Instance.DateOnlyNow(),
+                            Dataclose = OtherFunctons.Instance.DateOnlyNow(),
+                            Amount = SelectedApplication.AllPriceService
+                        });
+                    }
+                    else
+                    {
+                        SelectedApplication.Status = "На выдаче";
+                        MessageBox.Show("У вас нет счёта \"Касса\"!");
+                    }
+                }
+
+                DB.Instance.Applications.Update(SelectedApplication);
+                DB.Instance.SaveChanges();
+
+                StatusesList = FillStatusesList();
+
+                Signal(nameof(SelectedApplication));
+                Signal(nameof(StatusesList));
+
+                Search();
+            }
         }
 
         private void Search()

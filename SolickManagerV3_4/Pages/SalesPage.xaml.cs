@@ -253,7 +253,7 @@ namespace SolickManagerV3_4.Pages
                         {
                             Status = "Завершена",
                             Debet = DB.Instance.Bankaccounts.FirstOrDefault(s => s.Title == "Касса").Id,
-                            Object = "Продажа",
+                            Object = "Продажа #" + SelectedSale.Id,
                             Dataopen = OtherFunctons.Instance.DateOnlyNow(),
                             Dataclose = OtherFunctons.Instance.DateOnlyNow(),
                             Amount = SelectedSale.PriceOfAllproducts

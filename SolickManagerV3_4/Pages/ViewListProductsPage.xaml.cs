@@ -128,7 +128,8 @@ namespace SolickManagerV3_4.Pages
                                                    (SearchDescription == "" || (s.Description != null && s.Description.ToLower().Contains(SearchDescription.ToLower()))
                                                    ));
 
-            Products = result.OrderBy(s => s.Id).ToList();
+            Products = result.Where(s => s.Amount > 0).OrderBy(s => s.Id).ToList();
+            Products.AddRange(result.Where(s => s.Amount == 0).OrderBy(s => s.Id).ToList());
 
             Signal(nameof(Products));
         }

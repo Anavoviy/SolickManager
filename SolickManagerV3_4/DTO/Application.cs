@@ -47,18 +47,24 @@ public partial class Application
     {
         get
         {
-            double sum = 0;
+            return this.AllPriceService.ToString() + " руб.";
+        }
+    }
+
+    [NotMapped]
+    public decimal AllPriceService { get
+        {
+            decimal sum = 0;
 
             var ApplicationServices = DB.Instance.Applicationservices.Include(s => s.IdserviceNavigation).Where(s => s.Idapplication == this.Id && s.Deleted == false);
 
             foreach (var applicationService in ApplicationServices)
             {
-                sum += (double)applicationService.IdserviceNavigation.Cost;
+                sum += (decimal)applicationService.IdserviceNavigation.Cost;
             }
 
-            return sum.ToString() + " руб.";
-        }
-    }
+            return sum;
+        } }
 
     [NotMapped]
     public string DateView
