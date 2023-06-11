@@ -1,0 +1,111 @@
+﻿<Window x:Class="SolickManagerV3_4.Windows.AddCrossSaleAssemblyWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SolickManagerV3_4.Windows"
+        mc:Ignorable="d"
+        Icon="Images/SolulCompIcon.ico"
+        WindowStartupLocation="CenterScreen"
+        Title="SoulComp Manager" Height="640" Width="980">
+    <Grid>
+        <Grid>
+            <Border Background="White"
+                        CornerRadius="10"
+                        MinWidth="940"
+                        MinHeight="580"
+                        BorderThickness="0"
+                        Margin="20 20 20 20"
+                        Padding="0 20 0 0">
+
+                <DataGrid Style="{DynamicResource DataGridSolickStyle}" AutoGenerateColumns="False" 
+                              HeadersVisibility="Column"
+                              IsReadOnly="true"
+                              ItemsSource="{Binding Assemblies}"
+                              SelectedItem="{Binding SelectedAssembly}"
+                              HorizontalAlignment="Left"
+                              MinWidth="940"
+                              Width="auto"
+                              Height="auto"
+                              HorizontalGridLinesBrush="Transparent"
+                              VerticalGridLinesBrush="Transparent">
+                    <DataGrid.ColumnHeaderStyle>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="Background" Value="#3993DD"/>
+                            <Setter Property="Foreground" Value="White"/>
+                            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                            <Setter Property="VerticalContentAlignment" Value="Center"/>
+                            <Setter Property="Padding" Value="5 1"/>
+                        </Style>
+                    </DataGrid.ColumnHeaderStyle>
+                    <DataGrid.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Setter Property="VerticalContentAlignment" Value="Center"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="FontFamily" Value="Inter"/>
+                            <Setter Property="FontSize" Value="11"/>
+
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True" >
+                                    <Setter Property="Background" Value="#24FFE9" />
+                                    <Setter Property="Foreground" Value="Black" />
+
+                                    <Setter Property="BorderThickness" Value="0"/>
+                                </Trigger>
+
+                                <Trigger Property="IsMouseOver" Value="True">
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.CellStyle>
+                    <DataGrid.RowStyle>
+                        <Style TargetType="{x:Type DataGridRow}">
+                            <Setter Property="BorderThickness" Value="0"/>
+                            <Setter Property="Background" Value="White"/>
+                            <Setter Property="VerticalContentAlignment" Value="Center"/>
+                            <Setter Property="FontFamily" Value="Inter"/>
+                            <Setter Property="FontSize" Value="11"/>
+
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="#24FFE9"/>
+                                    <Setter Property="Foreground" Value="Black"/>
+                                </Trigger>
+
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#B5FFF8" />
+                                    <Setter Property="Foreground" Value="Black" />
+
+                                    <Setter Property="BorderThickness" Value="0"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.RowStyle>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Width="60*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Код" Binding="{Binding Id}"/>
+                        <DataGridTextColumn Width="100*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Название" Binding="{Binding Title}"/>
+                        <DataGridTextColumn Width="100*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Конфигуратор" Binding="{Binding IdmasterconfigurationNavigation.FIO}"/>
+                        <DataGridTextColumn Width="100*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Сборщик" Binding="{Binding IdmasterassemblerNavigation.FIO}"/>
+                        <DataGridTextColumn Width="100*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Описание" Binding="{Binding Description}"/>
+                        <DataGridTextColumn Width="300*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Товары" Binding="{Binding Products}"/>
+                        <DataGridTextColumn Width="100*" ElementStyle="{DynamicResource StyleDataGridTextColumn}" Header="Стоимость" Binding="{Binding CostView}"/>
+                    </DataGrid.Columns>
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Выбрать" Click="AddAssemblyInSale"/>
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
+                </DataGrid>
+            </Border>
+
+            <Grid Height="34" VerticalAlignment="Top" Margin="20 5 10 0">
+                <Label Content="Группы товаров" 
+                           FontFamily="Assets/Inter/#Inter-V.ttf"
+                           FontSize="22"
+                           Margin="10 0 0 0"
+                           HorizontalAlignment="Left"/>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SolickManagerV3_4.DTO;
 
@@ -37,6 +38,8 @@ public partial class Worker
 
     public virtual ICollection<Application> Applications { get; } = new List<Application>();
 
+    public virtual ICollection<Applicationservice> Applicationservices { get; } = new List<Applicationservice>();
+
     public virtual ICollection<Assembly> AssemblyIdmasterassemblerNavigations { get; } = new List<Assembly>();
 
     public virtual ICollection<Assembly> AssemblyIdmasterconfigurationNavigations { get; } = new List<Assembly>();
@@ -49,6 +52,21 @@ public partial class Worker
 
     public override string ToString()
     {
-        return this.Firstname + " " + this.Surname[0] + ".";
+        return Firstname + " " + Surname[0] + ".";
     }
+
+    [NotMapped]
+    public string FIO
+    {
+        get
+        {
+            return this.Surname + " " + this.Firstname + " " + this.Patronymic;
+        }
+    }
+
+    [NotMapped]
+    public string BirthdayView { get
+        {
+            return Birthday.ToString("d");
+        } }
 }

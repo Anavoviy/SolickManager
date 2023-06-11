@@ -17,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using SolickManagerV3_4.Windows;
 
 namespace SolickManagerV3_4.Pages
 {
@@ -25,11 +26,12 @@ namespace SolickManagerV3_4.Pages
     /// </summary>
     public partial class ListApplicationPage : Page, INotifyPropertyChanged
     {
-        private List<Service> selectedApplicationServices;
+        private List<Applicationservice> selectedApplicationServices;
         private DTO.Application selectedApplication;
         private string searchText = "";
         private string dataStart = "";
         private string dataEnd = "";
+        private int statusIndex = 0;
 
         public event PropertyChangedEventHandler? PropertyChanged;
         void Signal([CallerMemberName] string prop = null)
@@ -48,23 +50,44 @@ namespace SolickManagerV3_4.Pages
         public string DataEnd { get => dataEnd; set { dataEnd = value; Search(); } }
 
         public List<string> StatusesList { get; set; } = new List<string>();
-        public int StatusIndex { get; set; } = 0;
+        public int StatusIndex { get => statusIndex; set { statusIndex = value; Search(); } }
 
         //Вывод сбоку:
-        public List<Service> SelectedApplicationServices { get => selectedApplicationServices; set { selectedApplicationServices = value; Signal(); } }
-        public DTO.Application SelectedApplication { get => selectedApplication; 
-            set 
-            { 
+        public Applicationservice SelectedServiceInSelectedApplication { get; set; }
+        public List<Applicationservice> SelectedApplicationServices { get => selectedApplicationServices; set { selectedApplicationServices = value; Signal(); } }
+        public DTO.Application SelectedApplication
+        {
+            get => selectedApplication;
+            set
+            {
                 selectedApplication = value;
-                SelectedStatusIndex = StatusesList.IndexOf(SelectedApplication.Status);
-                Signal(nameof(SelectedStatusIndex));
-                Signal(); 
-            } }
+                if (selectedApplication != null) {
 
-        public List<string> EditStatusesList { get; set; } = new List<string>();
+                    if (SelectedApplication.Status == "Завершена")
+                    {
+                        SaveButton.IsEnabled = false;
+                        StatusesComboBox.IsEnabled = false;
+                        DiagnosticsTextBox.IsEnabled = false;
+                        ServiceListView.IsEnabled = false;
+                    }
+                    SelectedStatusIndex = EditStatusesList.IndexOf(SelectedApplication.Status);
+                    SelectedApplicationServices = this.SelectedApplication.ListService.ToList();
+                        }
+                Signal(nameof(SelectedStatusIndex));
+                Signal(nameof(SelectedApplicationServices));
+                Signal();
+            }
+        }
+        public List<string> EditStatusesList { get; set; } = new List<string>() 
+        {
+            "Принята",
+            "У мастера",
+            "На выдаче",
+            "Завершена",
+        };
         public int SelectedStatusIndex { get; set; } = 0;
 
-        //Главный ListView
+        //Главный DataGrid
         public List<DTO.Application> Applications { get; set; }
 
         public ListApplicationPage(Worker worker)
@@ -72,7 +95,7 @@ namespace SolickManagerV3_4.Pages
             InitializeComponent();
             Worker = worker;
 
-            Applications = DB.Instance.Applications.Include(s => s.IdclientNavigation).Include(s => s.IddeviceNavigation).ToList();
+            Search();
             StatusesList = FillStatusesList();
 
             DataContext = this;
@@ -106,56 +129,203 @@ namespace SolickManagerV3_4.Pages
 
         private void SaveEditSelectedApplication(object sender, RoutedEventArgs e)
         {
-            DB.Instance.Applications.Update(SelectedApplication);
-            DB.Instance.SaveChanges();
+            if (SelectedApplication != null) {
+                SelectedApplication.Status = EditStatusesList[SelectedStatusIndex];
 
-            Signal(nameof(Applications));
+                if(SelectedApplication.Status == "Завершена")
+                {
+                    Bankaccount bankaccount;
+
+                    if (DB.Instance.Bankaccounts.FirstOrDefault(s => s.Title == "Касса") != null)
+                    {
+                        bankaccount = DB.Instance.Bankaccounts.FirstOrDefault(s => s.Title == "Касса");
+                        bankaccount.Balance += SelectedApplication.AllPriceService;
+
+                        DB.Instance.Bankaccounts.Update(bankaccount);
+
+                        DB.Instance.Operations.Add(new Operation()
+                        {
+                            Status = "Завершена",
+                            Debet = DB.Instance.Bankaccounts.FirstOrDefault(s => s.Title == "Касса").Id,
+                            Object = "Заявка #" + SelectedApplication.Id,
+                            Dataopen = OtherFunctons.Instance.DateOnlyNow(),
+                            Dataclose = OtherFunctons.Instance.DateOnlyNow(),
+                            Amount = SelectedApplication.AllPriceService
+                        });
+                    }
+                    else
+                    {
+                        SelectedApplication.Status = "На выдаче";
+                        MessageBox.Show("У вас нет счёта \"Касса\"!");
+                    }
+                }
+
+                DB.Instance.Applications.Update(SelectedApplication);
+                DB.Instance.SaveChanges();
+
+                StatusesList = FillStatusesList();
+
+                Signal(nameof(SelectedApplication));
+                Signal(nameof(StatusesList));
+
+                Search();
+            }
         }
 
         private void Search()
         {
             var result = DB.Instance.Applications
+                .Include(s => s.Applicationassemblies)
+                .Include(s => s.Applicationproducts)
                 .Include(s => s.IdclientNavigation)
                 .Include(s => s.IddeviceNavigation)
-                .Where(s =>
+                .Where(s => (
                     s.Status.ToLower().Contains(searchText.ToLower()) ||
                     s.Problem.ToLower().Contains(searchText.ToLower()) ||
                     s.IdclientNavigation.Firstname.ToLower().Contains(searchText.ToLower()) ||
                     s.IdclientNavigation.Secondname.ToLower().Contains(searchText.ToLower()) ||
                     s.IdclientNavigation.Patronymic.ToLower().Contains(searchText.ToLower()) ||
                     s.IddeviceNavigation.Model.ToLower().Contains(searchText.ToLower())
+                    ) && s.Deleted == false 
+                    && s.Applicationassemblies.Count() == 0 
+                    && s.Applicationproducts.Count() == 0
                     );
             if (StatusIndex == 0)
             {
-                Applications = result.ToList();
+                Applications = result.OrderBy(s => s.Id).ToList();
             }
             else
             {
-                Applications = result.Where(s => s.Status == StatusesList[StatusIndex]).ToList();
+                Applications = result.Where(s => s.Status == StatusesList[StatusIndex]).OrderBy(s => s.Id).ToList();
             }
 
             if (DataStart != "" && DataEnd == "")
             {
                 DateOnly StartData;
                 if (DateOnly.TryParse(DataStart, out StartData))
-                    Applications = Applications.Where(s => s.Data >= StartData).ToList();
-            } else if(DataEnd != "" && DataStart == "")
+                    Applications = Applications.Where(s => s.Data >= StartData).OrderBy(s => s.Id).ToList();
+            }
+            else if (DataEnd != "" && DataStart == "")
             {
                 DateOnly EndData;
                 if (DateOnly.TryParse(DataEnd, out EndData))
-                    Applications = Applications.Where(s => s.Data <= EndData).ToList();
+                    Applications = Applications.Where(s => s.Data <= EndData).OrderBy(s => s.Id).ToList();
             }
             else
             {
                 DateOnly StartData;
                 DateOnly EndData;
-                if(DateOnly.TryParse(DataEnd, out EndData) && DateOnly.TryParse(DataStart, out StartData))
-                    Applications = Applications.Where(s => s.Data <= EndData && s.Data >= StartData).ToList();
+                if (DateOnly.TryParse(DataEnd, out EndData) && DateOnly.TryParse(DataStart, out StartData))
+                    Applications = Applications.Where(s => s.Data <= EndData && s.Data >= StartData).OrderBy(s => s.Id).ToList();
             }
 
-
-
             Signal(nameof(Applications));
+        }
+
+        private void AddNewApplication(object sender, RoutedEventArgs e)
+        {
+            new EditOrAddApplication(this.Worker).ShowDialog();
+
+            Search();
+
+            StatusesList = FillStatusesList();
+            Signal(nameof(StatusesList));
+        }
+        private void EditSelectedApplication(object sender, RoutedEventArgs e)
+        {
+            if (SelectedApplication != null)
+            {
+                new EditOrAddApplication(this.Worker, this.SelectedApplication).ShowDialog();
+                Search();
+
+                StatusesList = FillStatusesList();
+                Signal(nameof(StatusesList));
+            }
+            else
+                MessageBox.Show("Не выбрана ни одна заявка!");
+        }
+        private void DeleteSelectedApplication(object sender, RoutedEventArgs e)
+        {
+            if(SelectedApplication != null)
+            {
+                if ((bool)new ConfirmationWindow("Вы хотите удалить заявку и все связанные с ней данные?").ShowDialog())
+                {
+                    if (DB.Instance.Applicationservices.FirstOrDefault(s => s.Idapplication == this.SelectedApplication.Id) != null)
+                    {
+                        var list = DB.Instance.Applicationservices.Where(s => s.Idapplication == this.SelectedApplication.Id).ToList();
+                        foreach (var appServ in list)
+                        {
+                            appServ.Deleted = true;
+                            DB.Instance.Applicationservices.Update(appServ);
+                        }
+                    }
+                    if (DB.Instance.Applicationproducts.FirstOrDefault(s => s.Idapplication == this.SelectedApplication.Id) != null)
+                    {
+                        var list = DB.Instance.Applicationproducts.Where(s => s.Idapplication == this.SelectedApplication.Id).ToList();
+                        foreach (var appProd in list)
+                        {
+                            appProd.Deleted = true;
+                            DB.Instance.Applicationproducts.Update(appProd);
+                        }
+                    }
+                    if (DB.Instance.Applicationassemblies.FirstOrDefault(s => s.Idapplication == this.SelectedApplication.Id) != null)
+                    {
+                        var list = DB.Instance.Applicationassemblies.Where(s => s.Idapplication == this.SelectedApplication.Id).ToList();
+                        foreach (var appAssem in list)
+                        {
+                            appAssem.Deleted = true;
+                            DB.Instance.Applicationassemblies.Update(appAssem);
+                        }
+                    }
+
+                    SelectedApplication.Deleted = true;
+                    DB.Instance.Applications.Update(SelectedApplication);
+
+                    DB.Instance.SaveChanges();
+
+                    MessageBox.Show("Выбранная заявка удалена!");
+
+                    StatusesList = FillStatusesList();
+                    Signal(nameof(StatusesList));
+                }
+            }
+            else
+                MessageBox.Show("Не выбрана ни одна заявка!");
+
+            Search();
+        }
+
+
+
+        private void DeleteCrossApplicationService(object sender, RoutedEventArgs e)
+        {
+            if (SelectedServiceInSelectedApplication != null)
+            {
+                SelectedServiceInSelectedApplication.Deleted = true;
+                DB.Instance.Applicationservices.Update(SelectedServiceInSelectedApplication);
+                DB.Instance.SaveChanges();
+
+                
+            }
+            else
+                MessageBox.Show("Не выбрана ни одна услуга!");
+
+            Search();
+
+            this.SelectedApplicationServices = Applications.FirstOrDefault(s => s.Id == this.SelectedApplication.Id).ListService.Where(s => s.Deleted == false).ToList();
+            Signal(nameof(SelectedApplicationServices));
+        }
+        private void AddCrossApplicationService(object sender, RoutedEventArgs e)
+        {
+            if (SelectedApplication != null)
+            {
+                new AddCrossApplicationServiceWindow(this.SelectedApplication).ShowDialog();
+
+                Signal(nameof(SelectedApplication));
+
+
+                this.SelectedApplicationServices = this.SelectedApplication.ListService.Where(s => s.Deleted == false).ToList();
+            }
         }
     }
 }

@@ -5,18 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SolickManagerV3_4"
         mc:Ignorable="d"
+        Closing="CloseWindow"
         WindowStartupLocation="CenterScreen"
-        Title="MainWindow" MinHeight="720" MinWidth="1280"
-        MaxHeight="1080" MaxWidth="1920"
+        WindowState="Maximized"
+        Title="SoulComp Manager" MinHeight="720" MinWidth="1280"
+        Icon="Images/SolulCompIcon.ico"
         Background="#FAFAFA">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid
             Background="#17C3B2" Height="40" VerticalAlignment="Top">
-            <Menu Style="{DynamicResource MenuSolick}" VerticalAlignment="Center">
+            <Menu Style="{DynamicResource MenuSolick}" VerticalAlignment="Center" Visibility="Collapsed">
                 <MenuItem Header="Файл"/>
                 <MenuItem Header="Справка"/>
                 <MenuItem Header="Вид"/>
@@ -30,36 +32,60 @@
                    Foreground="White"
                    FontSize="20"
                    FontFamily="Inter/#Inter-V.ttf"/>
-            
+
             <Button Style="{DynamicResource ButtonMenu}"
                     HorizontalAlignment="Right"
                     Width="40"
-                    Height="40"/>
+                    Height="40"
+                    Click="AnimationMenu">
+                <Grid>
+                    <StackPanel>
+                        <Rectangle Fill="White"
+                                       StrokeThickness="0"
+                                       Width="26"
+                                       Height="4"
+                                       RadiusX="2"
+                                       RadiusY="2"/>
+                        <Rectangle Fill="White"
+                                       StrokeThickness="0"
+                                       Width="26"
+                                       Height="4"
+                                       Margin="0 2"
+                                       RadiusX="2"
+                                       RadiusY="2"/>
+                        <Rectangle Fill="White"
+                                       StrokeThickness="0"
+                                       Width="26"
+                                       Height="4"
+                                       RadiusX="2"
+                                       RadiusY="2"/>
+                    </StackPanel>
+                </Grid>
+            </Button>
 
-            
+
         </Grid>
 
         <Frame Grid.Row="1" 
                NavigationUIVisibility="Hidden" 
                Content="{Binding CurrentPage}"/>
-
-        <StackPanel x:Name="MenuStackPanel" 
-                    Width="300" 
-                    Visibility="Visible" 
-                    Orientation="Vertical" 
+        
+        <DockPanel x:Name="MenuPanel"
+                   Visibility="Collapsed"
+                    Width="0" 
                     MaxWidth="300" 
                     HorizontalAlignment="Right" 
-                    VerticalAlignment="Top" 
-                    MinHeight="720"
                     MaxHeight="1080"
                     Background="#3993DD" 
                     Grid.RowSpan="2">
-            <Grid Height="40">
-                <Button Style="{DynamicResource ButtonMenu}"
+            <StackPanel DockPanel.Dock="Top">
+                <Grid Height="40">
+                    <Button Style="{DynamicResource ButtonMenu}"
                     HorizontalAlignment="Left"
                     Width="40"
-                    Height="40"/>
-                <Label Content="{Binding CurrentPage.Worker}" 
+                    Height="40"
+                    Click="AnimationCloseMenu"/>
+                    <Label Content="{Binding CurrentPage.Worker}" 
                    HorizontalAlignment="Left"
                    VerticalContentAlignment="Center"
                    Width="auto"
@@ -67,19 +93,163 @@
                    Foreground="White"
                    FontSize="20"
                    FontFamily="Inter/#Inter-V.ttf"/>
-                <Button Background="Transparent" 
+                    <Button Background="Transparent" 
                             Width="40" 
                             Height="40"
                             HorizontalAlignment="Right"
-                            BorderThickness="0">
-                    <Image Source="/Windows/Exit2.png" 
+                            BorderThickness="0"
+                            Click="ExitWindow">
+                        <Image Source="/Windows/Images/Exit2.png" 
                                Stretch="Fill" 
                                Width="40" 
                                Height="40"
                                Margin="-1 -1 0 0"/>
-                </Button>
-            </Grid>
-            <Rectangle Width="300" Height="1" Fill="White" />
-        </StackPanel>
+                    </Button>
+                </Grid>
+                <Rectangle Width="300" Height="1" Fill="White"/>
+                <Border Height="36" Width="280" Padding="3" CornerRadius="5" Margin="10 20 10 0" Style="{DynamicResource RightMenuElement}" MouseLeftButtonDown="Applications">
+                    <StackPanel  Orientation="Horizontal">
+                        <Image Source="/Windows/Images/Application.png" Height="30" Width="30" HorizontalAlignment="Left"/>
+                        <Label Content="Заявки"
+                       VerticalContentAlignment="Center"
+                       Width="auto"
+                       Foreground="White"
+                       FontSize="16"
+                       FontFamily="Inter/#Inter-V.ttf"/>
+                    </StackPanel>
+                </Border>
+                <Border Height="36" Width="280" Padding="3" CornerRadius="5" Margin="10 10 10 10" Style="{DynamicResource RightMenuElement}" MouseLeftButtonDown="Sales">
+                    <StackPanel  Orientation="Horizontal">
+                        <Image Source="/Windows/Images/Selling.png" Height="30" Width="30" HorizontalAlignment="Left"/>
+                        <Label Content="Продажи"
+                       VerticalContentAlignment="Center"
+                       Width="auto"
+                       Foreground="White"
+                       FontSize="16"
+                       FontFamily="Inter/#Inter-V.ttf"/>
+                    </StackPanel>
+                </Border>
+                <Border Height="36" Width="280" Padding="3" CornerRadius="5" Margin="10 10 10 10" Style="{DynamicResource RightMenuElement}" MouseLeftButtonDown="ClientsAndDevices">
+                    <StackPanel  Orientation="Horizontal">
+                        <Image Source="/Windows/Images/Clients.png" Height="30" Width="30" HorizontalAlignment="Left"/>
+                        <Label Content="Клиенты и устройства"
+                       VerticalContentAlignment="Center"
+                       Width="auto"
+                       Foreground="White"
+                       FontSize="16"
+                       FontFamily="Inter/#Inter-V.ttf"/>
+                    </StackPanel>
+                </Border>
+                <Rectangle Width="250" Height="1" Fill="White" HorizontalAlignment="Left"/>
+
+                <Border Height="36" Width="280" Padding="3" CornerRadius="5" Margin="10 15 10 0" Style="{DynamicResource RightMenuElement}" MouseLeftButtonDown="Services">
+                    <StackPanel  Orientation="Horizontal">
+                        <Image Source="/Windows/Images/Service.png" Height="30" Width="30" HorizontalAlignment="Left"/>
+                        <Label Content="Услуги"
+                       VerticalContentAlignment="Center"
+                       Width="auto"
+                       Foreground="White"
+                       FontSize="16"
+                       FontFamily="Inter/#Inter-V.ttf"/>
+                    </StackPanel>
+                </Border>
+                <Border Height="36" Width="280" Padding="3" CornerRadius="5" Margin="10 10 10 0" Style="{DynamicResource RightMenuElement}" MouseLeftButtonDown="Assemblies">
+                    <StackPanel  Orientation="Horizontal">
+                        <Image Source="/Windows/Images/Assemblies.png" Height="30" Width="30" HorizontalAlignment="Left"/>
+                        <Label Content="Сборки и группы товаров"
+                       VerticalContentAlignment="Center"
+                       Width="auto"
+                       Foreground="White"
+                       FontSize="16"
+                       FontFamily="Inter/#Inter-V.ttf"/>
+                    </StackPanel>
+                </Border>
+                <Border Height="36" Width="280" Padding="3" Margin="10 10 10 10" CornerRadius="5" Style="{DynamicResource RightMenuElement}" MouseLeftButtonDown="Products">
+                    <StackPanel  Orientation="Horizontal">
+                        <Image Source="/Windows/Images/Produxts.png" Height="30" Width="30" HorizontalAlignment="Left"/>
+                        <Label Content="Товары"
+                       VerticalContentAlignment="Center"
+                       Width="auto"
+                       Foreground="White"
+                       FontSize="16"
+                       FontFamily="Inter/#Inter-V.ttf"/>
+                    </StackPanel>
+                </Border>
+                <Rectangle Width="250" Height="1" Fill="White" HorizontalAlignment="Left"/>
+
+                <Border Height="36" Width="280" Padding="3" CornerRadius="5" Margin="10 15 10 0" Style="{DynamicResource RightMenuElement}" MouseLeftButtonDown="WareHouse">
+                    <StackPanel  Orientation="Horizontal">
+                        <Image Source="/Windows/Images/sklad.png" Height="30" Width="30" HorizontalAlignment="Left"/>
+                        <Label Content="Склад"
+                       VerticalContentAlignment="Center"
+                       Width="auto"
+                       Foreground="White"
+                       FontSize="16"
+                       FontFamily="Inter/#Inter-V.ttf"/>
+                    </StackPanel>
+                </Border>
+                <Border Height="36" Width="280" Padding="3" CornerRadius="5" Margin="10 10 10 0" Style="{DynamicResource RightMenuElement}" MouseLeftButtonDown="Accounting">
+                    <StackPanel  Orientation="Horizontal">
+                        <Image Source="/Windows/Images/money.png" Height="30" Width="30" HorizontalAlignment="Left"/>
+                        <Label Content="Бухгалтерия"
+                       VerticalContentAlignment="Center"
+                       Width="auto"
+                       Foreground="White"
+                       FontSize="16"
+                       FontFamily="Inter/#Inter-V.ttf"/>
+                    </StackPanel>
+                </Border>
+                <Border Height="36" Width="280" Padding="3" CornerRadius="5" Margin="10 10 10 0" Style="{DynamicResource RightMenuElement}" MouseLeftButtonDown="Management">
+                    <StackPanel  Orientation="Horizontal">
+                        <Image Source="/Windows/Images/managment.png" Height="30" Width="30" HorizontalAlignment="Left"/>
+                        <Label Content="Менеджмент"
+                       VerticalContentAlignment="Center"
+                       Width="auto"
+                       Foreground="White"
+                       FontSize="16"
+                       FontFamily="Inter/#Inter-V.ttf"/>
+                    </StackPanel>
+                </Border>
+                <Border Height="36" Width="280" Padding="3" CornerRadius="5" Margin="10 10 10 0" Style="{DynamicResource RightMenuElement}" MouseLeftButtonDown="Reports" Visibility="Hidden">
+                    <StackPanel  Orientation="Horizontal">
+                        <Image Source="/Windows/Images/otchet.png" Height="30" Width="30" HorizontalAlignment="Left"/>
+                        <Label Content="Отчёты"
+                       VerticalContentAlignment="Center"
+                       Width="auto"
+                       Foreground="White"
+                       FontSize="16"
+                       FontFamily="Inter/#Inter-V.ttf"/>
+                    </StackPanel>
+                </Border>
+
+                
+            </StackPanel>
+            <StackPanel DockPanel.Dock="Bottom" Height="auto" VerticalAlignment="Bottom">
+                <Border Height="36" Width="280" Padding="3" CornerRadius="5" Margin="10 20 10 0" Style="{DynamicResource RightMenuElement}" MouseLeftButtonDown="Settings" Visibility="Hidden">
+                    <StackPanel  Orientation="Horizontal">
+                        <Image Source="/Windows/Images/settings.png" Height="30" Width="30" HorizontalAlignment="Left"/>
+                        <Label Content="Настройки"
+                       VerticalContentAlignment="Center"
+                       Width="auto"
+                       Foreground="White"
+                       FontSize="16"
+                       FontFamily="Inter/#Inter-V.ttf"/>
+                    </StackPanel>
+                </Border>
+                <Border Height="36" Width="280" Padding="3" CornerRadius="5" Margin="10 10 10 10" Style="{DynamicResource RightMenuElement}" VerticalAlignment="Bottom" MouseLeftButtonDown="Exit">
+                    <StackPanel  Orientation="Horizontal">
+                        <Image Source="/Windows/Images/Exit2.png" Height="30" Width="30" HorizontalAlignment="Left"/>
+                        <Label Content="Выйти"
+                       VerticalContentAlignment="Center"
+                       Width="auto"
+                       Foreground="White"
+                       FontSize="16"
+                       FontFamily="Inter/#Inter-V.ttf"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+            
+        </DockPanel>
+        
     </Grid>
 </Window>

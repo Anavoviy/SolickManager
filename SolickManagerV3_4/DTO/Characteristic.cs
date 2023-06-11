@@ -10,4 +10,13 @@ public partial class Characteristic
     public string Title { get; set; } = null!;
 
     public bool Deleted { get; set; }
+
+    public virtual ICollection<Categorycharacteristic> Categorycharacteristics { get; } = new List<Categorycharacteristic>();
+
+    public virtual ICollection<Productcharacteristic> Productcharacteristics { get; } = new List<Productcharacteristic>();
+
+    public override string ToString()
+    {
+        return Title;
+    }
 }

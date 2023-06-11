@@ -8,33 +8,119 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Pages\Add.png" />
-    <None Remove="Pages\Delete.png" />
-    <None Remove="Pages\Edit.png" />
-    <None Remove="Windows\Exit2.png" />
+    <None Remove="Pages\Images\Add.png" />
+    <None Remove="Pages\Images\BankAccount.png" />
+    <None Remove="Pages\Images\BankOperation.png" />
+    <None Remove="Pages\Images\Categories.png" />
+    <None Remove="Pages\Images\Characteristic.png" />
+    <None Remove="Pages\Images\Delete.png" />
+    <None Remove="Pages\Images\Edit.png" />
+    <None Remove="Pages\Images\ListProducts.png" />
+    <None Remove="Pages\Images\Provider.png" />
+    <None Remove="Pages\Images\Shipment.png" />
+    <None Remove="Windows\Images\Application.png" />
+    <None Remove="Windows\Images\Assemblies.png" />
+    <None Remove="Windows\Images\Clients.png" />
+    <None Remove="Windows\Images\Exit2.png" />
     <None Remove="Windows\Images\LoadingBackGround.png" />
     <None Remove="Windows\Images\LoadingKrutVert.png" />
+    <None Remove="Windows\Images\managment.png" />
+    <None Remove="Windows\Images\money.png" />
+    <None Remove="Windows\Images\otchet.png" />
+    <None Remove="Windows\Images\Produxts.png" />
+    <None Remove="Windows\Images\Selling.png" />
+    <None Remove="Windows\Images\Service.png" />
+    <None Remove="Windows\Images\settings.png" />
+    <None Remove="Windows\Images\sklad.png" />
+    <None Remove="Windows\Images\SolulCompIcon.ico" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="LiveChartsCore.SkiaSharpView.WPF" Version="2.0.0-beta.710" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.TestPlatform.TestHost" Version="17.6.2" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.3" />
+    <PackageReference Include="NUnit" Version="3.13.3" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Pages\Add.png" />
-    <Resource Include="Pages\Delete.png">
+    <Resource Include="Pages\Images\Add.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Pages\Edit.png" />
-    <Resource Include="Windows\Exit2.png" />
+    <Resource Include="Pages\Images\BankAccount.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Pages\Images\BankOperation.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Pages\Images\Categories.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Pages\Images\Characteristic.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Pages\Images\Delete.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Pages\Images\Edit.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Pages\Images\ListProducts.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Pages\Images\Provider.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Pages\Images\Shipment.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Images\Application.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Images\Assemblies.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Images\Clients.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Images\Exit2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Windows\Images\LoadingBackGround.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Windows\Images\LoadingKrutVert.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Images\managment.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Images\money.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Images\otchet.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Images\Produxts.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Images\Selling.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Images\Service.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Images\settings.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Images\sklad.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Images\SolulCompIcon.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

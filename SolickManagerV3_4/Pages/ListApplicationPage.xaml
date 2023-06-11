@@ -448,7 +448,7 @@
 
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
                 <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
 
@@ -458,10 +458,10 @@
                         MinWidth="940"
                         MinHeight="580"
                         BorderThickness="0"
-                        Margin="20 40 10 00"
+                        Margin="20 25 10 00"
                         Padding="0 20 0 0">
 
-                    <DataGrid x:Name="dg" Style="{DynamicResource DataGridSolickStyle}" AutoGenerateColumns="False" 
+                    <DataGrid Style="{DynamicResource DataGridSolickStyle}" AutoGenerateColumns="False" 
                               HeadersVisibility="Column"
                               IsReadOnly="true"
                               ItemsSource="{Binding Applications}"
@@ -469,7 +469,7 @@
                               HorizontalAlignment="Left"
                               MinWidth="940"
                               Width="auto"
-                              Height="auto"
+                              
                               HorizontalGridLinesBrush="Transparent"
                               VerticalGridLinesBrush="Transparent">
                         <DataGrid.ColumnHeaderStyle>
@@ -485,22 +485,17 @@
                         <DataGrid.CellStyle>
                             <Style TargetType="{x:Type DataGridCell}">
                                 <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                <Setter Property="VerticalAlignment" Value="Center"/>
                                 <Setter Property="FontFamily" Value="Inter"/>
                                 <Setter Property="FontSize" Value="11"/> 
                                 
                                 <Style.Triggers>
                                      <Trigger Property="IsSelected" Value="True" >
                                         <Setter Property="Background" Value="#24FFE9" />
-                                            <Setter Property="Foreground" Value="Black" />
-
-                                            <Setter Property="BorderThickness" Value="0"/>
+                                        <Setter Property="BorderThickness" Value="0"/>
                                     </Trigger>
 
                                     <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="#B5FFF8" />
-                                        <Setter Property="Foreground" Value="Black" />
-
-                                        <Setter Property="BorderThickness" Value="0"/>
                                     </Trigger>
                                 </Style.Triggers>
                             </Style>
@@ -516,13 +511,10 @@
                                 <Style.Triggers>
                                     <Trigger Property="IsSelected" Value="True">
                                         <Setter Property="Background" Value="#24FFE9"/>
-                                        <Setter Property="Foreground" Value="Black"/>
                                     </Trigger>
                                     
                                     <Trigger Property="IsMouseOver" Value="True">
                                         <Setter Property="Background" Value="#B5FFF8" />
-                                        <Setter Property="Foreground" Value="Black" />
-
                                         <Setter Property="BorderThickness" Value="0"/>
                                     </Trigger>
                                 </Style.Triggers>
@@ -541,45 +533,46 @@
                     </DataGrid>
                 </Border>
                 
-                <Grid Height="34" VerticalAlignment="Top" Margin="20 20 10 0">
+                <Grid Height="34" VerticalAlignment="Top" Margin="20 5 10 0">
                     <Label Content="Заявки" 
                            FontFamily="Assets/Inter/#Inter-V.ttf"
                            FontSize="22"
                            Margin="10 0 0 0"
                            HorizontalAlignment="Left"/>
                     <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                        <Button Style="{DynamicResource ButtonRoundStyle}" Margin="0 0 10 0">
+                        <Button Style="{DynamicResource ButtonRoundStyle}" Margin="0 0 10 0"
+                                Click="AddNewApplication">
                             <Border CornerRadius="5"
                                     BorderThickness="0"
                                     Background="#F0F0F0"
                                     Height="32"
                                     Width="32"
                                     Padding="2">
-                                <Image Source="/Pages/Add.png"
+                                <Image Source="/Pages/Images/Add.png"
                                        VerticalAlignment="Center"
                                        HorizontalAlignment="Center"/>
                             </Border>
                         </Button>
-                        <Button Style="{DynamicResource ButtonRoundStyle}" Margin="0 0 10 0">
+                        <Button Style="{DynamicResource ButtonRoundStyle}" Margin="0 0 10 0" Click="EditSelectedApplication">
                             <Border CornerRadius="5"
                                     BorderThickness="0"
                                     Background="#F0F0F0"
                                     Height="32"
                                     Width="32"
                                     Padding="2">
-                                <Image Source="/Pages/Edit.png"
+                                <Image Source="/Pages/Images/Edit.png"
                                        VerticalAlignment="Center"
                                        HorizontalAlignment="Center"/>
                             </Border>
                         </Button>
-                        <Button Style="{DynamicResource ButtonRoundStyle}">
+                        <Button Style="{DynamicResource ButtonRoundStyle}" Click="DeleteSelectedApplication">
                             <Border CornerRadius="5"
                                     BorderThickness="0"
                                     Background="#F0F0F0"
                                     Height="32"
                                     Width="32"
                                     Padding="2">
-                                <Image Source="/Pages/Delete.png"
+                                <Image Source="/Pages/Images/Delete.png"
                                        VerticalAlignment="Center"
                                        HorizontalAlignment="Center"/>
                             </Border>
@@ -675,7 +668,7 @@
                         Padding="10"
                         Height="auto">
                     <StackPanel >
-                        <Label Content="Операция"
+                        <Label Content="Заявка"
                                FontSize="16"
                                FontFamily="Inter/#Inter-V.ttf"
                                Foreground="White"
@@ -687,8 +680,9 @@
                                    FontFamily="Inter/#Inter-V.ttf"
                                    Foreground="White"
                                    Margin="10 0 20 0"/>
-                            <ComboBox Style="{DynamicResource RoundComboBox}" 
-                                      ItemsSource="{Binding StatusesList}"
+                            <ComboBox x:Name="StatusesComboBox"
+                                      Style="{DynamicResource RoundComboBox}" 
+                                      ItemsSource="{Binding EditStatusesList}"
                                       SelectedIndex="{Binding SelectedStatusIndex}"
                                       Background="White"
                                       BorderThickness="0"
@@ -712,7 +706,8 @@
                                         FontSize="14"
                                         Foreground="Black"
                                         FontFamily="Inter/#Inter-V.ttf"/>
-                                <TextBox Text="{Binding SelectedApplication.Diagnostics}"
+                                <TextBox x:Name="DiagnosticsTextBox"
+                                         Text="{Binding SelectedApplication.Diagnostics}"
                                          Style="{DynamicResource RoundTextBox}"
                                          TextWrapping="Wrap"
                                          FontSize="12"
@@ -741,8 +736,11 @@
                                         FontSize="14"
                                         Foreground="Black"
                                         FontFamily="Inter/#Inter-V.ttf"/>
-                                <ListView Style="{DynamicResource RoundWhiteListBox}" 
-                                         ItemsSource="{Binding SelectedApplication.ListService}"
+                                <ListView x:Name="ServiceListView"
+                                         Style="{DynamicResource RoundWhiteListBox}" 
+                                         ItemsSource="{Binding SelectedApplicationServices}"
+                                         SelectedItem="{Binding SelectedServiceInSelectedApplication}"
+                                         DisplayMemberPath="IdserviceNavigation"
                                          FontSize="12"
                                          Foreground="Black"
                                          FontFamily="Inter/#Inter-V.ttf"
@@ -750,11 +748,18 @@
                                          MinHeight="90"
                                          Height="auto"
                                          HorizontalAlignment="Center">
+                                    <ListView.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Header="Добавить" Click="AddCrossApplicationService"/>
+                                            <MenuItem Header="Удалить" Click="DeleteCrossApplicationService"/>
+                                        </ContextMenu>
+                                    </ListView.ContextMenu>
                                 </ListView>
                             </StackPanel>
                         </Border>
 
-                        <Button Style="{DynamicResource ButtonRoundStyle}" 
+                        <Button x:Name="SaveButton"
+                                Style="{DynamicResource ButtonRoundStyle}" 
                                 Content="Применить"
                                 Width="180"
                                 Height="30"

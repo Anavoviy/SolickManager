@@ -1,0 +1,245 @@
+﻿<Window x:Class="SolickManagerV3_4.Windows.AddOrEditWorkerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SolickManagerV3_4.Windows"
+        mc:Ignorable="d"
+        Icon="Images/SolulCompIcon.ico"
+        Title="SoulComp Manager" Height="700" Width="400">
+    <Border Width="350"
+            Height="620"
+            CornerRadius="10"
+            Background="#3993DD"
+            Padding="25">
+        <StackPanel>
+            <TextBlock Foreground="White"
+                       Height="25"
+                       VerticalAlignment="Top"
+                       HorizontalAlignment="Center"
+                       FontSize="20"
+                       FontFamily="Inter"
+                       FontWeight="Medium"
+                       Text="Сотрудник"
+                       Margin="0 0 0 15"/>
+
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="1. Основная информация"
+                           Foreground="White"
+                           FontFamily="Inter"
+                           FontSize="16"
+                           Height="20"
+                           Margin="0 0 0 5"/>
+                <Border BorderThickness="0" CornerRadius="5" Padding="5" Background="White">
+                    <StackPanel Background="White">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Фамилия"
+                                       Height="20"
+                                       FontFamily="Inter"
+                                       FontSize="14"
+                                       FontWeight="Medium"/>
+                            <TextBox Text="{Binding EditWorker.Surname}" 
+                                     Height="20"
+                                     Width="215"
+                                     Margin="10 0 0 0"
+                                     BorderThickness="0"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Имя"
+                                       Height="20"
+                                       FontFamily="Inter"
+                                       FontSize="14"
+                                       FontWeight="Medium"/>
+                            <TextBox Text="{Binding EditWorker.Firstname}"
+                                     HorizontalAlignment="Right"
+                                     Height="20"
+                                     Width="215"
+                                     Margin="42 0 0 0"
+                                     BorderThickness="0"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Отчество"
+                                       Height="20"
+                                       FontFamily="Inter"
+                                       FontSize="14"
+                                       FontWeight="Medium"/>
+                            <TextBox Text="{Binding EditWorker.Patronymic}" 
+                                     Height="20"
+                                     Width="215"
+                                     Margin="10 0 0 0"
+                                     BorderThickness="0"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Дата рождения"
+                                       Height="20"
+                                       FontFamily="Inter"
+                                       FontSize="14"
+                                       FontWeight="Medium"/>
+                            <TextBox x:Name="BirthdayTextBox"
+                                     Text="{Binding DataBirthday, UpdateSourceTrigger=PropertyChanged}" 
+                                     Height="20"
+                                     Width="173"
+                                     Margin="10 0 0 0"
+                                     BorderThickness="0"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal"
+                                    Margin="0 0 0 0">
+                            <TextBlock Text="Должность"
+                                       Height="20"
+                                       FontFamily="Inter"
+                                       FontSize="14"
+                                       FontWeight="Medium"/>
+                            <ComboBox Width="185" 
+                                      Margin="30 0" 
+                                      ItemsSource="{Binding Posts}"
+                                      DisplayMemberPath="Title"
+                                      SelectedItem="{Binding SelectedPost}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal"
+                                    Margin="0 0 0 0">
+                            <TextBlock Text="Ставка"
+                                       Height="20"
+                                       FontFamily="Inter"
+                                       FontSize="14"
+                                       FontWeight="Medium"/>
+                            <ComboBox Width="185" 
+                                      Margin="60 0" 
+                                      ItemsSource="{Binding Plans}"
+                                      SelectedItem="{Binding SelectedPlan}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Телефон"
+                                       Height="20"
+                                       FontFamily="Inter"
+                                       FontSize="14"
+                                       FontWeight="Medium"/>
+                            <TextBox Text="{Binding EditWorker.Phone}" 
+                                     Height="20"
+                                     Width="215"
+                                     Margin="15 0 0 0"
+                                     BorderThickness="0"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Email"
+                                       Height="20"
+                                       FontFamily="Inter"
+                                       FontSize="14"
+                                       FontWeight="Medium"/>
+                            <TextBox Text="{Binding EditWorker.Email}" 
+                                     Height="20"
+                                     Width="215"
+                                     Margin="40 0 0 0"
+                                     BorderThickness="0"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Margin="0 10 0 0">
+                <TextBlock Text="2. Дополнительная информация"
+                           Foreground="White"
+                           FontFamily="Inter"
+                           FontSize="16"
+                           Height="20"
+                           Margin="0 0 0 5"/>
+                <Border BorderThickness="0" CornerRadius="5" Padding="5" Background="White">
+                    <StackPanel Background="White">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Паспорт"
+                                       Height="20"
+                                       FontFamily="Inter"
+                                       FontSize="14"
+                                       FontWeight="Medium"/>
+                            <TextBox Text="{Binding EditWorker.Passport}" 
+                                     Height="20"
+                                     Width="215"
+                                     Margin="20 0 0 0"
+                                     BorderThickness="0"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Реквизиты"
+                                       Height="20"
+                                       FontFamily="Inter"
+                                       FontSize="14"
+                                       FontWeight="Medium"/>
+                            <TextBox Text="{Binding EditWorker.Requisites}"
+                                     HorizontalAlignment="Right"
+                                     Height="20"
+                                     Width="210"
+                                     Margin="10 0 0 0"
+                                     BorderThickness="0"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Margin="0 10 0 0">
+                <TextBlock Text="3. Вход"
+                           Foreground="White"
+                           FontFamily="Inter"
+                           FontSize="16"
+                           Height="20"
+                           Margin="0 0 0 5"/>
+                <Border BorderThickness="0" CornerRadius="5" Padding="5" Background="White">
+                    <StackPanel Background="White">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Логин"
+                                       Height="20"
+                                       FontFamily="Inter"
+                                       FontSize="14"
+                                       FontWeight="Medium"/>
+                            <TextBox x:Name="LoginTextBox"
+                                     Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}" 
+                                     Height="20"
+                                     Width="229"
+                                     Margin="20 0 0 0"
+                                     BorderThickness="0"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Пароль"
+                                       Height="20"
+                                       FontFamily="Inter"
+                                       FontSize="14"
+                                       FontWeight="Medium"/>
+                            <TextBox Text="{Binding EditWorker.Password}"
+                                     HorizontalAlignment="Right"
+                                     Height="20"
+                                     Width="229"
+                                     Margin="10 0 0 0"
+                                     BorderThickness="0"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+            <Label Content="График"  
+                   Foreground="White"
+                   FontFamily="Inter"
+                   FontSize="16"
+                   Height="28" 
+                   Margin="0 10 0 0"/>
+            <Border CornerRadius="5" Background="White" Padding="5" >
+                <TextBox Style="{DynamicResource RoundTextBox}"
+                         Text="{Binding EditWorker.Graphic}"
+                         TextWrapping="Wrap"
+                         FontSize="12"
+                         Foreground="Black"
+                         FontFamily="Inter"
+                         Width="290"
+                         Height="60"
+                         HorizontalAlignment="Center"/>
+            </Border>
+
+            <Button x:Name="SaveButton"
+                    Style="{DynamicResource ButtonRoundStyle}"
+                    Content="Сохранить"
+                    Width="260"
+                    Margin="0 15 0 0"
+                    Height="35"
+                    Background="White"
+                    FontSize="20"
+                    FontWeight="Medium"
+                    FontFamily="Inter"
+                    Click="SaveEditWorker"/>
+        </StackPanel>
+    </Border>
+</Window>
+
+
