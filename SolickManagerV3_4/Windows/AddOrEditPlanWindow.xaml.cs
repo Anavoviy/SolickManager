@@ -63,7 +63,7 @@ namespace SolickManagerV3_4.Windows
                 HowPayBorder.Visibility = Visibility.Visible;
         }
 
-        private void Save(object sender, RoutedEventArgs e)
+        public void Save(object sender, RoutedEventArgs e)
         {
             if (EditCostofone != "" && (SelectedHowPay != null || NewHowPayTitle != ""))
             {

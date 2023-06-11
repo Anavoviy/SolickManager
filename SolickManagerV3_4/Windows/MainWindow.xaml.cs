@@ -44,6 +44,11 @@ namespace SolickManagerV3_4
         public MainWindow()
         {
             InitializeComponent();
+            Worker = DB.Instance.Workers.First();
+
+            Navigation.GetInstance().CurrentPage = new ListApplicationPage(Worker);
+
+            DataContext = Navigation.GetInstance();
         }
 
         public MainWindow(Worker? user)

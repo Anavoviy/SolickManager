@@ -79,7 +79,7 @@ namespace SolickManagerV3_4.Pages
             }
         }
 
-        private void DeleteSelectedCharacteristic(object sender, RoutedEventArgs e)
+        public void DeleteSelectedCharacteristic(object sender, RoutedEventArgs e)
         {
             if (SelectedCharacteristic != null)
             {
