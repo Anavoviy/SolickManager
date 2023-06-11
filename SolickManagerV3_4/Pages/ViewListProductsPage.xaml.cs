@@ -186,13 +186,27 @@ namespace SolickManagerV3_4.Pages
             {
                 if (NewCost - OldCost != 0)
                 {
-                    DB.Instance.Productpricechanges.Add(new Productpricechange()
+                    if (OldCost > 0)
                     {
-                        Idproduct = SelectedProduct.Id,
-                        Newcost = NewCost,
-                        Ratio = (decimal) NewCost / OldCost
-                    });
-                    DB.Instance.SaveChanges();
+                        DB.Instance.Productpricechanges.Add(new Productpricechange()
+                        {
+                            Idproduct = SelectedProduct.Id,
+                            Newcost = NewCost,
+                            Ratio = (decimal)NewCost / OldCost
+                        });
+                        DB.Instance.SaveChanges();
+                    }
+                    else
+                    {
+                        DB.Instance.Productpricechanges.Add(new Productpricechange()
+                        {
+                            Idproduct = SelectedProduct.Id,
+                            Newcost = NewCost,
+                            Ratio = (decimal)NewCost
+                        });
+                        DB.Instance.SaveChanges();
+                    } 
+
                 }
 
                 DB.Instance.Products.Update(SelectedProduct);

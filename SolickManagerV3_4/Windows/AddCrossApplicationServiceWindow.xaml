@@ -26,7 +26,8 @@
                           Margin="10 0" 
                           ItemsSource="{Binding ServicesList}"
                           SelectedItem="{Binding SelectedService}"/>
-                <Button Content="новая"
+                <Button x:Name="NewServiceButton"
+                        Content="новая"
                         Style="{DynamicResource ButtonRoundStyle}"
                         Background="White"
                         Width="80"

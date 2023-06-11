@@ -138,10 +138,7 @@ namespace SolickManagerV3_4.Windows
             if (Product != null && (Product.Model != "" && Product.Model != null) && SelectedCategory != null && SelectedProvider != null)
             {
                 Product.Idcategory = SelectedCategory.Id;
-                if(this.Cost == 0)
-                    Product.Cost = 1;
-                else
-                    Product.Cost = this.Cost;
+                Product.Cost = this.Cost;
                 Product.Amount = 1;
 
                 if (IsEditable)

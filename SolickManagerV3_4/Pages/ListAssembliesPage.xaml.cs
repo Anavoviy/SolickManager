@@ -100,6 +100,15 @@ namespace SolickManagerV3_4.Pages
                 SelectedAssembly.Deleted = true;
 
                 DB.Instance.Assemblies.Update(SelectedAssembly);
+
+                List<Assemblyproduct> assemblyproducts = DB.Instance.Assemblyproducts.Include(s => s.IdproductNavigation).Where(s => s.Idassembly == SelectedAssembly.Id).ToList();
+                foreach(Assemblyproduct assemblyproduct in assemblyproducts)
+                {
+                    Product product = assemblyproduct.IdproductNavigation;
+                    product.Amount += assemblyproduct.Count;
+                    DB.Instance.Products.Update(product);
+                }
+
                 DB.Instance.SaveChanges();
 
                 Search();

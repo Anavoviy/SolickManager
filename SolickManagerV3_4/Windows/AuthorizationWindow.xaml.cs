@@ -1,9 +1,11 @@
-﻿using System;
+﻿using SolickManagerV3_4.DTO;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -29,6 +31,8 @@ namespace SolickManagerV3_4.Windows
             public string CaptchaVerify { get; set; }
             public string Login { get; set; }
             public int ProgressLoading { get; set; } = 0;
+
+            private Worker user = null;
 
             public Visibility Loading { get => loading; set { loading = value; Signal(); } }
             public Visibility Authorization { get => authorization; set { authorization = value; Signal(); } }
@@ -60,12 +64,16 @@ namespace SolickManagerV3_4.Windows
             {
 
 
-                if (CaptchaValid())
-                    CheckAuth(Login, passbox.Password);
-                else
-                {
-                    GenerateCaptcha();
-                }
+            if (CaptchaValid())
+            {
+                CheckAuth(Login, passbox.Password);
+                Authorization = Visibility.Collapsed;
+                Loading = Visibility.Visible;
+            }
+            else
+            {
+                GenerateCaptcha();
+            }
             }
 
             //Метод вызывающий 2,5секундную анимацию крутящегося вентилятора с прогресс баром
@@ -75,35 +83,39 @@ namespace SolickManagerV3_4.Windows
                 animation.From = 0;
                 animation.To = 100;
                 animation.Duration = new Duration(TimeSpan.FromSeconds(1));
-                animation.Completed += LoadingCompleted;
                 progressbar.BeginAnimation(System.Windows.Controls.Primitives.RangeBase.ValueProperty, animation);
             }
 
             //Метод, выполняющейся при завершении анимации загрузки
-            private void LoadingCompleted(object? sender, EventArgs e)
+            private void LoadingCompleted(Worker user)
             {
-                var user = DB.Instance.Workers.FirstOrDefault(s => s.Login == Login && s.Password == passbox.Password);
                 new MainWindow(user).Show();
                 Close();
             }
 
             //Code by DyaDya Pushkin
             //Проверка правильности пароля и логина
-            private void CheckAuth(string login, string pass)
+            async private void CheckAuth(string login, string pass)
             {
 
-                var user = DB.Instance.Workers.FirstOrDefault(s => s.Login == login && s.Password == pass);
-                if (user == null)
-                { // неудачная авторизация
-                    GenerateCaptcha();
-                }
-                else
+                await Task.Run(() =>
                 {
-                    Authorization = Visibility.Collapsed;
-                    Loading = Visibility.Visible;
+                    Action action = () =>
+                    {
+                        user = DB.Instance.Workers.FirstOrDefault(s => s.Login == login && s.Password == pass);
+                        if (user == null)
+                        { // неудачная авторизация
+                            GenerateCaptcha();
+                        }
+                        else
+                        {
+                            LoadingCompleted(user);
+                        }
+                    };
 
-                    LoadingAnimation();
-                }
+
+                    
+                });
             }
 
             //Код появляения капчи
